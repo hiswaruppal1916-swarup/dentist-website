@@ -9,7 +9,7 @@ export function renderGalleryPage() {
         </p>
       </div>
 
-      <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(320px, 1fr)); gap:2rem;">
+      <div class="responsive-cards-grid">
         <!-- Card 1: Doctor Photo -->
         <div style="background:#FFFFFF; border:1px solid var(--border-light); border-radius:var(--radius-lg); overflow:hidden; box-shadow:var(--shadow-sm);">
           <img src="/images/dr-supriyo-sahu.jpg" alt="Dr. Supriyo Sahu" style="width:100%; aspect-ratio:4/5; object-fit:cover;" />

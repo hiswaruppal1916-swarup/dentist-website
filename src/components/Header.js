@@ -39,6 +39,7 @@ export function renderHeader(activeRoute = '/') {
           <li><a href="/reviews" class="nav-link ${activeRoute === '/reviews' ? 'active' : ''}">Reviews</a></li>
           <li><a href="/appointment-status" class="nav-link ${activeRoute === '/appointment-status' ? 'active' : ''}">Check Status</a></li>
           <li><a href="/contact" class="nav-link ${activeRoute === '/contact' ? 'active' : ''}">Contact</a></li>
+          <li><a href="/stitch" class="nav-link nav-stitch-pill ${activeRoute.startsWith('/stitch') ? 'active' : ''}">✨ Stitch UI</a></li>
         </ul>
 
         <div class="nav-actions">
@@ -88,6 +89,7 @@ export function renderHeader(activeRoute = '/') {
           <li><a href="/gallery" class="${activeRoute === '/gallery' ? 'active' : ''}">🖼️ Clinic Gallery</a></li>
           <li><a href="/faq" class="${activeRoute === '/faq' ? 'active' : ''}">❓ Frequently Asked Questions</a></li>
           <li><a href="/contact" class="${activeRoute === '/contact' ? 'active' : ''}">📍 Location & Contact</a></li>
+          <li><a href="/stitch" class="${activeRoute.startsWith('/stitch') ? 'active' : ''}" style="color:var(--color-primary); font-weight:700;">✨ Google Stitch Screens (All 4)</a></li>
           <li style="margin-top:1rem; border-top:1px solid var(--border-light); padding-top:1rem;">
             <a href="/admin" style="color:var(--text-light); font-size:0.85rem; font-weight:600;">🔒 Staff / Doctor Login</a>
           </li>

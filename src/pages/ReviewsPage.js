@@ -38,19 +38,19 @@ export async function renderReviewsPage() {
         </p>
       </div>
 
-      <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(320px, 1fr)); gap:2rem; margin-bottom:4rem;">
+      <div class="responsive-cards-grid" style="margin-bottom:4rem;">
         ${reviewCardsHtml}
       </div>
 
       <!-- Submit Review Form -->
-      <div style="max-width:680px; margin:0 auto; background:#FFFFFF; border:1px solid var(--border-light); border-radius:var(--radius-xl); padding:2.5rem; box-shadow:var(--shadow-md);">
+      <div class="responsive-card-box" style="max-width:680px; margin:0 auto;">
         <h3 style="font-size:1.5rem; margin-bottom:0.5rem; text-align:center;">Share Your Treatment Experience</h3>
         <p style="color:var(--text-muted); font-size:0.9rem; text-align:center; margin-bottom:2rem;">
           Your feedback helps us continuously improve clinical care and comfort for every patient.
         </p>
 
         <form id="review-submission-form">
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:1.25rem;">
+          <div class="responsive-form-two-col">
             <div class="form-group">
               <label class="form-label">Your Name *</label>
               <input type="text" id="rev-name" class="form-control" placeholder="e.g. Ananya Das" required />

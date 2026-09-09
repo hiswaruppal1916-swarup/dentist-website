@@ -10,7 +10,7 @@ export function renderAboutPage() {
       </div>
 
       <!-- Doctor & Vision Grid -->
-      <div style="display:grid; grid-template-columns:1fr 1.5fr; gap:3rem; align-items:center; background:#FFFFFF; border:1px solid var(--border-light); border-radius:var(--radius-xl); padding:3rem; margin-bottom:3rem; box-shadow:var(--shadow-md);">
+      <div class="responsive-card-box responsive-two-col-reverse" style="margin-bottom:3rem;">
         <div>
           <div style="border-radius:var(--radius-lg); overflow:hidden; box-shadow:var(--shadow-lg);">
             <img src="/images/dr-supriyo-sahu.jpg" alt="Dr. Supriyo Sahu" style="width:100%; aspect-ratio:4/5; object-fit:cover;" />
@@ -44,8 +44,8 @@ export function renderAboutPage() {
       </div>
 
       <!-- Clinic Infrastructure & Visiting Card -->
-      <div style="background:#FFFFFF; border:1px solid var(--border-light); border-radius:var(--radius-xl); padding:3rem; box-shadow:var(--shadow-md);">
-        <div style="display:grid; grid-template-columns:1.2fr 1fr; gap:3rem; align-items:center;">
+      <div class="responsive-card-box">
+        <div class="responsive-two-col">
           <div>
             <span class="section-tag">Clinic Location & Credibility</span>
             <h2 style="font-size:1.8rem; margin-bottom:1rem;">Convenient Local Access in Chandipur</h2>

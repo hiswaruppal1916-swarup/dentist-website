@@ -1492,7 +1492,417 @@ button, input, select, textarea {
   font-size: 0.85rem;
 }
 
-/* Responsive Breakpoints */
+/* Stitch Designs Navigation Pill */
+.nav-stitch-pill {
+  background: linear-gradient(135deg, rgba(0, 168, 150, 0.12), rgba(11, 37, 69, 0.08)) !important;
+  color: var(--color-primary) !important;
+  font-weight: 700 !important;
+  padding: 0.35rem 0.75rem !important;
+  border-radius: var(--radius-full) !important;
+  border: 1px solid rgba(0, 168, 150, 0.3) !important;
+  transition: all var(--transition-fast) !important;
+}
+
+.nav-stitch-pill:hover, .nav-stitch-pill.active {
+  background: var(--color-primary) !important;
+  color: #FFFFFF !important;
+}
+
+/* Stitch Hub Showcase Styles */
+.stitch-hub-wrapper {
+  background: #F8F9FF;
+  min-height: 100vh;
+  padding-bottom: 4rem;
+}
+
+.stitch-hub-hero {
+  background: linear-gradient(135deg, #0F2942 0%, #002C35 100%);
+  color: #FFFFFF;
+  padding: 3.5rem 0 3rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.stitch-hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(0, 168, 150, 0.2);
+  border: 1px solid rgba(0, 168, 150, 0.4);
+  padding: 0.35rem 0.85rem;
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: #89F5E7;
+  margin-bottom: 1rem;
+}
+
+.stitch-pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #10B981;
+  box-shadow: 0 0 8px #10B981;
+  animation: pulse 1.5s infinite;
+}
+
+.stitch-hero-title {
+  font-size: clamp(2rem, 5vw, 2.75rem);
+  color: #FFFFFF;
+  font-weight: 800;
+  line-height: 1.15;
+  margin-bottom: 0.75rem;
+}
+
+.stitch-hero-subtitle {
+  font-size: 1.05rem;
+  color: #CBD5E1;
+  max-width: 680px;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.stitch-hero-subtitle code {
+  background: rgba(255, 255, 255, 0.15);
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  font-family: monospace;
+}
+
+.stitch-meta-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+}
+
+.stitch-meta-pill {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--radius-full);
+  font-size: 0.8rem;
+  color: #E2E8F0;
+}
+
+/* Tabs Bar */
+.stitch-tabs-bar {
+  background: #FFFFFF;
+  border-bottom: 1px solid var(--border-light);
+  position: sticky;
+  top: 4.5rem;
+  z-index: 100;
+  box-shadow: var(--shadow-sm);
+}
+
+.stitch-tabs-container {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding: 0.75rem 1.25rem;
+  -webkit-overflow-scrolling: touch;
+}
+
+.stitch-tab-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.65rem 1rem;
+  border-radius: var(--radius-md);
+  border: 1.5px solid transparent;
+  background: var(--bg-main);
+  text-decoration: none;
+  color: var(--text-main);
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: all var(--transition-fast);
+}
+
+.stitch-tab-btn:hover {
+  background: var(--color-primary-soft);
+  border-color: var(--color-primary);
+}
+
+.stitch-tab-btn.active {
+  background: var(--color-primary-light);
+  border-color: var(--color-primary);
+  box-shadow: 0 2px 8px rgba(0, 168, 150, 0.15);
+}
+
+.stitch-tab-icon {
+  font-size: 1.25rem;
+}
+
+.stitch-tab-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--color-secondary);
+}
+
+.stitch-tab-bn {
+  font-size: 0.72rem;
+  color: var(--color-primary);
+}
+
+/* Preview Section */
+.stitch-preview-section {
+  padding: 2.5rem 0 4rem;
+}
+
+.stitch-screen-info-card {
+  background: #FFFFFF;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-xl);
+  padding: 1.75rem 2rem;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.stitch-active-pill {
+  display: inline-block;
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--radius-full);
+  margin-bottom: 0.5rem;
+}
+
+.stitch-screen-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+/* Mockup Device Frame */
+.stitch-device-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 3.5rem;
+}
+
+.stitch-viewport-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #FFFFFF;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-full);
+  padding: 0.35rem 0.6rem;
+  margin-bottom: 1.5rem;
+  box-shadow: var(--shadow-sm);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.viewport-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-light);
+  margin-right: 0.25rem;
+}
+
+.viewport-btn {
+  background: none;
+  border: none;
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--radius-full);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.viewport-btn:hover {
+  background: var(--bg-main);
+  color: var(--text-main);
+}
+
+.viewport-btn.active {
+  background: var(--color-secondary);
+  color: #FFFFFF;
+}
+
+.stitch-phone-mockup {
+  background: #000000;
+  border-radius: 40px;
+  padding: 10px;
+  box-shadow: 0 25px 50px -12px rgba(11, 37, 69, 0.35), 0 0 0 1px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: width 0.3s ease, height 0.3s ease;
+  max-width: 100%;
+}
+
+.phone-speaker-bar {
+  height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 10;
+}
+
+.phone-dynamic-island {
+  width: 90px;
+  height: 18px;
+  background: #1A1A1A;
+  border-radius: 12px;
+}
+
+.stitch-preview-frame {
+  width: 100%;
+  height: calc(100% - 24px);
+  border: none;
+  border-radius: 30px;
+  background: #FFFFFF;
+  overflow: hidden;
+}
+
+.stitch-preview-hint {
+  margin-top: 1rem;
+  color: var(--text-light);
+}
+
+/* Gallery Grid */
+.stitch-all-screens-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.stitch-gallery-card {
+  background: #FFFFFF;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  transition: all var(--transition-fast);
+}
+
+.stitch-gallery-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-primary);
+}
+
+.stitch-gallery-card.active-card {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgba(0, 168, 150, 0.2);
+}
+
+.gallery-card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.gallery-card-icon {
+  font-size: 1.75rem;
+}
+
+.gallery-card-title {
+  font-size: 1.05rem;
+  color: var(--color-secondary);
+}
+
+.gallery-card-bn {
+  font-size: 0.8rem;
+  color: var(--color-primary);
+}
+
+.gallery-card-desc {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin-bottom: 1.25rem;
+  flex-grow: 1;
+}
+
+.gallery-card-footer {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.gallery-card-footer .btn {
+  flex: 1;
+}
+
+/* Unified Responsive Grid Layout Classes */
+.responsive-two-col {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 3rem;
+  align-items: center;
+}
+
+.responsive-two-col-reverse {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 3rem;
+  align-items: center;
+}
+
+.responsive-detail-grid {
+  display: grid;
+  grid-template-columns: 1.8fr 1fr;
+  gap: 3.5rem;
+  align-items: flex-start;
+}
+
+.responsive-doctor-profile {
+  display: grid;
+  grid-template-columns: 1fr 1.8fr;
+  gap: 3rem;
+}
+
+.responsive-doctor-card {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 2.5rem;
+  align-items: center;
+}
+
+.responsive-form-two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.responsive-hours-box {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.responsive-card-box {
+  background: #FFFFFF;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-xl);
+  padding: 2.5rem;
+  box-shadow: var(--shadow-md);
+}
+
+.responsive-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+/* Master Mobile-First Responsive Breakpoints */
 @media (max-width: 1024px) {
   .hero-grid {
     grid-template-columns: 1fr;
@@ -1508,121 +1918,288 @@ button, input, select, textarea {
 }
 
 @media (max-width: 768px) {
+  /* Viewport Safety */
+  html, body {
+    overflow-x: hidden !important;
+    max-width: 100vw !important;
+    width: 100% !important;
+  }
+
   body {
-    padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px));
+    padding-bottom: calc(76px + env(safe-area-inset-bottom, 0px)) !important;
   }
 
-  .mobile-bottom-nav {
-    display: flex;
+  .container {
+    padding: 0 1rem !important;
+    max-width: 100% !important;
+    overflow-x: hidden !important;
   }
 
+  /* Header banner */
+  .header-banner {
+    padding: 0.35rem 0 !important;
+    font-size: 0.78rem !important;
+  }
+  .banner-left {
+    display: none !important;
+  }
+  .banner-right {
+    width: 100% !important;
+    justify-content: space-between !important;
+    padding: 0 0.25rem !important;
+  }
+
+  /* Nav */
+  .site-nav {
+    height: auto !important;
+  }
+  .nav-content {
+    height: 3.75rem !important;
+  }
   .nav-links, .nav-desktop-only {
     display: none !important;
   }
-
-  .mobile-quick-call {
-    display: flex;
+  .mobile-toggle, .mobile-quick-call {
+    display: flex !important;
   }
 
-  .mobile-toggle {
-    display: block;
+  /* Bottom nav dock */
+  .mobile-bottom-nav {
+    display: flex !important;
+    height: 64px !important;
+    padding-bottom: env(safe-area-inset-bottom, 0px) !important;
   }
 
-  .header-banner {
-    padding: 0.35rem 0;
-    font-size: 0.78rem;
+  /* Floating action buttons */
+  .floating-actions {
+    bottom: calc(76px + env(safe-area-inset-bottom, 0px)) !important;
+    right: 0.85rem !important;
+    gap: 0.5rem !important;
+  }
+  .floating-btn {
+    width: 44px !important;
+    height: 44px !important;
+  }
+  .floating-btn svg {
+    width: 22px !important;
+    height: 22px !important;
+  }
+  .pwa-banner {
+    bottom: calc(76px + env(safe-area-inset-bottom, 0px)) !important;
+    left: 0.75rem !important;
+    right: 0.75rem !important;
   }
 
-  .banner-content {
-    justify-content: center;
-    text-align: center;
-    gap: 0.25rem;
+  /* Hero Section Mobile */
+  .hero-section {
+    padding: 2.5rem 0 3rem !important;
   }
-
-  .banner-left {
-    display: none; /* Hide long address in banner on mobile, it's in footer and about */
+  .hero-grid {
+    grid-template-columns: 1fr !important;
+    gap: 2rem !important;
   }
-
-  .banner-right {
-    width: 100%;
-    justify-content: space-between;
-    padding: 0 0.5rem;
-  }
-
   .hero-title {
-    font-size: 2rem;
+    font-size: clamp(1.85rem, 6vw, 2.5rem) !important;
   }
-
+  .hero-subtitle {
+    font-size: 0.95rem !important;
+    margin-bottom: 1.5rem !important;
+  }
+  .hero-actions {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    gap: 0.65rem !important;
+    margin-bottom: 1.75rem !important;
+  }
+  .hero-actions .btn {
+    width: 100% !important;
+    min-height: 46px !important;
+    font-size: 0.95rem !important;
+  }
   .hero-stats {
-    grid-template-columns: 1fr;
-    gap: 0.85rem;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 0.35rem !important;
+    padding-top: 1rem !important;
+  }
+  .stat-item h4 {
+    font-size: 0.95rem !important;
+  }
+  .stat-item p {
+    font-size: 0.68rem !important;
+    line-height: 1.2 !important;
+  }
+  .hero-doctor-card {
+    max-width: 100% !important;
+    padding: 1rem !important;
+  }
+  .doctor-photo-wrapper {
+    aspect-ratio: 1/1 !important;
+    max-height: 300px !important;
+  }
+  .doctor-floating-badge {
+    padding: 0.65rem 0.85rem !important;
+    bottom: 0.5rem !important;
+    left: 0.5rem !important;
+    right: 0.5rem !important;
+  }
+  .doctor-name-badge {
+    font-size: 1rem !important;
+  }
+  .doctor-degree-badge {
+    font-size: 0.75rem !important;
+  }
+  .doctor-inst-badge {
+    font-size: 0.65rem !important;
+    line-height: 1.2 !important;
   }
 
-  .hero-cta-group {
-    flex-direction: column;
-    width: 100%;
+  /* Schedule 7-Day Compact Grid on Mobile */
+  .schedule-grid {
+    grid-template-columns: repeat(7, 1fr) !important;
+    gap: 3px !important;
+    margin-top: 1rem !important;
+  }
+  .schedule-day-box {
+    padding: 0.5rem 0.15rem !important;
+    border-radius: 8px !important;
+  }
+  .day-name {
+    font-size: 0.72rem !important;
+    margin-bottom: 0.15rem !important;
+  }
+  .day-status-open, .day-status-closed {
+    font-size: 0.62rem !important;
+  }
+  .day-time {
+    display: none !important;
   }
 
-  .hero-cta-group .btn {
-    width: 100%;
+  /* Collapse all 2-column layouts on mobile */
+  .responsive-two-col,
+  .responsive-two-col-reverse,
+  .responsive-detail-grid,
+  .responsive-doctor-profile,
+  .responsive-doctor-card,
+  .responsive-form-two-col,
+  .responsive-hours-box,
+  .two-col-feature,
+  .two-col-feature.reverse {
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem !important;
   }
 
-  .footer-grid {
-    grid-template-columns: 1fr;
-    gap: 2rem;
+  .responsive-card-box {
+    padding: 1.5rem 1rem !important;
   }
 
-  .site-footer {
-    padding: 3rem 0 calc(5rem + env(safe-area-inset-bottom, 0px));
+  /* Treatments & Gallery Grids */
+  .treatments-grid,
+  .responsive-cards-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1.25rem !important;
   }
 
+  /* Trust Bar */
+  .trust-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+  }
+  .trust-bar {
+    padding: 1.5rem 0 !important;
+  }
+
+  /* Section Spacing */
+  .section {
+    padding: 3rem 0 !important;
+  }
+  .section-header {
+    margin-bottom: 2rem !important;
+  }
+  .section-title {
+    font-size: 1.75rem !important;
+  }
+
+  /* Booking Container */
   .booking-container {
-    padding: 1.5rem 1rem;
-    box-shadow: var(--shadow-sm);
+    padding: 1.25rem 0.85rem !important;
+    border-radius: 16px !important;
+  }
+  .treatment-selection-grid {
+    grid-template-columns: 1fr !important;
+    max-height: 320px !important;
+  }
+  .slot-grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 0.5rem !important;
+  }
+  .slot-btn {
+    padding: 0.6rem 0.25rem !important;
+    font-size: 0.8rem !important;
+  }
+  .wizard-nav-btns {
+    flex-direction: column-reverse !important;
+    gap: 0.75rem !important;
+  }
+  .wizard-nav-btns .btn {
+    width: 100% !important;
   }
 
-  /* Admin mobile card styles */
-  .admin-table-container {
-    border: none;
-    background: transparent;
+  /* Admin Metrics Grid */
+  .metric-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.65rem !important;
+  }
+  .metric-card {
+    padding: 0.85rem 1rem !important;
+  }
+  .metric-card h3 {
+    font-size: 1.5rem !important;
+  }
+  .metric-card p {
+    font-size: 0.72rem !important;
   }
 
-  .admin-table-mobile {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
+  /* Footer */
+  .footer-grid {
+    grid-template-columns: 1fr !important;
+    gap: 2rem !important;
+  }
+  .site-footer {
+    padding: 2.5rem 0 calc(5rem + env(safe-area-inset-bottom, 0px)) !important;
+  }
+
+  /* Stitch Mockup on small screens */
+  .stitch-phone-mockup {
+    width: 100% !important;
+    max-width: 100% !important;
+    border-radius: 20px !important;
+  }
+  .stitch-tabs-bar {
+    top: 3.75rem !important;
   }
 }
 
 @media (max-width: 480px) {
-  .container {
-    padding: 0 1rem;
-  }
-
   .logo-title {
-    font-size: 1.15rem;
+    font-size: 1.15rem !important;
   }
-
   .logo-sub {
-    font-size: 0.68rem;
+    font-size: 0.65rem !important;
   }
-
-  .hero-title {
-    font-size: 1.75rem;
-  }
-
-  .section {
-    padding: 2.5rem 0;
-  }
-
   .slot-grid {
     grid-template-columns: repeat(3, 1fr) !important;
-    gap: 0.5rem;
+    gap: 0.4rem !important;
   }
-
-  .slot-pill {
-    padding: 0.55rem 0.25rem;
-    font-size: 0.78rem;
+  .slot-btn {
+    font-size: 0.75rem !important;
+  }
+  .stat-item h4 {
+    font-size: 0.85rem !important;
+  }
+  .stat-item p {
+    font-size: 0.62rem !important;
   }
 }
+
 

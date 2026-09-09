@@ -9,7 +9,7 @@ export function renderDoctorsDirectoryPage() {
         </p>
       </div>
 
-      <div style="max-width:850px; margin:0 auto; background:#FFFFFF; border:1px solid var(--border-light); border-radius:var(--radius-xl); padding:2.5rem; box-shadow:var(--shadow-md); display:grid; grid-template-columns:240px 1fr; gap:2.5rem; align-items:center;">
+      <div class="responsive-card-box responsive-doctor-card" style="max-width:850px; margin:0 auto;">
         <div style="border-radius:var(--radius-lg); overflow:hidden; box-shadow:var(--shadow-lg);">
           <img src="/images/dr-supriyo-sahu.jpg" alt="Dr. Supriyo Sahu" style="width:100%; aspect-ratio:4/5; object-fit:cover;" />
         </div>

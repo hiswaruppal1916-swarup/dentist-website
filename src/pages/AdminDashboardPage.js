@@ -171,14 +171,14 @@ function renderDashboardView(userEmail, settings) {
       </div>
 
       <!-- Quick Schedule Settings Section -->
-      <div style="margin-top:3.5rem; background:#FFFFFF; border:1px solid var(--border-light); border-radius:var(--radius-xl); padding:2.5rem; box-shadow:var(--shadow-sm);">
+      <div class="responsive-card-box" style="margin-top:3.5rem;">
         <span class="section-tag">Clinical Controls</span>
         <h2 style="font-size:1.6rem; margin-bottom:0.5rem;">Schedule & Clinic Configuration</h2>
         <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:1.5rem;">
           Enforce working days, adjust slot intervals, and update direct patient contact channels.
         </p>
 
-        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:1.5rem;">
+        <div class="responsive-cards-grid">
           <div style="background:var(--bg-main); padding:1.25rem; border-radius:var(--radius-md); border:1px solid var(--border-light);">
             <h4 style="font-size:1rem; margin-bottom:0.75rem;">Days & Hours Rule</h4>
             <p style="font-size:0.85rem; color:var(--text-muted); line-height:1.6;">

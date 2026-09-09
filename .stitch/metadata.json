@@ -22,14 +22,22 @@
       "height": 3470
     },
     "booking": {
+      "id": "c2713fe8d4e94208a5c58a5e0a27ba0e",
       "width": 390,
       "height": 844,
       "title": "5-Step Appointment Wizard"
     },
-    "admin": {
+    "treatments": {
+      "id": "eaeff478808c4392ad1a11c8e29be82d",
       "width": 390,
       "height": 844,
-      "title": "Doctor Queue Portal"
+      "title": "Bilingual Treatments Directory"
+    },
+    "admin": {
+      "id": "386a370f773a45588ffb0eaed78f5775",
+      "width": 390,
+      "height": 844,
+      "title": "Doctor Queue & Appointments Admin"
     }
   }
 }

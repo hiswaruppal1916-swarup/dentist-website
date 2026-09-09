@@ -5,7 +5,7 @@ export function renderDoctorProfilePage() {
         <a href="/" style="color:var(--color-primary); font-weight:600; font-size:0.9rem;">← Back to Home</a>
       </div>
 
-      <div style="display:grid; grid-template-columns:1fr 1.8fr; gap:3rem; background:#FFFFFF; border:1px solid var(--border-light); border-radius:var(--radius-xl); padding:3rem; box-shadow:var(--shadow-md);">
+      <div class="responsive-card-box responsive-doctor-profile">
         <!-- Left: Doctor Photo and Quick Stats -->
         <div>
           <div style="border-radius:var(--radius-lg); overflow:hidden; box-shadow:var(--shadow-lg); margin-bottom:1.5rem;">
@@ -61,7 +61,7 @@ export function renderDoctorProfilePage() {
           <div style="margin-bottom:2.5rem;">
             <h3 style="font-size:1.3rem; margin-bottom:0.75rem;">Clinic Consultation Schedule</h3>
             <div style="background:var(--bg-main); border:1px solid var(--border-light); border-radius:var(--radius-lg); padding:1.25rem;">
-              <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; font-size:0.92rem;">
+              <div class="responsive-hours-box" style="font-size:0.92rem;">
                 <div>
                   <strong style="color:var(--color-secondary);">Consultation Days:</strong>
                   <p style="color:var(--color-primary); font-weight:600; margin-top:0.25rem;">Tue, Wed, Thu, Sat, Sun</p>

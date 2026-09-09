@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Book Appointment - Dental Paradise | Dr. Supriyo Sahu</title>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts: Plus Jakarta Sans -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS v3 -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-secondary-container": "#006f66",
+            "on-secondary-fixed-variant": "#005049",
+            "inverse-primary": "#b0c9e8",
+            "secondary-fixed": "#89f5e7",
+            "on-tertiary": "#ffffff",
+            "on-background": "#0b1c30",
+            "surface": "#f8f9ff",
+            "secondary": "#006a61",
+            "outline-variant": "#c3c6ce",
+            "on-tertiary-fixed": "#001f26",
+            "on-surface": "#0b1c30",
+            "error": "#ba1a1a",
+            "on-surface-variant": "#43474d",
+            "error-container": "#ffdad6",
+            "on-error": "#ffffff",
+            "tertiary-fixed": "#acedff",
+            "primary-fixed-dim": "#b0c9e8",
+            "surface-dim": "#cbdbf5",
+            "on-tertiary-container": "#009cb6",
+            "secondary-fixed-dim": "#6bd8cb",
+            "on-tertiary-fixed-variant": "#004e5c",
+            "inverse-surface": "#213145",
+            "surface-container-high": "#dce9ff",
+            "outline": "#74777e",
+            "primary": "#001428",
+            "on-primary": "#ffffff",
+            "inverse-on-surface": "#eaf1ff",
+            "surface-container-lowest": "#ffffff",
+            "surface-tint": "#49607c",
+            "background": "#f8f9ff",
+            "surface-container": "#e5eeff",
+            "on-primary-fixed": "#011d35",
+            "primary-container": "#0f2942",
+            "secondary-container": "#86f2e4",
+            "surface-container-low": "#eff4ff",
+            "on-primary-fixed-variant": "#314863",
+            "tertiary-container": "#002c35",
+            "surface-bright": "#f8f9ff",
+            "on-secondary-fixed": "#00201d",
+            "tertiary": "#00161b",
+            "tertiary-fixed-dim": "#4cd7f6",
+            "on-secondary": "#ffffff",
+            "on-error-container": "#93000a",
+            "primary-fixed": "#d1e4ff",
+            "on-primary-container": "#7991af",
+            "surface-variant": "#d3e4fe",
+            "surface-container-highest": "#d3e4fe"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "spacing-md": "1rem",
+            "spacing-2xl": "2rem",
+            "margin-screen": "1.25rem",
+            "spacing-xxs": "0.25rem",
+            "spacing-lg": "1.25rem",
+            "gutter-mobile": "1rem",
+            "spacing-xs": "0.5rem",
+            "spacing-xl": "1.5rem",
+            "spacing-sm": "0.75rem"
+          },
+          "fontFamily": {
+            "label-sm": ["Plus Jakarta Sans"],
+            "label-md": ["Plus Jakarta Sans"],
+            "label-lg": ["Plus Jakarta Sans"],
+            "bengali-sub": ["Plus Jakarta Sans"],
+            "headline-lg": ["Plus Jakarta Sans"],
+            "display-lg": ["Plus Jakarta Sans"],
+            "headline-sm": ["Plus Jakarta Sans"],
+            "headline-md": ["Plus Jakarta Sans"],
+            "body-md": ["Plus Jakarta Sans"],
+            "body-lg": ["Plus Jakarta Sans"],
+            "body-sm": ["Plus Jakarta Sans"]
+          },
+          "fontSize": {
+            "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.03em", "fontWeight": "500" }],
+            "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600" }],
+            "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+            "bengali-sub": ["12px", { "lineHeight": "18px", "fontWeight": "500" }],
+            "headline-lg": ["26px", { "lineHeight": "34px", "letterSpacing": "-0.015em", "fontWeight": "700" }],
+            "display-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "headline-sm": ["17px", { "lineHeight": "24px", "fontWeight": "600" }],
+            "headline-md": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+            "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+            "body-sm": ["13px", { "lineHeight": "18px", "fontWeight": "400" }]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .custom-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface antialiased min-h-screen flex flex-col items-center">
+<!-- Corridor Layout for Medical Screen: Max 480px on Mobile -->
+<div class="w-full max-w-md bg-surface min-h-screen flex flex-col relative pb-36 shadow-xl">
+<!-- 1. Top App Bar (Shared Component Anchor Implementation) -->
+<header class="sticky top-0 z-40 bg-surface-container-lowest shadow-sm">
+<div class="flex justify-between items-center w-full px-5 py-3 max-w-md mx-auto">
+<div class="flex items-center gap-3">
+<button aria-label="Go back" class="p-1 rounded-full text-primary hover:bg-surface-container-low transition-colors duration-150 active:scale-95" type="button">
+<span class="material-symbols-outlined text-[24px]">arrow_back</span>
+</button>
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-lg bg-surface-container-low flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[20px]" data-icon="dentistry">dentistry</span>
+</div>
+<div>
+<h1 class="text-headline-sm font-headline-sm font-bold text-primary leading-tight">Dental Paradise</h1>
+<p class="text-label-sm font-label-sm text-on-surface-variant">Dr. Supriyo Sahu • Multispeciality</p>
+</div>
+</div>
+</div>
+<button aria-label="Notifications" class="p-1.5 rounded-full text-on-surface-variant hover:bg-surface-container-low transition-colors duration-150 active:scale-95 relative" type="button">
+<span class="material-symbols-outlined text-[22px]" data-icon="notifications">notifications</span>
+<span class="absolute top-1 right-1 w-2 h-2 rounded-full bg-secondary"></span>
+</button>
+</div>
+<!-- Clinic Status & Live Badge -->
+<div class="px-5 pb-2.5 flex items-center justify-between">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#CCFBF1] text-secondary text-label-sm font-label-sm font-semibold">
+<span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+<span>Open Today (8 AM - 12 PM, 4 PM - 8 PM)</span>
+</div>
+<div class="flex items-center gap-1 text-label-sm font-label-sm text-secondary font-medium">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span>BDS Certified</span>
+</div>
+</div>
+</header>
+<!-- Doctor Credential Compact Card -->
+<div class="mx-5 mt-3 p-3 bg-surface-container-lowest rounded-xl border border-surface-container flex items-center justify-between shadow-sm">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-full p-0.5 border-2 border-secondary bg-surface-container-low overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover rounded-full" data-alt="Professional clinical headshot portrait of Dr Supriyo Sahu a seasoned Indian male dental surgeon wearing sterile teal scrubs with stethoscope and warm welcoming reassuring smile in high-key soft hospital dental studio lighting with pristine white and teal aesthetics." src="https://lh3.googleusercontent.com/aida-public/AB6AXuARqk57hZWX-VHwiajK4aXIHZDmSmBA0NpXH-gOnGDMSkDbnnw_Fq8WnJI18Q8zbhKCdB8hcsEDiFbzzxbf_2ir5XuWBqCON45V_KUb95fbw1SPnLndZyW3rhn81ywJW6il6A2fWhzqv4ZFiT8EFLQExnlR6n7B4djMUkVD6VA3DQbs-GRbXrrGLwJHPhz7tudiowFGloShUMn-zk_FHgV90AM-kkn2iP6HlEZwI_hl5_rHR_ftzfMZB13JK9pVc5oUhNAymKLuCvE"/>
+</div>
+<div>
+<div class="flex items-center gap-1.5">
+<h2 class="text-headline-sm font-headline-sm text-primary font-bold">Dr. Supriyo Sahu</h2>
+<span class="material-symbols-outlined text-secondary text-[16px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+<p class="text-label-sm font-label-sm text-on-surface-variant">Dental Surgeon &amp; Implantologist</p>
+<div class="flex items-center gap-2 mt-0.5">
+<span class="text-label-sm font-label-sm text-secondary bg-surface-container-low px-1.5 py-0.2 rounded font-semibold">12+ Yrs Exp</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">Class-B Sterilization</span>
+</div>
+</div>
+</div>
+<a aria-label="Call clinic" class="w-9 h-9 rounded-full bg-surface-container-low text-secondary flex items-center justify-center active:scale-95 transition-transform hover:bg-surface-container" href="tel:+919876543210">
+<span class="material-symbols-outlined text-[18px]">call</span>
+</a>
+</div>
+<!-- 2. Wizard Stepped Progress Tracker (Step 1-5) -->
+<div class="mx-5 mt-4 bg-surface-container-lowest p-3.5 rounded-xl border border-surface-container shadow-sm">
+<div class="flex items-center justify-between relative">
+<!-- Connecting Progress Track Line -->
+<div class="absolute left-4 right-4 top-3.5 h-[2px] bg-surface-container -z-0"></div>
+<div class="absolute left-4 w-4/5 top-3.5 h-[2px] bg-secondary -z-0"></div>
+<!-- Step 1 (Completed) -->
+<div class="flex flex-col items-center gap-1 z-10">
+<div class="w-7 h-7 rounded-full bg-secondary text-on-secondary flex items-center justify-center text-label-sm font-label-sm font-bold shadow-sm">
+<span class="material-symbols-outlined text-[15px]" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+<span class="text-label-sm font-label-sm font-bold text-secondary">Care</span>
+</div>
+<!-- Step 2 (Completed) -->
+<div class="flex flex-col items-center gap-1 z-10">
+<div class="w-7 h-7 rounded-full bg-secondary text-on-secondary flex items-center justify-center text-label-sm font-label-sm font-bold shadow-sm">
+<span class="material-symbols-outlined text-[15px]" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+<span class="text-label-sm font-label-sm font-bold text-secondary">Date</span>
+</div>
+<!-- Step 3 (Completed) -->
+<div class="flex flex-col items-center gap-1 z-10">
+<div class="w-7 h-7 rounded-full bg-secondary text-on-secondary flex items-center justify-center text-label-sm font-label-sm font-bold shadow-sm">
+<span class="material-symbols-outlined text-[15px]" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+<span class="text-label-sm font-label-sm font-bold text-secondary">Slot</span>
+</div>
+<!-- Step 4 (Completed) -->
+<div class="flex flex-col items-center gap-1 z-10">
+<div class="w-7 h-7 rounded-full bg-secondary text-on-secondary flex items-center justify-center text-label-sm font-label-sm font-bold shadow-sm">
+<span class="material-symbols-outlined text-[15px]" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+<span class="text-label-sm font-label-sm font-bold text-secondary">Patient</span>
+</div>
+<!-- Step 5 (Active Confirmation) -->
+<div class="flex flex-col items-center gap-1 z-10">
+<div class="w-7 h-7 rounded-full bg-primary-container text-white border-2 border-secondary flex items-center justify-center text-label-sm font-label-sm font-bold shadow-md ring-2 ring-secondary-container">
+            5
+          </div>
+<span class="text-label-sm font-label-sm font-bold text-primary">Confirm</span>
+</div>
+</div>
+</div>
+<!-- Main Wizard Interactive Flow -->
+<main class="flex-1 px-5 mt-4 space-y-4">
+<!-- STEP 1: Treatment Selection (Bento/Card Display) -->
+<section class="bg-surface-container-lowest p-4 rounded-xl border border-surface-container shadow-sm">
+<div class="flex items-center justify-between mb-3">
+<div class="flex items-center gap-2">
+<span class="w-5 h-5 rounded-full bg-surface-container text-primary font-bold text-label-sm font-label-sm flex items-center justify-center">1</span>
+<h3 class="text-headline-sm font-headline-sm text-primary font-bold">Treatment Selection</h3>
+</div>
+<span class="text-label-sm font-label-sm text-secondary bg-surface-container-low px-2 py-0.5 rounded-full font-semibold">1 Selected</span>
+</div>
+<div class="space-y-2.5">
+<!-- Item 1: Root Canal (SELECTED) -->
+<div class="relative p-3.5 rounded-xl border-2 border-secondary bg-surface-container-low/40 shadow-sm transition-all">
+<div class="flex items-start justify-between">
+<div class="flex items-start gap-3">
+<div class="w-10 h-10 rounded-lg bg-secondary text-white flex items-center justify-center flex-shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[22px]">medical_services</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<span class="text-headline-sm font-headline-sm text-primary font-bold">Root Canal Treatment</span>
+<span class="material-symbols-outlined text-secondary text-[18px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<!-- Bengali Subtitle Pill -->
+<div class="inline-block mt-0.5 bg-[#F0FDFA] px-2 py-0.5 rounded border border-[#CCFBF1]">
+<span class="text-bengali-sub font-bengali-sub text-secondary font-medium">রুট ক্যানেল চিকিৎসা</span>
+</div>
+<div class="flex items-center gap-3 mt-1.5 text-label-sm font-label-sm text-on-surface-variant">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">schedule</span> 45 mins
+                    </span>
+<span>•</span>
+<span class="font-semibold text-primary">From ₹2,500</span>
+</div>
+</div>
+</div>
+<input checked="" class="mt-1 text-secondary focus:ring-secondary w-4 h-4" name="treatment" type="radio"/>
+</div>
+</div>
+<!-- Item 2: Impaction Surgery -->
+<div class="p-3.5 rounded-xl border border-surface-container bg-surface-container-lowest opacity-85 hover:opacity-100 hover:border-outline-variant transition-all">
+<div class="flex items-start justify-between">
+<div class="flex items-start gap-3">
+<div class="w-10 h-10 rounded-lg bg-surface-container-low text-primary flex items-center justify-center flex-shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[22px]">healing</span>
+</div>
+<div>
+<h4 class="text-headline-sm font-headline-sm text-primary font-bold">Impaction Surgery</h4>
+<div class="inline-block mt-0.5 bg-surface-container-low px-2 py-0.5 rounded">
+<span class="text-bengali-sub font-bengali-sub text-on-surface-variant">ইমপ্যাকশন সার্জারি</span>
+</div>
+<div class="flex items-center gap-3 mt-1.5 text-label-sm font-label-sm text-on-surface-variant">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">schedule</span> 60 mins
+                    </span>
+<span>•</span>
+<span class="font-semibold text-primary">From ₹3,200</span>
+</div>
+</div>
+</div>
+<input class="mt-1 text-secondary focus:ring-secondary w-4 h-4" name="treatment" type="radio"/>
+</div>
+</div>
+<!-- Item 3: Painless Extraction -->
+<div class="p-3.5 rounded-xl border border-surface-container bg-surface-container-lowest opacity-85 hover:opacity-100 hover:border-outline-variant transition-all">
+<div class="flex items-start justify-between">
+<div class="flex items-start gap-3">
+<div class="w-10 h-10 rounded-lg bg-surface-container-low text-primary flex items-center justify-center flex-shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[22px]">health_and_safety</span>
+</div>
+<div>
+<h4 class="text-headline-sm font-headline-sm text-primary font-bold">Painless Extraction</h4>
+<div class="inline-block mt-0.5 bg-surface-container-low px-2 py-0.5 rounded">
+<span class="text-bengali-sub font-bengali-sub text-on-surface-variant">ব্যথাহীন দাঁত তোলা</span>
+</div>
+<div class="flex items-center gap-3 mt-1.5 text-label-sm font-label-sm text-on-surface-variant">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">schedule</span> 30 mins
+                    </span>
+<span>•</span>
+<span class="font-semibold text-primary">From ₹800</span>
+</div>
+</div>
+</div>
+<input class="mt-1 text-secondary focus:ring-secondary w-4 h-4" name="treatment" type="radio"/>
+</div>
+</div>
+<!-- Item 4: Scaling & Polishing -->
+<div class="p-3.5 rounded-xl border border-surface-container bg-surface-container-lowest opacity-85 hover:opacity-100 hover:border-outline-variant transition-all">
+<div class="flex items-start justify-between">
+<div class="flex items-start gap-3">
+<div class="w-10 h-10 rounded-lg bg-surface-container-low text-primary flex items-center justify-center flex-shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[22px]">clean_hands</span>
+</div>
+<div>
+<h4 class="text-headline-sm font-headline-sm text-primary font-bold">Scaling &amp; Polishing</h4>
+<div class="inline-block mt-0.5 bg-surface-container-low px-2 py-0.5 rounded">
+<span class="text-bengali-sub font-bengali-sub text-on-surface-variant">স্কেলিং ও পলিশিং</span>
+</div>
+<div class="flex items-center gap-3 mt-1.5 text-label-sm font-label-sm text-on-surface-variant">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">schedule</span> 30 mins
+                    </span>
+<span>•</span>
+<span class="font-semibold text-primary">From ₹1,200</span>
+</div>
+</div>
+</div>
+<input class="mt-1 text-secondary focus:ring-secondary w-4 h-4" name="treatment" type="radio"/>
+</div>
+</div>
+</div>
+</section>
+<!-- STEP 2: Date Selection -->
+<section class="bg-surface-container-lowest p-4 rounded-xl border border-surface-container shadow-sm">
+<div class="flex items-center justify-between mb-3">
+<div class="flex items-center gap-2">
+<span class="w-5 h-5 rounded-full bg-surface-container text-primary font-bold text-label-sm font-label-sm flex items-center justify-center">2</span>
+<h3 class="text-headline-sm font-headline-sm text-primary font-bold">Select Date</h3>
+</div>
+<span class="text-label-md font-label-md text-primary font-semibold">October 2024</span>
+</div>
+<!-- Clinic Closed Alert Banner -->
+<div class="mb-3.5 p-2.5 rounded-lg bg-error-container/40 border border-error-container flex items-center gap-2 text-on-surface">
+<span class="material-symbols-outlined text-error text-[18px]">warning</span>
+<span class="text-label-sm font-label-sm text-error font-medium">Clinic Closed on Mondays &amp; Fridays</span>
+</div>
+<!-- Day Selector Horizontal Scroll -->
+<div class="flex items-center gap-2 overflow-x-auto pb-1 custom-scrollbar">
+<!-- Today Tue 14 Oct (Selected) -->
+<button class="flex-shrink-0 w-16 py-2.5 px-2 rounded-xl bg-secondary text-white flex flex-col items-center justify-center shadow-md active:scale-95 transition-transform" type="button">
+<span class="text-label-sm font-label-sm uppercase tracking-wide opacity-90">Today</span>
+<span class="text-headline-md font-headline-md font-bold">14</span>
+<span class="text-label-sm font-label-sm opacity-90">Tue</span>
+</button>
+<!-- Wed 15 Oct -->
+<button class="flex-shrink-0 w-16 py-2.5 px-2 rounded-xl bg-surface-container-low border border-surface-container text-on-surface flex flex-col items-center justify-center hover:border-secondary transition-colors" type="button">
+<span class="text-label-sm font-label-sm text-on-surface-variant uppercase">Oct</span>
+<span class="text-headline-md font-headline-md font-bold text-primary">15</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">Wed</span>
+</button>
+<!-- Thu 16 Oct -->
+<button class="flex-shrink-0 w-16 py-2.5 px-2 rounded-xl bg-surface-container-low border border-surface-container text-on-surface flex flex-col items-center justify-center hover:border-secondary transition-colors" type="button">
+<span class="text-label-sm font-label-sm text-on-surface-variant uppercase">Oct</span>
+<span class="text-headline-md font-headline-md font-bold text-primary">16</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">Thu</span>
+</button>
+<!-- Fri 17 (Disabled - Closed) -->
+<button class="flex-shrink-0 w-16 py-2.5 px-2 rounded-xl bg-surface-container/50 border border-dashed border-outline-variant text-outline flex flex-col items-center justify-center cursor-not-allowed opacity-60" disabled="" type="button">
+<span class="text-label-sm font-label-sm line-through uppercase">Oct</span>
+<span class="text-headline-md font-headline-md font-bold line-through">17</span>
+<span class="text-label-sm font-label-sm text-error font-medium">Closed</span>
+</button>
+<!-- Sat 18 Oct -->
+<button class="flex-shrink-0 w-16 py-2.5 px-2 rounded-xl bg-surface-container-low border border-surface-container text-on-surface flex flex-col items-center justify-center hover:border-secondary transition-colors" type="button">
+<span class="text-label-sm font-label-sm text-on-surface-variant uppercase">Oct</span>
+<span class="text-headline-md font-headline-md font-bold text-primary">18</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">Sat</span>
+</button>
+<!-- Sun 19 Oct -->
+<button class="flex-shrink-0 w-16 py-2.5 px-2 rounded-xl bg-surface-container-low border border-surface-container text-on-surface flex flex-col items-center justify-center hover:border-secondary transition-colors" type="button">
+<span class="text-label-sm font-label-sm text-on-surface-variant uppercase">Oct</span>
+<span class="text-headline-md font-headline-md font-bold text-primary">19</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">Sun</span>
+</button>
+</div>
+</section>
+<!-- STEP 3: Consultation Time Slots -->
+<section class="bg-surface-container-lowest p-4 rounded-xl border border-surface-container shadow-sm">
+<div class="flex items-center justify-between mb-3">
+<div class="flex items-center gap-2">
+<span class="w-5 h-5 rounded-full bg-surface-container text-primary font-bold text-label-sm font-label-sm flex items-center justify-center">3</span>
+<h3 class="text-headline-sm font-headline-sm text-primary font-bold">Consultation Time Slot</h3>
+</div>
+<span class="text-label-sm font-label-sm text-secondary font-medium">30-min per slot</span>
+</div>
+<!-- Morning OPD -->
+<div class="mb-3">
+<div class="flex items-center gap-1.5 mb-2 text-primary font-semibold text-label-md font-label-md">
+<span class="material-symbols-outlined text-secondary text-[18px]">light_mode</span>
+<span>Morning OPD (8:00 AM - 12:00 PM)</span>
+</div>
+<div class="grid grid-cols-4 gap-2">
+<button class="py-2 px-1 text-center rounded-lg bg-surface border border-outline-variant/50 text-primary text-label-md font-label-md hover:border-secondary transition" type="button">
+              8:30 AM
+            </button>
+<button class="py-2 px-1 text-center rounded-lg bg-surface border border-outline-variant/50 text-primary text-label-md font-label-md hover:border-secondary transition" type="button">
+              9:00 AM
+            </button>
+<button class="py-2 px-1 text-center rounded-lg bg-surface border border-outline-variant/50 text-primary text-label-md font-label-md hover:border-secondary transition" type="button">
+              9:30 AM
+            </button>
+<!-- Selected -->
+<button class="py-2 px-1 text-center rounded-lg bg-secondary text-white font-semibold text-label-md font-label-md shadow-sm ring-2 ring-secondary-container" type="button">
+              10:00 AM
+            </button>
+<button class="py-2 px-1 text-center rounded-lg bg-surface border border-outline-variant/50 text-primary text-label-md font-label-md hover:border-secondary transition" type="button">
+              11:00 AM
+            </button>
+<button class="py-2 px-1 text-center rounded-lg bg-surface-container text-outline text-label-md font-label-md line-through cursor-not-allowed" disabled="" type="button">
+              11:30 AM
+            </button>
+</div>
+</div>
+<!-- Evening OPD -->
+<div>
+<div class="flex items-center gap-1.5 mb-2 text-primary font-semibold text-label-md font-label-md">
+<span class="material-symbols-outlined text-secondary text-[18px]">dark_mode</span>
+<span>Evening OPD (4:00 PM - 8:00 PM)</span>
+</div>
+<div class="grid grid-cols-4 gap-2">
+<button class="py-2 px-1 text-center rounded-lg bg-surface border border-outline-variant/50 text-primary text-label-md font-label-md hover:border-secondary transition" type="button">
+              4:30 PM
+            </button>
+<button class="py-2 px-1 text-center rounded-lg bg-surface border border-outline-variant/50 text-primary text-label-md font-label-md hover:border-secondary transition" type="button">
+              5:00 PM
+            </button>
+<button class="py-2 px-1 text-center rounded-lg bg-surface border border-outline-variant/50 text-primary text-label-md font-label-md hover:border-secondary transition" type="button">
+              6:00 PM
+            </button>
+<button class="py-2 px-1 text-center rounded-lg bg-surface border border-outline-variant/50 text-primary text-label-md font-label-md hover:border-secondary transition" type="button">
+              7:00 PM
+            </button>
+</div>
+</div>
+</section>
+<!-- STEP 4: Patient Details Form -->
+<section class="bg-surface-container-lowest p-4 rounded-xl border border-surface-container shadow-sm">
+<div class="flex items-center gap-2 mb-3">
+<span class="w-5 h-5 rounded-full bg-surface-container text-primary font-bold text-label-sm font-label-sm flex items-center justify-center">4</span>
+<h3 class="text-headline-sm font-headline-sm text-primary font-bold">Patient Details</h3>
+</div>
+<div class="space-y-3">
+<!-- Full Name -->
+<div>
+<label class="block text-label-sm font-label-sm font-semibold text-primary mb-1">Full Name *</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-2.5 text-on-surface-variant text-[18px]">person</span>
+<input class="w-full pl-9 pr-3 py-2 bg-white rounded-lg border border-surface-container text-primary text-body-md font-body-md focus:border-secondary focus:ring-2 focus:ring-secondary/20 outline-none" type="text" value="Ananya Banerjee"/>
+</div>
+</div>
+<!-- Phone Number -->
+<div>
+<label class="block text-label-sm font-label-sm font-semibold text-primary mb-1">WhatsApp / Phone Number *</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-2.5 text-on-surface-variant text-[18px]">phone</span>
+<input class="w-full pl-9 pr-3 py-2 bg-white rounded-lg border border-surface-container text-primary text-body-md font-body-md focus:border-secondary focus:ring-2 focus:ring-secondary/20 outline-none" type="tel" value="+91 98765 43210"/>
+</div>
+<p class="text-label-sm font-label-sm text-secondary mt-1 flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px]">chat</span>
+              Appointment confirmation and reminders will be sent to WhatsApp
+            </p>
+</div>
+<!-- Symptoms / Chief Complaint -->
+<div>
+<label class="block text-label-sm font-label-sm font-semibold text-primary mb-1">Chief Complaint / Dental Symptoms</label>
+<textarea class="w-full p-2.5 bg-white rounded-lg border border-surface-container text-primary text-body-md font-body-md focus:border-secondary focus:ring-2 focus:ring-secondary/20 outline-none" rows="2">Severe pain in upper molar when drinking cold water or chewing.</textarea>
+</div>
+</div>
+</section>
+<!-- STEP 5: Booking Review & Clinical Guarantee -->
+<section class="bg-surface-container-lowest p-4 rounded-xl border border-secondary shadow-md relative overflow-hidden">
+<div class="absolute -right-8 -top-8 w-24 h-24 rounded-full bg-secondary-container/20 -z-0"></div>
+<div class="flex items-center gap-2 mb-3 relative z-10">
+<span class="w-5 h-5 rounded-full bg-secondary text-white font-bold text-label-sm font-label-sm flex items-center justify-center">5</span>
+<h3 class="text-headline-sm font-headline-sm text-primary font-bold">Review &amp; Appointment Summary</h3>
+</div>
+<div class="space-y-3 relative z-10">
+<!-- Summary Details Card -->
+<div class="p-3 bg-surface-container-low/70 rounded-lg space-y-2 text-body-sm font-body-sm">
+<div class="flex justify-between items-center pb-2 border-b border-surface-container">
+<span class="text-on-surface-variant">Attending Surgeon</span>
+<span class="font-bold text-primary">Dr. Supriyo Sahu (BDS)</span>
+</div>
+<div class="flex justify-between items-center pb-2 border-b border-surface-container">
+<span class="text-on-surface-variant">Selected Treatment</span>
+<span class="font-bold text-secondary">Root Canal (রুট ক্যানেল)</span>
+</div>
+<div class="flex justify-between items-center pb-2 border-b border-surface-container">
+<span class="text-on-surface-variant">Appointment Time</span>
+<span class="font-bold text-primary">Tue, 14 Oct • 10:00 AM</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-on-surface-variant">Estimated Fee</span>
+<span class="font-bold text-primary">₹2,500</span>
+</div>
+</div>
+<!-- Consultation Fee Guarantee Banner -->
+<div class="p-3 rounded-lg bg-[#CCFBF1] border border-[#99F6E4] flex items-start gap-2.5">
+<span class="material-symbols-outlined text-secondary text-[20px] mt-0.5">verified_user</span>
+<div>
+<p class="text-label-md font-label-md font-bold text-secondary">Pay ₹0 Now • Zero Booking Fee</p>
+<p class="text-label-sm font-label-sm text-on-secondary-fixed-variant">Pay via UPI or Cash at the clinic counter only after your direct consultation.</p>
+</div>
+</div>
+<!-- Class-B Sterilization Trust Badge -->
+<div class="flex items-center gap-2 p-2 rounded-lg bg-surface border border-surface-container text-on-surface-variant text-label-sm font-label-sm">
+<span class="material-symbols-outlined text-secondary text-[18px]">sanitizer</span>
+<span>Class-B Autoclave 100% Sterile Instruments Guaranteed</span>
+</div>
+</div>
+</section>
+</main>
+<!-- 4. Floating / Sticky Bottom Action CTA Button -->
+<div class="fixed bottom-14 left-0 w-full z-40 px-4 py-2 pointer-events-none">
+<div class="max-w-md mx-auto pointer-events-auto">
+<button class="w-full py-3.5 px-5 rounded-xl bg-primary-container text-white shadow-xl hover:bg-primary transition duration-150 active:scale-98 flex items-center justify-between border border-secondary/30" type="button">
+<div class="text-left">
+<span class="block text-headline-sm font-headline-sm font-bold leading-tight">Confirm Appointment</span>
+<span class="block text-label-sm font-label-sm text-secondary-container">Instant SMS &amp; WhatsApp confirmation</span>
+</div>
+<div class="w-9 h-9 rounded-lg bg-secondary text-white flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]">event_available</span>
+</div>
+</button>
+</div>
+</div>
+<!-- 5. BottomNavBar (Shared Component Anchor Execution) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-2 bg-surface-container-lowest shadow-lg">
+<div class="max-w-md w-full mx-auto flex justify-around items-center">
+<!-- Home -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-secondary transition-colors duration-150 active:scale-95" href="#home">
+<span class="material-symbols-outlined text-[22px]" data-icon="home">home</span>
+<span class="text-label-sm font-label-sm">Home</span>
+</a>
+<!-- Treatments -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-secondary transition-colors duration-150 active:scale-95" href="#treatments">
+<span class="material-symbols-outlined text-[22px]" data-icon="medical_services">medical_services</span>
+<span class="text-label-sm font-label-sm">Treatments</span>
+</a>
+<!-- Book (ACTIVE STATE AS DEFINED IN PROTOCOL) -->
+<a class="flex flex-col items-center justify-center text-secondary font-semibold hover:text-secondary transition-colors duration-150 active:scale-95" href="#book">
+<div class="w-10 h-7 rounded-full bg-secondary-container/40 flex items-center justify-center mb-0.5">
+<span class="material-symbols-outlined text-[22px]" data-icon="calendar_month" style="font-variation-settings: 'FILL' 1;">calendar_month</span>
+</div>
+<span class="text-label-sm font-label-sm font-bold text-secondary">Book</span>
+</a>
+<!-- Status -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-secondary transition-colors duration-150 active:scale-95" href="#status">
+<span class="material-symbols-outlined text-[22px]" data-icon="schedule">schedule</span>
+<span class="text-label-sm font-label-sm">Status</span>
+</a>
+<!-- Contact -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-secondary transition-colors duration-150 active:scale-95" href="#contact">
+<span class="material-symbols-outlined text-[22px]" data-icon="call">call</span>
+<span class="text-label-sm font-label-sm">Contact</span>
+</a>
+</div>
+</nav>
+</div>
+</body></html>
+

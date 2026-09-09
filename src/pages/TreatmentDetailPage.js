@@ -46,7 +46,7 @@ export async function renderTreatmentDetailPage(slug) {
         <a href="/treatments" style="color:var(--color-primary); font-weight:600; font-size:0.9rem;">← Back to All Treatments</a>
       </div>
 
-      <div style="display:grid; grid-template-columns:1.8fr 1fr; gap:3.5rem; align-items:flex-start;">
+      <div class="responsive-detail-grid">
         <!-- Left Column: Clinical Information -->
         <div>
           <span class="section-tag">Specialized Dental Care</span>
@@ -82,7 +82,7 @@ export async function renderTreatmentDetailPage(slug) {
           <div style="margin-bottom:2.5rem;">
             <h3 style="font-size:1.35rem; margin-bottom:1rem; color:var(--color-secondary);">Symptoms & Who May Need Consultation</h3>
             
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; background:#FFFFFF; border:1px solid var(--border-light); border-radius:var(--radius-lg); padding:1.5rem;">
+            <div class="responsive-hours-box" style="background:#FFFFFF; border:1px solid var(--border-light); border-radius:var(--radius-lg); padding:1.5rem;">
               <div>
                 <h4 style="font-size:0.95rem; color:var(--color-primary); margin-bottom:0.75rem; text-transform:uppercase; letter-spacing:0.05em;">English Signs</h4>
                 <ul style="list-style:none; display:flex; flex-direction:column; gap:0.5rem; font-size:0.92rem; color:var(--text-muted);">

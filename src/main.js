@@ -18,6 +18,7 @@ import { renderFaqPage } from './pages/FaqPage.js';
 import { renderContactPage } from './pages/ContactPage.js';
 import { renderPrivacyPage, renderTermsPage } from './pages/LegalPages.js';
 import { renderAdminDashboardPage, initAdminEvents } from './pages/AdminDashboardPage.js';
+import { renderStitchHubPage, initStitchHubEvents } from './pages/StitchHubPage.js';
 
 // SEO & Meta updates
 function updateMetadata(title, description) {
@@ -100,6 +101,11 @@ async function route() {
     updateMetadata('Doctor & Staff Portal', 'Authorized clinical administration portal for Dental Paradise.');
     mainHtml = await renderAdminDashboardPage();
     onRendered = initAdminEvents;
+  } else if (path === '/stitch' || path.startsWith('/stitch/')) {
+    const screen = path.split('/')[2] || 'home';
+    updateMetadata('Google Stitch Design System & Screens', 'Explore the official Google Stitch screens created for Dental Paradise (Project ID: 5248741634450652171).');
+    mainHtml = renderStitchHubPage(screen);
+    onRendered = initStitchHubEvents;
   } else {
     mainHtml = `
       <div class="container section" style="text-align:center; padding:6rem 0;">

@@ -248,7 +248,7 @@ export async function renderHomePage() {
     <!-- Doctor Profile Preview Section -->
     <section class="section">
       <div class="container">
-        <div class="two-col-feature" style="background:#FFFFFF; border:1px solid var(--border-light); border-radius:var(--radius-xl); padding:2.5rem; box-shadow:var(--shadow-md);">
+        <div class="responsive-card-box responsive-two-col-reverse">
           <div>
             <div style="border-radius:var(--radius-lg); overflow:hidden; box-shadow:var(--shadow-lg);">
               <img src="/images/dr-supriyo-sahu.jpg" alt="Dr. Supriyo Sahu" style="width:100%; height:100%; object-fit:cover;" />
@@ -337,34 +337,59 @@ export async function renderHomePage() {
     </section>
 
     <!-- Location & Directions Section -->
+    <!-- Emergency Dental Call Banner from Google Stitch -->
+    <section style="padding: 1rem 0;">
+      <div class="container">
+        <div style="background:linear-gradient(135deg, #0F2942 0%, #002C35 100%); color:#FFFFFF; border-radius:var(--radius-xl); padding:2rem; box-shadow:var(--shadow-md); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1.5rem;">
+          <div>
+            <div style="display:flex; align-items:center; gap:0.5rem; color:#86F2E4; font-weight:700; font-size:0.85rem; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:0.35rem;">
+              <span>🚨</span>
+              <span>Emergency Dental Care • তাৎক্ষণিক সেবা</span>
+            </div>
+            <h3 style="color:#FFFFFF; font-size:1.4rem; margin-bottom:0.25rem;">Severe Toothache or Accident Trauma?</h3>
+            <p style="color:#CBD5E1; font-size:0.9rem; max-width:550px;">
+              Dr. Supriyo Sahu provides rapid clinical relief for acute pulpitis, bleeding, dental trauma, and broken teeth.
+            </p>
+          </div>
+          <div style="display:flex; gap:0.75rem; flex-wrap:wrap;">
+            <a href="tel:9733835105" class="btn btn-primary btn-lg" style="background:#00A896;">
+              <span>📞 Direct Call: 9733835105</span>
+            </a>
+            <a href="/stitch" class="btn btn-outline btn-lg" style="border-color:rgba(255,255,255,0.4); color:#FFFFFF;">
+              <span>✨ Google Stitch UI</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Clinic Location Section -->
     <section class="section">
       <div class="container">
-        <div style="background:#FFFFFF; border:1px solid var(--border-light); border-radius:var(--radius-xl); padding:2.5rem; box-shadow:var(--shadow-md);">
-          <div class="two-col-feature reverse">
-            <div>
-              <span class="section-tag">Visit Our Clinic</span>
-              <h2 style="font-size:2rem; margin-bottom:1rem;">Convenient Location in Math Chandipur</h2>
-              <p style="color:var(--text-muted); margin-bottom:1.5rem; font-size:1rem; line-height:1.7;">
-                <strong>Dental Paradise</strong> is easily accessible for patients from Chandipur Market and surrounding localities. Located just behind Life Care Diagnostic Center.
-              </p>
-              <div style="display:flex; flex-direction:column; gap:0.75rem; font-size:0.95rem; margin-bottom:1.75rem;">
-                <div>📍 <strong>Address:</strong> Math Chandipur, Chandipur Market, Behind Life Care Diagnostic Center, PIN- 721659</div>
-                <div>📞 <strong>Phone:</strong> <a href="tel:9733835105" style="color:var(--color-primary); font-weight:700;">9733835105</a></div>
-                <div>💬 <strong>WhatsApp:</strong> <a href="https://wa.me/919733835105" target="_blank" style="color:#25D366; font-weight:700;">9733835105</a></div>
-                <div>💵 <strong>Payment:</strong> Cash at Clinic</div>
-              </div>
-              <div style="display:flex; gap:1rem; flex-wrap:wrap;">
-                <a href="https://maps.google.com/?q=Math+Chandipur+Market+Life+Care+Diagnostic+Center+721659" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
-                  <span>Open in Google Maps</span> ↗
-                </a>
-                <a href="/contact" class="btn btn-secondary">Contact Details</a>
-              </div>
+        <div class="responsive-card-box responsive-two-col">
+          <div>
+            <span class="section-tag">Visit Our Clinic</span>
+            <h2 style="font-size:2rem; margin-bottom:1rem;">Convenient Location in Math Chandipur</h2>
+            <p style="color:var(--text-muted); margin-bottom:1.5rem; font-size:1rem; line-height:1.7;">
+              <strong>Dental Paradise</strong> is easily accessible for patients from Chandipur Market and surrounding localities. Located just behind Life Care Diagnostic Center.
+            </p>
+            <div style="display:flex; flex-direction:column; gap:0.75rem; font-size:0.95rem; margin-bottom:1.75rem;">
+              <div>📍 <strong>Address:</strong> Math Chandipur, Chandipur Market, Behind Life Care Diagnostic Center, PIN- 721659</div>
+              <div>📞 <strong>Phone:</strong> <a href="tel:9733835105" style="color:var(--color-primary); font-weight:700;">9733835105</a></div>
+              <div>💬 <strong>WhatsApp:</strong> <a href="https://wa.me/919733835105" target="_blank" style="color:#25D366; font-weight:700;">9733835105</a></div>
+              <div>💵 <strong>Payment:</strong> Cash at Clinic</div>
             </div>
+            <div style="display:flex; gap:1rem; flex-wrap:wrap;">
+              <a href="https://maps.google.com/?q=Math+Chandipur+Market+Life+Care+Diagnostic+Center+721659" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+                <span>Open in Google Maps</span> ↗
+              </a>
+              <a href="/contact" class="btn btn-secondary">Contact Details</a>
+            </div>
+          </div>
 
-            <div style="border-radius:var(--radius-lg); overflow:hidden; border:1px solid var(--border-light); background:var(--bg-main); padding:1.25rem; text-align:center;">
-              <img src="/images/dental-paradise-card.jpg" alt="Dental Paradise Clinic Card" style="width:100%; border-radius:var(--radius-md); box-shadow:var(--shadow-sm); margin-bottom:1rem;" />
-              <p style="font-size:0.8rem; color:var(--text-muted);">Official Clinic Information & Visiting Card</p>
-            </div>
+          <div style="border-radius:var(--radius-lg); overflow:hidden; border:1px solid var(--border-light); background:var(--bg-main); padding:1.25rem; text-align:center;">
+            <img src="/images/dental-paradise-card.jpg" alt="Dental Paradise Clinic Card" style="width:100%; border-radius:var(--radius-md); box-shadow:var(--shadow-sm); margin-bottom:1rem;" />
+            <p style="font-size:0.8rem; color:var(--text-muted);">Official Clinic Information & Visiting Card</p>
           </div>
         </div>
       </div>

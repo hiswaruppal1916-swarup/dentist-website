@@ -9,9 +9,9 @@ export function renderContactPage() {
         </p>
       </div>
 
-      <div style="display:grid; grid-template-columns:1.2fr 1fr; gap:3rem; align-items:flex-start; margin-bottom:3rem;">
+      <div class="responsive-two-col" style="align-items:flex-start; margin-bottom:3rem;">
         <!-- Left: Clinic Details -->
-        <div style="background:#FFFFFF; border:1px solid var(--border-light); border-radius:var(--radius-xl); padding:2.5rem; box-shadow:var(--shadow-md);">
+        <div class="responsive-card-box">
           <h2 style="font-size:1.8rem; margin-bottom:1.5rem; color:var(--color-secondary);">Dental Paradise</h2>
 
           <div style="display:flex; flex-direction:column; gap:1.25rem; font-size:0.95rem; margin-bottom:2rem;">
