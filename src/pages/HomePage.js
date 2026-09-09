@@ -248,7 +248,7 @@ export async function renderHomePage() {
     <!-- Doctor Profile Preview Section -->
     <section class="section">
       <div class="container">
-        <div style="display:grid; grid-template-columns:1fr 1.2fr; gap:3.5rem; align-items:center; background:#FFFFFF; border:1px solid var(--border-light); border-radius:var(--radius-xl); padding:3rem; box-shadow:var(--shadow-md);">
+        <div class="two-col-feature" style="background:#FFFFFF; border:1px solid var(--border-light); border-radius:var(--radius-xl); padding:2.5rem; box-shadow:var(--shadow-md);">
           <div>
             <div style="border-radius:var(--radius-lg); overflow:hidden; box-shadow:var(--shadow-lg);">
               <img src="/images/dr-supriyo-sahu.jpg" alt="Dr. Supriyo Sahu" style="width:100%; height:100%; object-fit:cover;" />
@@ -326,7 +326,7 @@ export async function renderHomePage() {
           <p class="section-desc">Honest reviews from families and patients in Math Chandipur and nearby areas.</p>
         </div>
 
-        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:2rem;">
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:1.5rem;">
           ${reviewsHtml}
         </div>
 
@@ -339,8 +339,8 @@ export async function renderHomePage() {
     <!-- Location & Directions Section -->
     <section class="section">
       <div class="container">
-        <div style="background:#FFFFFF; border:1px solid var(--border-light); border-radius:var(--radius-xl); padding:3rem; box-shadow:var(--shadow-md);">
-          <div style="display:grid; grid-template-columns:1.2fr 1fr; gap:3rem; align-items:center;">
+        <div style="background:#FFFFFF; border:1px solid var(--border-light); border-radius:var(--radius-xl); padding:2.5rem; box-shadow:var(--shadow-md);">
+          <div class="two-col-feature reverse">
             <div>
               <span class="section-tag">Visit Our Clinic</span>
               <h2 style="font-size:2rem; margin-bottom:1rem;">Convenient Location in Math Chandipur</h2>
@@ -361,7 +361,7 @@ export async function renderHomePage() {
               </div>
             </div>
 
-            <div style="border-radius:var(--radius-lg); overflow:hidden; border:1px solid var(--border-light); background:var(--bg-main); padding:1.5rem; text-align:center;">
+            <div style="border-radius:var(--radius-lg); overflow:hidden; border:1px solid var(--border-light); background:var(--bg-main); padding:1.25rem; text-align:center;">
               <img src="/images/dental-paradise-card.jpg" alt="Dental Paradise Clinic Card" style="width:100%; border-radius:var(--radius-md); box-shadow:var(--shadow-sm); margin-bottom:1rem;" />
               <p style="font-size:0.8rem; color:var(--text-muted);">Official Clinic Information & Visiting Card</p>
             </div>

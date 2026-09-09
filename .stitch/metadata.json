@@ -1,0 +1,35 @@
+{
+  "name": "projects/5248741634450652171",
+  "projectId": "5248741634450652171",
+  "title": "Dental Paradise Mobile PWA",
+  "visibility": "PRIVATE",
+  "projectType": "PROJECT_DESIGN",
+  "origin": "STITCH",
+  "deviceType": "MOBILE",
+  "designTheme": {
+    "colorMode": "LIGHT",
+    "primaryColor": "#00A896",
+    "secondaryColor": "#0B2545",
+    "font": "OUTFIT",
+    "roundness": "ROUND_TWELVE"
+  },
+  "screens": {
+    "home": {
+      "id": "950c72bb87174b8786d3a31e797028ea",
+      "sourceScreen": "projects/5248741634450652171/screens/950c72bb87174b8786d3a31e797028ea",
+      "designSystem": "Clinical Sanctuary",
+      "width": 780,
+      "height": 3470
+    },
+    "booking": {
+      "width": 390,
+      "height": 844,
+      "title": "5-Step Appointment Wizard"
+    },
+    "admin": {
+      "width": 390,
+      "height": 844,
+      "title": "Doctor Queue Portal"
+    }
+  }
+}

@@ -145,7 +145,7 @@ function renderDashboardView(userEmail, settings) {
         </div>
       </div>
 
-      <!-- Appointments Queue Table -->
+      <!-- Appointments Queue Table (Desktop View) -->
       <div class="admin-table-wrapper">
         <table class="admin-table" id="admin-appointments-table">
           <thead>
@@ -163,6 +163,11 @@ function renderDashboardView(userEmail, settings) {
             <tr><td colspan="7" style="text-align:center; padding:2rem; color:var(--color-primary);">Loading appointments queue...</td></tr>
           </tbody>
         </table>
+      </div>
+
+      <!-- Mobile Appointments Queue Cards (Shown on mobile devices <= 768px) -->
+      <div class="admin-mobile-cards" id="appointments-mobile-cards">
+        <div style="text-align:center; padding:2rem 0; color:var(--color-primary);">Loading appointments queue...</div>
       </div>
 
       <!-- Quick Schedule Settings Section -->
@@ -288,11 +293,15 @@ export function initAdminEvents() {
       // Update metrics for today
       updateTodayMetrics();
 
+      const mobileCards = document.getElementById('appointments-mobile-cards');
+
       if (!data || data.length === 0) {
         tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; padding:2rem; color:var(--text-muted);">No appointments found for this filter.</td></tr>';
+        if (mobileCards) mobileCards.innerHTML = '<div style="text-align:center; padding:2rem 0; color:var(--text-muted);">No appointments found for this filter.</div>';
         return;
       }
 
+      // 1. Desktop Table Rows
       tbody.innerHTML = data.map((apt, index) => {
         return `
           <tr>
@@ -347,6 +356,58 @@ export function initAdminEvents() {
           </tr>
         `;
       }).join('');
+
+      // 2. Mobile Responsive Cards
+      if (mobileCards) {
+        mobileCards.innerHTML = data.map((apt, index) => {
+          return `
+            <div class="admin-apt-card">
+              <div class="admin-apt-card-header">
+                <div>
+                  <span style="font-weight:800; font-size:1.25rem; color:var(--color-primary);">#${apt.queue_number || (index + 1)}</span>
+                  <span style="font-size:0.8rem; color:var(--text-light); margin-left:0.5rem;">${formatDisplayDate(apt.appointment_date)}</span>
+                </div>
+                <span class="status-badge ${apt.status}">● ${apt.status}</span>
+              </div>
+
+              <div class="admin-apt-card-body">
+                <div style="font-size:1.05rem; font-weight:700; color:var(--color-secondary);">${apt.patient_name}</div>
+                <div style="font-size:0.88rem; color:var(--color-primary); font-weight:600;">⏰ ${formatDisplayTime(apt.appointment_time)} • 🦷 ${apt.treatment_name}</div>
+                <div style="display:flex; gap:0.75rem; align-items:center; margin-top:0.25rem;">
+                  <a href="tel:${apt.patient_phone}" class="btn btn-outline btn-sm" style="flex:1;">📞 Call ${apt.patient_phone}</a>
+                  <a href="https://wa.me/91${apt.patient_phone}" target="_blank" class="btn btn-whatsapp btn-sm" style="flex:1;">💬 WhatsApp</a>
+                </div>
+                ${apt.message ? `<div style="font-size:0.8rem; color:#64748B; font-style:italic; background:var(--bg-main); padding:0.5rem; border-radius:var(--radius-sm); margin-top:0.4rem;">"${apt.message}"</div>` : ''}
+              </div>
+
+              <div class="admin-apt-card-actions">
+                ${apt.status === 'pending' ? `
+                  <button class="btn btn-primary btn-sm action-btn" data-id="${apt.id}" data-action="confirmed">✓ Accept</button>
+                  <button class="btn btn-outline btn-sm action-btn" data-id="${apt.id}" data-action="rejected" style="border-color:#EF4444; color:#EF4444;">✕ Reject</button>
+                ` : ''}
+
+                ${apt.status === 'confirmed' ? `
+                  <button class="btn btn-outline btn-sm action-btn" data-id="${apt.id}" data-action="arrived" style="border-color:#3B82F6; color:#3B82F6;">Mark Arrived</button>
+                  <button class="btn btn-outline btn-sm action-btn" data-id="${apt.id}" data-action="cancelled" style="border-color:#6B7280; color:#6B7280;">Cancel</button>
+                ` : ''}
+
+                ${apt.status === 'arrived' ? `
+                  <button class="btn btn-primary btn-sm action-btn" data-id="${apt.id}" data-action="in_consultation" style="background:#8B5CF6; color:#FFFFFF;">Start Consult</button>
+                ` : ''}
+
+                ${apt.status === 'in_consultation' ? `
+                  <button class="btn btn-primary btn-sm action-btn" data-id="${apt.id}" data-action="completed" style="background:#059669; color:#FFFFFF;">Mark Completed</button>
+                ` : ''}
+
+                ${apt.status === 'completed' || apt.status === 'rejected' || apt.status === 'cancelled' ? `
+                  <span style="font-size:0.8rem; color:#94A3B8; padding:0.4rem;">Status Finished</span>
+                ` : ''}
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+
 
       // Attach action listeners
       document.querySelectorAll('.action-btn').forEach(btn => {
