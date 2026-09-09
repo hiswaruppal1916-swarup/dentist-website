@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 280" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F0F9F8"/>
+      <stop offset="100%" stop-color="#E1F3F1"/>
+    </linearGradient>
+    <filter id="cardShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#0B2545" flood-opacity="0.08"/>
+    </filter>
+  </defs>
+  <rect width="400" height="280" rx="16" fill="url(#bgGrad)"/>
+  <circle cx="340" cy="50" r="70" fill="#00A896" opacity="0.08"/>
+  <circle cx="60" cy="220" r="90" fill="#0B2545" opacity="0.05"/>
+  
+  <g filter="url(#cardShadow)">
+    <rect x="110" y="35" width="180" height="160" rx="20" fill="#FFFFFF"/>
+    <circle cx="200" cy="115" r="48" fill="#F0F9F8"/>
+    <g transform="translate(160, 75) scale(1.6)">
+      <path d="M12 18 C12 10, 38 10, 38 18 C38 28, 25 38, 25 38 C25 38, 12 28, 12 18 Z" fill="none" stroke="#028090" stroke-width="2"/>
+           <circle cx="25" cy="20" r="6" fill="#00A896" opacity="0.3"/>
+           <circle cx="25" cy="20" r="6" fill="none" stroke="#00A896" stroke-width="1.5"/>
+           <path d="M34 8 L28 14" stroke="#E76F51" stroke-width="2" stroke-linecap="round"/>
+    </g>
+  </g>
+  
+  <rect x="70" y="215" width="260" height="34" rx="17" fill="#0B2545"/>
+  <text x="200" y="237" fill="#FFFFFF" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="700" text-anchor="middle" letter-spacing="0.5">ORAL & CYSTIC SURGERY</text>
+</svg>

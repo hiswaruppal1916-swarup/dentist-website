@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 280" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F0F9F8"/>
+      <stop offset="100%" stop-color="#E1F3F1"/>
+    </linearGradient>
+    <filter id="cardShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#0B2545" flood-opacity="0.08"/>
+    </filter>
+  </defs>
+  <rect width="400" height="280" rx="16" fill="url(#bgGrad)"/>
+  <circle cx="340" cy="50" r="70" fill="#00A896" opacity="0.08"/>
+  <circle cx="60" cy="220" r="90" fill="#0B2545" opacity="0.05"/>
+  
+  <g filter="url(#cardShadow)">
+    <rect x="110" y="35" width="180" height="160" rx="20" fill="#FFFFFF"/>
+    <circle cx="200" cy="115" r="48" fill="#F0F9F8"/>
+    <g transform="translate(160, 75) scale(1.6)">
+      <path d="M16 8 C18 4, 32 4, 34 8 C38 12, 38 20, 34 24 C32 28, 31 36, 28 36 C26 36, 26 28, 25 28 C24 28, 24 36, 22 36 C19 36, 18 28, 16 24 C12 20, 12 12, 16 8 Z" fill="none" stroke="#00A896" stroke-width="2"/>
+           <path d="M25 6 L23 13 L27 18 L25 26" stroke="#E63946" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+  </g>
+  
+  <rect x="70" y="215" width="260" height="34" rx="17" fill="#0B2545"/>
+  <text x="200" y="237" fill="#FFFFFF" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="700" text-anchor="middle" letter-spacing="0.5">FRACTURED TOOTH CARE</text>
+</svg>
