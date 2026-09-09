@@ -9,6 +9,11 @@ dist/
 dist-ssr/
 *.local
 
+# Environment variables & Private keys
+.env
+.env.local
+.env.*.local
+
 # Editor & System
 .vscode/
 .idea/
