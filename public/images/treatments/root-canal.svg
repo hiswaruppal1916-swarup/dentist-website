@@ -1,28 +1,43 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 280" width="100%" height="100%">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 320" width="100%" height="100%">
   <defs>
-    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#F0F9F8"/>
-      <stop offset="100%" stop-color="#E1F3F1"/>
+    <linearGradient id="bgGrad_ROOTCANALTHERAPYRCT" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F0FDFA"/>
+      <stop offset="100%" stop-color="#CCFBF1"/>
     </linearGradient>
-    <filter id="cardShadow" x="-10%" y="-10%" width="120%" height="120%">
-      <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#0B2545" flood-opacity="0.08"/>
+    <filter id="cardGlow_ROOTCANALTHERAPYRCT" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#0D9488" flood-opacity="0.18"/>
     </filter>
+    <radialGradient id="mesh_ROOTCANALTHERAPYRCT" cx="80%" cy="20%" r="60%">
+      <stop offset="0%" stop-color="#14B8A6" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#14B8A6" stop-opacity="0"/>
+    </radialGradient>
   </defs>
-  <rect width="400" height="280" rx="16" fill="url(#bgGrad)"/>
-  <circle cx="340" cy="50" r="70" fill="#00A896" opacity="0.08"/>
-  <circle cx="60" cy="220" r="90" fill="#0B2545" opacity="0.05"/>
   
-  <g filter="url(#cardShadow)">
-    <rect x="110" y="35" width="180" height="160" rx="20" fill="#FFFFFF"/>
-    <circle cx="200" cy="115" r="48" fill="#F0F9F8"/>
-    <g transform="translate(160, 75) scale(1.6)">
-      <path d="M15 6 C17 2, 33 2, 35 6 C39 10, 39 18, 35 24 C33 27, 32 34, 29 34 C27 34, 27 27, 25 27 C23 27, 23 34, 21 34 C18 34, 17 27, 15 24 C11 18, 11 10, 15 6 Z" fill="none" stroke="#00A896" stroke-width="2"/>
-           <path d="M23 14 L23 30" stroke="#E63946" stroke-width="2" stroke-linecap="round"/>
-           <path d="M27 14 L27 30" stroke="#E63946" stroke-width="2" stroke-linecap="round"/>
-           <circle cx="25" cy="12" r="2" fill="#E63946"/>
+  <!-- Outer Card Canvas -->
+  <rect width="480" height="320" rx="20" fill="url(#bgGrad_ROOTCANALTHERAPYRCT)"/>
+  <rect width="480" height="320" rx="20" fill="url(#mesh_ROOTCANALTHERAPYRCT)"/>
+  
+  <!-- Ambient Graphic Rings -->
+  <circle cx="410" cy="70" r="90" fill="#0D9488" opacity="0.08"/>
+  <circle cx="70" cy="250" r="110" fill="#001428" opacity="0.04"/>
+  
+  <!-- Central Sterile Medical Emblem Container -->
+  <g filter="url(#cardGlow_ROOTCANALTHERAPYRCT)">
+    <rect x="135" y="45" width="210" height="185" rx="24" fill="#FFFFFF"/>
+    <rect x="135" y="45" width="210" height="185" rx="24" fill="none" stroke="#0D9488" stroke-width="1.5" stroke-opacity="0.2"/>
+    <circle cx="240" cy="138" r="60" fill="#F0FDFA" stroke="#0D9488" stroke-width="1" stroke-dasharray="4 4" stroke-opacity="0.4"/>
+    <g transform="translate(192, 90) scale(2.0)">
+      <path d="M15 6 C17 2, 33 2, 35 6 C39 10, 39 18, 35 24 C33 27, 32 34, 29 34 C27 34, 27 27, 25 27 C23 27, 23 34, 21 34 C18 34, 17 27, 15 24 C11 18, 11 10, 15 6 Z" fill="none" stroke="#0D9488" stroke-width="2"/>
+           <path d="M22 13 L22 30" stroke="#EF4444" stroke-width="2.2" stroke-linecap="round"/>
+           <path d="M26 13 L26 30" stroke="#EF4444" stroke-width="2.2" stroke-linecap="round"/>
+           <circle cx="24" cy="11" r="2.5" fill="#EF4444"/>
     </g>
   </g>
   
-  <rect x="70" y="215" width="260" height="34" rx="17" fill="#0B2545"/>
-  <text x="200" y="237" fill="#FFFFFF" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="700" text-anchor="middle" letter-spacing="0.5">ROOT CANAL THERAPY</text>
+  <!-- Lower Title Pill -->
+  <g transform="translate(85, 252)">
+    <rect width="310" height="42" rx="21" fill="#001428" filter="drop-shadow(0 4px 8px rgba(0, 20, 40, 0.2))"/>
+    <circle cx="24" cy="21" r="6" fill="#14B8A6"/>
+    <text x="160" y="26" fill="#FFFFFF" font-family="'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" font-size="13" font-weight="700" text-anchor="middle" letter-spacing="0.6">ROOT CANAL THERAPY (RCT)</text>
+  </g>
 </svg>

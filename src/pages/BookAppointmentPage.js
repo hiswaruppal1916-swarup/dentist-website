@@ -8,23 +8,29 @@ export async function renderBookAppointmentPage(preselectedTreatment = '') {
   try {
     const { data } = await supabase
       .from('treatments')
-      .select('id, name_en, name_bn, icon_svg')
+      .select('id, name_en, name_bn, image_url, icon_svg')
       .eq('is_active', true)
       .order('display_order', { ascending: true });
-    if (data) treatments = data;
+    if (data && data.length > 0) treatments = data;
   } catch (e) {
     console.warn('Could not fetch treatments from db, using fallback');
   }
 
   // Fallback treatments if database is offline/empty
-  if (treatments.length === 0) {
+  if (!treatments || treatments.length === 0) {
     treatments = [
-      { id: '1', name_en: 'General Dental Consultation', name_bn: 'সাধারণ ডেন্টাল চেকআপ', icon_svg: '/images/treatments/general-consultation.svg' },
-      { id: '2', name_en: 'Root Canal Treatment (RCT)', name_bn: 'রুট ক্যানাল ট্রিটমেন্ট', icon_svg: '/images/treatments/root-canal.svg' },
-      { id: '3', name_en: 'Teeth Scaling & Polishing', name_bn: 'দাঁত পরিষ্কার ও স্কেলিং', icon_svg: '/images/treatments/teeth-scaling.svg' },
-      { id: '4', name_en: 'Dental Crowns & Bridges', name_bn: 'দাঁতের ক্যাপ ও ব্রিজ', icon_svg: '/images/treatments/dental-crowns.svg' },
-      { id: '5', name_en: 'Painless Tooth Extraction', name_bn: 'ব্যথাহীন দাঁত তোলা', icon_svg: '/images/treatments/tooth-extraction.svg' },
-      { id: '6', name_en: 'Dental Fillings & Restoration', name_bn: 'দাঁতের ফিলিং ও ক্যাভিটি চিকিৎসা', icon_svg: '/images/treatments/dental-fillings.svg' }
+      { id: '1', name_en: 'Root Canal Treatment (RCT)', name_bn: 'রুট ক্যানাল ট্রিটমেন্ট', image_url: '/images/treatments/root-canal.svg' },
+      { id: '2', name_en: 'Impaction Surgery / Wisdom Tooth Removal', name_bn: 'ইমপ্যাকশন ও উইজডম দাঁত সার্জারি', image_url: '/images/treatments/wisdom-tooth.svg' },
+      { id: '3', name_en: 'Painless Tooth Extraction', name_bn: 'ব্যথাহীন দাঁত তোলা', image_url: '/images/treatments/tooth-extraction.svg' },
+      { id: '4', name_en: 'Crown, Bridge & Dental Prosthesis', name_bn: 'ক্রাউন ও ব্রিজ / কৃত্রিম দাঁত', image_url: '/images/treatments/crown-bridge.svg' },
+      { id: '5', name_en: 'Scaling & Teeth Polishing', name_bn: 'দাঁতের স্কেলিং ও পলিশিং', image_url: '/images/treatments/scaling-polishing.svg' },
+      { id: '6', name_en: 'Restoration & Tooth-Colored Fillings', name_bn: 'দাঁতের ফিলিং ও রেস্টোরেশন', image_url: '/images/treatments/dental-filling.svg' },
+      { id: '7', name_en: 'Orthodontic Treatment (Braces & Aligners)', name_bn: 'দাঁতের তার বা অর্থোডন্টিক চিকিৎসা', image_url: '/images/treatments/orthodontics.svg' },
+      { id: '8', name_en: 'Pediatric Oral & Dental Care', name_bn: 'শিশুদের দাঁতের বিশেষ যত্ন', image_url: '/images/treatments/pediatric-dentistry.svg' },
+      { id: '9', name_en: 'Fractured Teeth & Dental Trauma Care', name_bn: 'ভাঙা দাঁত ও ট্রমা চিকিৎসা', image_url: '/images/treatments/fractured-tooth.svg' },
+      { id: '10', name_en: 'Cosmetic Dentistry & Smile Designing', name_bn: 'কসমেটিক ডেন্টিস্ট্রি ও স্মাইল ডিজাইনিং', image_url: '/images/treatments/smile-design.svg' },
+      { id: '11', name_en: 'Minor Oral Surgery & Cystic Surgery', name_bn: 'মাইনর ওরাল সার্জারি ও সিস্ট সার্জারি', image_url: '/images/treatments/oral-surgery.svg' },
+      { id: '12', name_en: 'Full Mouth Reconstruction & Bone Grafting', name_bn: 'ফুল মাউথ রিকনস্ট্রাকশন ও বোন গ্রাফটিং', image_url: '/images/treatments/full-reconstruction.svg' }
     ];
   }
 
@@ -41,7 +47,7 @@ export async function renderBookAppointmentPage(preselectedTreatment = '') {
 
   const treatmentCardsHtml = treatments.map(t => {
     const isSelected = preselectedTreatment && preselectedTreatment.toLowerCase() === t.name_en.toLowerCase();
-    const iconPath = t.icon_svg || '/images/treatments/general-consultation.svg';
+    const iconPath = t.image_url || t.icon_svg || '/images/treatments/general-consultation.svg';
     return `
       <div class="treatment-select-card ${isSelected ? 'selected' : ''}" data-treatment="${t.name_en}">
         <img src="${iconPath}" alt="${t.name_en}" class="treatment-select-icon" onerror="this.src='/favicon.svg'" />

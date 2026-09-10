@@ -2,18 +2,47 @@ import { supabase } from '../services/supabase.js';
 import { formatDisplayDate, formatDisplayTime } from '../utils/schedule.js';
 import { NotificationService } from '../services/notifications.js';
 
+export const AUTHORIZED_DOCTOR_EMAIL = 'supriyosahu96@gmail.com';
+
 export async function renderAdminDashboardPage() {
   // Check auth session
   const { data: { session } } = await supabase.auth.getSession();
 
   if (!session) {
-    return renderLoginView();
+    // Redirect unauthenticated user to /doctor-login
+    setTimeout(() => {
+      window.history.replaceState({}, '', '/doctor-login');
+      window.dispatchEvent(new PopStateEvent('popstate'));
+    }, 50);
+    return `
+      <div class="container section" style="text-align:center; padding:5rem 1rem;">
+        <span class="material-symbols-outlined text-[36px] text-secondary animate-spin">sync</span>
+        <h2 style="font-size:1.25rem; margin-top:1rem; color:var(--color-primary);">Redirecting to Doctor Login...</h2>
+        <p style="color:var(--color-on-surface-variant); font-size:0.85rem; margin-top:0.5rem;">Please wait while we verify administrative access.</p>
+      </div>
+    `;
   }
 
-  const userEmail = session.user.email;
+  const normalizedUserEmail = session.user.email?.trim().toLowerCase();
 
-  // Check if email is in authorized_admin_emails
-  let isAuthorized = false;
+  // Enforce single authorized doctor account
+  if (normalizedUserEmail !== AUTHORIZED_DOCTOR_EMAIL) {
+    await supabase.auth.signOut();
+    setTimeout(() => {
+      window.history.replaceState({}, '', '/doctor-login?error=unauthorized');
+      window.dispatchEvent(new PopStateEvent('popstate'));
+    }, 50);
+    return `
+      <div class="container section" style="text-align:center; padding:5rem 1rem;">
+        <div style="font-size:2.5rem; margin-bottom:1rem;">🚫</div>
+        <h2 style="font-size:1.4rem; color:var(--color-error);">Unauthorized Account</h2>
+        <p style="color:var(--color-on-surface-variant); font-size:0.9rem; margin-top:0.5rem;">
+          The account <strong>${session.user.email}</strong> is not permitted. Only Dr. Supriyo Sahu can access this dashboard.
+        </p>
+      </div>
+    `;
+  }
+
   let clinicSettings = null;
   try {
     const { data } = await supabase
@@ -21,20 +50,12 @@ export async function renderAdminDashboardPage() {
       .select('*')
       .eq('id', 1)
       .single();
-    
     clinicSettings = data;
-    if (data && data.authorized_admin_emails) {
-      isAuthorized = data.authorized_admin_emails.includes(userEmail);
-    }
   } catch (e) {
-    console.error('Error verifying admin authorization', e);
+    console.error('Error loading clinic settings', e);
   }
 
-  if (!isAuthorized) {
-    return renderUnauthorizedView(userEmail);
-  }
-
-  return renderDashboardView(userEmail, clinicSettings);
+  return renderDashboardView(normalizedUserEmail, clinicSettings);
 }
 
 function renderLoginView() {
@@ -237,8 +258,11 @@ export function initAdminEvents() {
 
   if (signoutBtn) {
     signoutBtn.addEventListener('click', async () => {
+      signoutBtn.disabled = true;
+      signoutBtn.innerHTML = 'Signing Out...';
       await supabase.auth.signOut();
-      window.location.reload();
+      window.history.replaceState({}, '', '/doctor-login');
+      window.dispatchEvent(new PopStateEvent('popstate'));
     });
   }
 

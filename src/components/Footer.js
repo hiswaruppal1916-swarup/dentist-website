@@ -63,7 +63,7 @@ export function renderFooter() {
                 <strong>Friday:</strong> CLOSED
               </p>
               <div style="margin-top:1.25rem;">
-                <a href="/admin" style="font-size:0.8rem; color:#64748B; text-decoration:underline;">Doctor / Staff Portal</a>
+                <a href="/doctor-login" style="font-size:0.8rem; color:#64748B; text-decoration:underline;">Doctor / Staff Portal</a>
               </div>
             </div>
           </div>

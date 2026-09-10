@@ -4,147 +4,138 @@ export function renderHeader(activeRoute = '/') {
   const todayStr = new Date().toISOString().split('T')[0];
   const isClosedToday = isClinicClosedOnDate(todayStr);
 
-  const statusBadge = isClosedToday 
-    ? `<span class="badge-closed">● Clinic Closed Today</span>`
-    : `<span class="badge-open">● Open Today: 8 AM–12 PM & 4 PM–8 PM</span>`;
-
   return `
-    <div class="header-banner">
-      <div class="container banner-content">
-        <div class="banner-left">
-          <span>📍 Math Chandipur Market, Behind Life Care Diagnostic Center (PIN 721659)</span>
-        </div>
-        <div class="banner-right">
-          ${statusBadge}
-          <a href="tel:9733835105" style="color:#00A896; font-weight:600;">📞 9733835105</a>
-        </div>
+    <!-- Operational Status Sub-Bar -->
+    <div class="operational-status-strip">
+      <div class="status-pulse-group">
+        <span class="pulse-dot" style="${isClosedToday ? 'background:var(--color-error); box-shadow:none;' : ''}"></span>
+        <span style="font-weight:700; color:${isClosedToday ? 'var(--color-error)' : 'var(--color-secondary)'};">
+          ${isClosedToday ? 'Closed Today' : 'Open Today'}
+        </span>
+        <span style="color:var(--color-on-surface-variant); font-size:0.75rem;">
+          • ${isClosedToday ? 'Next open: 8 AM-12 PM' : '8:00 AM – 12:00 PM & 4:00 PM – 8:00 PM'}
+        </span>
+      </div>
+      <div class="closed-badge-pill">
+        Closed: Mon &amp; Fri
       </div>
     </div>
 
-    <nav class="site-nav">
-      <div class="container nav-content">
-        <a href="/" class="logo-brand">
-          <img src="/favicon.svg" alt="Dental Paradise Logo" class="logo-img" />
-          <div class="logo-text">
-            <span class="logo-title">Dental Paradise</span>
-            <span class="logo-sub">A Complete Oral & Dental Care</span>
+    <!-- Main Header Bar -->
+    <header class="site-header">
+      <div class="container site-nav-container">
+        <!-- Brand / Clinic Name -->
+        <a href="/" class="brand-wrapper" aria-label="Dental Paradise Home">
+          <div class="brand-icon-box">
+            <span class="material-symbols-outlined text-[22px]" style="font-variation-settings: 'FILL' 1;">dentistry</span>
+          </div>
+          <div class="brand-text-box">
+            <span class="brand-name">Dental Paradise</span>
+            <span class="brand-sub">Dr. Supriyo Sahu • Math Chandipur</span>
           </div>
         </a>
 
-        <ul class="nav-links">
-          <li><a href="/" class="nav-link ${activeRoute === '/' ? 'active' : ''}">Home</a></li>
-          <li><a href="/about" class="nav-link ${activeRoute === '/about' ? 'active' : ''}">About</a></li>
-          <li><a href="/doctors/dr-supriyo-sahu" class="nav-link ${activeRoute.startsWith('/doctors') ? 'active' : ''}">Doctor Profile</a></li>
-          <li><a href="/treatments" class="nav-link ${activeRoute.startsWith('/treatments') ? 'active' : ''}">Treatments</a></li>
-          <li><a href="/reviews" class="nav-link ${activeRoute === '/reviews' ? 'active' : ''}">Reviews</a></li>
-          <li><a href="/appointment-status" class="nav-link ${activeRoute === '/appointment-status' ? 'active' : ''}">Check Status</a></li>
-          <li><a href="/contact" class="nav-link ${activeRoute === '/contact' ? 'active' : ''}">Contact</a></li>
-          <li><a href="/stitch" class="nav-link nav-stitch-pill ${activeRoute.startsWith('/stitch') ? 'active' : ''}">✨ Stitch UI</a></li>
+        <!-- Desktop Navigation Links -->
+        <ul class="desktop-nav-links">
+          <li><a href="/" class="desktop-nav-link ${activeRoute === '/' ? 'active' : ''}">Home</a></li>
+          <li><a href="/doctors/dr-supriyo-sahu" class="desktop-nav-link ${activeRoute.startsWith('/doctors') ? 'active' : ''}">Doctor Profile</a></li>
+          <li><a href="/treatments" class="desktop-nav-link ${activeRoute.startsWith('/treatments') ? 'active' : ''}">Treatments</a></li>
+          <li><a href="/appointment-status" class="desktop-nav-link ${activeRoute === '/appointment-status' ? 'active' : ''}">Check Queue</a></li>
+          <li><a href="/about" class="desktop-nav-link ${activeRoute === '/about' ? 'active' : ''}">About Clinic</a></li>
+          <li><a href="/contact" class="desktop-nav-link ${activeRoute === '/contact' ? 'active' : ''}">Contact</a></li>
         </ul>
 
-        <div class="nav-actions">
-          <a href="https://wa.me/919733835105?text=Hello%20Dental%20Paradise,%20I%20would%20like%20to%20inquire%20about%20dental%20care." target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp btn-sm nav-desktop-only">
-            <span>WhatsApp</span>
-          </a>
-          <a href="/book-appointment" class="btn btn-primary btn-sm nav-desktop-only">
-            <span>Book Appointment</span>
-          </a>
-          
-          <!-- Mobile Top Quick Call -->
-          <a href="tel:9733835105" class="mobile-quick-call" aria-label="Call Doctor Directly">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-            </svg>
+        <!-- Right Header Actions (Visible on Mobile & Desktop) -->
+        <div class="header-right-actions">
+          <!-- Direct Doctor Portal Access Button (Top Area Requirement) -->
+          <a href="/doctor-login" class="doctor-portal-pill" title="Authorized Doctor Portal" aria-label="Doctor Portal">
+            <span class="material-symbols-outlined text-[16px]">lock</span>
+            <span>Doctor Portal</span>
           </a>
 
-          <button class="mobile-toggle" id="mobile-toggle" aria-label="Open Navigation Menu">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <line x1="3" y1="12" x2="21" y2="12"></line>
-              <line x1="3" y1="6" x2="21" y2="6"></line>
-              <line x1="3" y1="18" x2="21" y2="18"></line>
-            </svg>
+          <!-- Quick Call Direct Button -->
+          <a href="tel:9733835105" class="quick-call-btn" aria-label="Call Doctor Directly" title="Call Clinic Directly">
+            <span class="material-symbols-outlined text-[18px]">call</span>
+          </a>
+
+          <!-- Book CTA for Desktop -->
+          <a href="/book-appointment" class="btn btn-secondary btn-sm" style="display:none;" id="desktop-book-btn">
+            <span>Book Appointment</span>
+          </a>
+
+          <!-- Mobile Hamburger Menu Button -->
+          <button class="menu-toggle-btn" id="mobile-toggle" aria-label="Open Mobile Menu">
+            <span class="material-symbols-outlined text-[22px]">menu</span>
           </button>
         </div>
       </div>
-    </nav>
+    </header>
 
-    <!-- Mobile Navigation Drawer -->
+    <!-- Mobile Slide-over Drawer -->
     <div class="mobile-drawer" id="mobile-drawer">
       <div class="drawer-panel">
         <div class="drawer-header">
-          <div class="logo-text">
-            <span class="logo-title">Dental Paradise</span>
-            <span class="logo-sub">Dr. Supriyo Sahu</span>
+          <div class="brand-text-box">
+            <span class="brand-name">Dental Paradise</span>
+            <span class="brand-sub">Dr. Supriyo Sahu</span>
           </div>
-          <button id="drawer-close" aria-label="Close Menu" style="background:none; border:none; font-size:1.75rem; cursor:pointer; color:var(--text-main); line-height:1;">&times;</button>
+          <button id="drawer-close" aria-label="Close Menu" style="background:none; border:none; font-size:1.75rem; cursor:pointer; color:var(--color-primary); line-height:1;">&times;</button>
         </div>
+
         <ul class="drawer-links">
-          <li><a href="/" class="${activeRoute === '/' ? 'active' : ''}">🏠 Home</a></li>
-          <li><a href="/about" class="${activeRoute === '/about' ? 'active' : ''}">🏥 About Clinic</a></li>
-          <li><a href="/doctors/dr-supriyo-sahu" class="${activeRoute.startsWith('/doctors') ? 'active' : ''}">👨‍⚕️ Dr. Supriyo Sahu</a></li>
-          <li><a href="/treatments" class="${activeRoute.startsWith('/treatments') ? 'active' : ''}">🦷 All Treatments (12)</a></li>
-          <li><a href="/book-appointment" class="${activeRoute === '/book-appointment' ? 'active' : ''}" style="color:var(--color-primary); font-weight:700;">📅 Book Appointment</a></li>
-          <li><a href="/appointment-status" class="${activeRoute === '/appointment-status' ? 'active' : ''}">🔍 Check Queue & Status</a></li>
-          <li><a href="/reviews" class="${activeRoute === '/reviews' ? 'active' : ''}">⭐ Patient Reviews</a></li>
-          <li><a href="/gallery" class="${activeRoute === '/gallery' ? 'active' : ''}">🖼️ Clinic Gallery</a></li>
-          <li><a href="/faq" class="${activeRoute === '/faq' ? 'active' : ''}">❓ Frequently Asked Questions</a></li>
-          <li><a href="/contact" class="${activeRoute === '/contact' ? 'active' : ''}">📍 Location & Contact</a></li>
-          <li><a href="/stitch" class="${activeRoute.startsWith('/stitch') ? 'active' : ''}" style="color:var(--color-primary); font-weight:700;">✨ Google Stitch Screens (All 4)</a></li>
-          <li style="margin-top:1rem; border-top:1px solid var(--border-light); padding-top:1rem;">
-            <a href="/admin" style="color:var(--text-light); font-size:0.85rem; font-weight:600;">🔒 Staff / Doctor Login</a>
+          <li><a href="/" class="${activeRoute === '/' ? 'active' : ''}"><span class="material-symbols-outlined">home</span> Home</a></li>
+          <li><a href="/doctors/dr-supriyo-sahu" class="${activeRoute.startsWith('/doctors') ? 'active' : ''}"><span class="material-symbols-outlined">person</span> Doctor Profile</a></li>
+          <li><a href="/treatments" class="${activeRoute.startsWith('/treatments') ? 'active' : ''}"><span class="material-symbols-outlined">medical_services</span> All Treatments (12)</a></li>
+          <li><a href="/book-appointment" class="${activeRoute === '/book-appointment' ? 'active' : ''}" style="color:var(--color-secondary); font-weight:700;"><span class="material-symbols-outlined">calendar_month</span> Book Appointment</a></li>
+          <li><a href="/appointment-status" class="${activeRoute === '/appointment-status' ? 'active' : ''}"><span class="material-symbols-outlined">schedule</span> Check Queue Status</a></li>
+          <li><a href="/reviews" class="${activeRoute === '/reviews' ? 'active' : ''}"><span class="material-symbols-outlined">star</span> Patient Reviews</a></li>
+          <li><a href="/about" class="${activeRoute === '/about' ? 'active' : ''}"><span class="material-symbols-outlined">apartment</span> About Clinic</a></li>
+          <li><a href="/gallery" class="${activeRoute === '/gallery' ? 'active' : ''}"><span class="material-symbols-outlined">photo_library</span> Clinic Gallery</a></li>
+          <li><a href="/faq" class="${activeRoute === '/faq' ? 'active' : ''}"><span class="material-symbols-outlined">help</span> FAQs</a></li>
+          <li><a href="/contact" class="${activeRoute === '/contact' ? 'active' : ''}"><span class="material-symbols-outlined">location_on</span> Location &amp; Contact</a></li>
+          <li style="margin-top:0.75rem; border-top:1px solid var(--color-outline-variant); padding-top:0.75rem;">
+            <a href="/doctor-login" style="color:var(--color-primary); font-weight:700;"><span class="material-symbols-outlined">lock</span> 🔐 Doctor Portal Login</a>
           </li>
         </ul>
-        <div style="margin-top:auto; display:flex; flex-direction:column; gap:0.6rem; padding-top:1.5rem;">
-          <a href="tel:9733835105" class="btn btn-secondary btn-sm" style="width:100%;">📞 Call Dr. Sahu (9733835105)</a>
-          <a href="https://wa.me/919733835105" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp btn-sm" style="width:100%;">💬 WhatsApp Clinic</a>
+
+        <div style="margin-top:auto; display:flex; flex-direction:column; gap:0.5rem; padding-top:1.5rem;">
+          <a href="tel:9733835105" class="btn btn-secondary btn-sm" style="width:100%;">
+            <span class="material-symbols-outlined text-[18px]">call</span>
+            <span>Call 9733835105</span>
+          </a>
+          <a href="https://wa.me/919733835105" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp btn-sm" style="width:100%;">
+            <span>WhatsApp Clinic</span>
+          </a>
         </div>
       </div>
     </div>
 
-    <!-- Native Smartphone Bottom Navigation Dock (Thumb-first UX) -->
-    <nav class="mobile-bottom-nav" aria-label="Mobile Navigation">
+    <!-- Mobile Bottom Navigation Dock (Thumb-First 1-Handed UX) -->
+    <nav class="mobile-bottom-nav" aria-label="Mobile Bottom Navigation">
       <a href="/" class="bottom-nav-item ${activeRoute === '/' ? 'active' : ''}">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-          <polyline points="9 22 9 12 15 12 15 22"></polyline>
-        </svg>
+        <span class="material-symbols-outlined text-[22px]" ${activeRoute === '/' ? "style=\"font-variation-settings: 'FILL' 1;\"" : ''}>home</span>
         <span>Home</span>
       </a>
 
       <a href="/treatments" class="bottom-nav-item ${activeRoute.startsWith('/treatments') ? 'active' : ''}">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 2C8.5 2 7 5 7 8c0 4 2 8 3 12 0 1 1 2 2 2s2-1 2-2c1-4 3-8 3-12 0-3-1.5-6-5-6z"></path>
-        </svg>
+        <span class="material-symbols-outlined text-[22px]" ${activeRoute.startsWith('/treatments') ? "style=\"font-variation-settings: 'FILL' 1;\"" : ''}>medical_services</span>
         <span>Treatments</span>
       </a>
 
       <a href="/book-appointment" class="bottom-nav-item bottom-nav-fab ${activeRoute === '/book-appointment' ? 'active' : ''}" aria-label="Book Dental Appointment">
         <div class="fab-circle">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-            <line x1="16" y1="2" x2="16" y2="6"></line>
-            <line x1="8" y1="2" x2="8" y2="6"></line>
-            <line x1="3" y1="10" x2="21" y2="10"></line>
-            <line x1="12" y1="14" x2="12" y2="18"></line>
-            <line x1="10" y1="16" x2="14" y2="16"></line>
-          </svg>
+          <span class="material-symbols-outlined text-[22px]" style="font-variation-settings: 'FILL' 1;">calendar_month</span>
         </div>
-        <span class="fab-label">Book</span>
+        <span style="font-size:0.7rem; font-weight:700; color:var(--color-secondary); margin-top:2px;">Book</span>
       </a>
 
       <a href="/appointment-status" class="bottom-nav-item ${activeRoute === '/appointment-status' ? 'active' : ''}">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="11" cy="11" r="8"></circle>
-          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-        </svg>
+        <span class="material-symbols-outlined text-[22px]" ${activeRoute === '/appointment-status' ? "style=\"font-variation-settings: 'FILL' 1;\"" : ''}>schedule</span>
         <span>Queue</span>
       </a>
 
       <a href="/contact" class="bottom-nav-item ${activeRoute === '/contact' ? 'active' : ''}">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-          <circle cx="12" cy="10" r="3"></circle>
-        </svg>
+        <span class="material-symbols-outlined text-[22px]" ${activeRoute === '/contact' ? "style=\"font-variation-settings: 'FILL' 1;\"" : ''}>location_on</span>
         <span>Clinic</span>
       </a>
     </nav>
@@ -166,5 +157,11 @@ export function initHeaderEvents() {
     drawer.addEventListener('click', (e) => {
       if (e.target === drawer) drawer.classList.remove('open');
     });
+  }
+
+  // Adjust desktop book button visibility
+  const desktopBookBtn = document.getElementById('desktop-book-btn');
+  if (desktopBookBtn && window.innerWidth >= 1024) {
+    desktopBookBtn.style.display = 'inline-flex';
   }
 }

@@ -16,9 +16,9 @@ import { renderReviewsPage, initReviewsEvents } from './pages/ReviewsPage.js';
 import { renderGalleryPage } from './pages/GalleryPage.js';
 import { renderFaqPage } from './pages/FaqPage.js';
 import { renderContactPage } from './pages/ContactPage.js';
-import { renderPrivacyPage, renderTermsPage } from './pages/LegalPages.js';
+import { supabase } from './services/supabase.js';
+import { renderDoctorLoginPage, initDoctorLoginEvents } from './pages/DoctorLoginPage.js';
 import { renderAdminDashboardPage, initAdminEvents } from './pages/AdminDashboardPage.js';
-import { renderStitchHubPage, initStitchHubEvents } from './pages/StitchHubPage.js';
 
 // SEO & Meta updates
 function updateMetadata(title, description) {
@@ -97,15 +97,25 @@ async function route() {
   } else if (path === '/terms') {
     updateMetadata('Terms & Conditions', 'Clinic guidelines, arrival rules, and clinical disclaimer.');
     mainHtml = renderTermsPage();
-  } else if (path === '/admin') {
-    updateMetadata('Doctor & Staff Portal', 'Authorized clinical administration portal for Dental Paradise.');
+  } else if (path === '/doctor-login') {
+    updateMetadata('Doctor & Staff Login', 'Authorized doctor authentication for Dr. Supriyo Sahu at Dental Paradise.');
+    mainHtml = renderDoctorLoginPage();
+    onRendered = initDoctorLoginEvents;
+  } else if (path === '/doctor-dashboard') {
+    updateMetadata('Doctor Consultation Dashboard', 'Authorized clinical administration and live queue for Dr. Supriyo Sahu.');
     mainHtml = await renderAdminDashboardPage();
     onRendered = initAdminEvents;
+  } else if (path === '/admin') {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (session && session.user?.email?.trim().toLowerCase() === 'supriyosahu96@gmail.com') {
+      window.history.replaceState({}, '', '/doctor-dashboard');
+    } else {
+      window.history.replaceState({}, '', '/doctor-login');
+    }
+    return route();
   } else if (path === '/stitch' || path.startsWith('/stitch/')) {
-    const screen = path.split('/')[2] || 'home';
-    updateMetadata('Google Stitch Design System & Screens', 'Explore the official Google Stitch screens created for Dental Paradise (Project ID: 5248741634450652171).');
-    mainHtml = renderStitchHubPage(screen);
-    onRendered = initStitchHubEvents;
+    window.history.replaceState({}, '', '/');
+    return route();
   } else {
     mainHtml = `
       <div class="container section" style="text-align:center; padding:6rem 0;">

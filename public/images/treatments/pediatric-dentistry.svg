@@ -1,28 +1,43 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 280" width="100%" height="100%">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 320" width="100%" height="100%">
   <defs>
-    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#F0F9F8"/>
-      <stop offset="100%" stop-color="#E1F3F1"/>
+    <linearGradient id="bgGrad_PEDIATRICDENTALCARE" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FEF2F2"/>
+      <stop offset="100%" stop-color="#FEE2E2"/>
     </linearGradient>
-    <filter id="cardShadow" x="-10%" y="-10%" width="120%" height="120%">
-      <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#0B2545" flood-opacity="0.08"/>
+    <filter id="cardGlow_PEDIATRICDENTALCARE" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#E11D48" flood-opacity="0.18"/>
     </filter>
+    <radialGradient id="mesh_PEDIATRICDENTALCARE" cx="80%" cy="20%" r="60%">
+      <stop offset="0%" stop-color="#FB7185" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#FB7185" stop-opacity="0"/>
+    </radialGradient>
   </defs>
-  <rect width="400" height="280" rx="16" fill="url(#bgGrad)"/>
-  <circle cx="340" cy="50" r="70" fill="#00A896" opacity="0.08"/>
-  <circle cx="60" cy="220" r="90" fill="#0B2545" opacity="0.05"/>
   
-  <g filter="url(#cardShadow)">
-    <rect x="110" y="35" width="180" height="160" rx="20" fill="#FFFFFF"/>
-    <circle cx="200" cy="115" r="48" fill="#F0F9F8"/>
-    <g transform="translate(160, 75) scale(1.6)">
-      <path d="M18 12 C20 8, 30 8, 32 12 C36 16, 36 22, 32 26 C30 29, 29 35, 27 35 C25 35, 25 29, 24 29 C23 29, 23 35, 21 35 C19 35, 18 29, 16 26 C12 22, 12 16, 18 12 Z" fill="none" stroke="#00A896" stroke-width="2"/>
-           <circle cx="21" cy="17" r="1.5" fill="#028090"/>
-           <circle cx="27" cy="17" r="1.5" fill="#028090"/>
-           <path d="M21 21 Q24 25 27 21" stroke="#028090" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <!-- Outer Card Canvas -->
+  <rect width="480" height="320" rx="20" fill="url(#bgGrad_PEDIATRICDENTALCARE)"/>
+  <rect width="480" height="320" rx="20" fill="url(#mesh_PEDIATRICDENTALCARE)"/>
+  
+  <!-- Ambient Graphic Rings -->
+  <circle cx="410" cy="70" r="90" fill="#E11D48" opacity="0.08"/>
+  <circle cx="70" cy="250" r="110" fill="#001428" opacity="0.04"/>
+  
+  <!-- Central Sterile Medical Emblem Container -->
+  <g filter="url(#cardGlow_PEDIATRICDENTALCARE)">
+    <rect x="135" y="45" width="210" height="185" rx="24" fill="#FFFFFF"/>
+    <rect x="135" y="45" width="210" height="185" rx="24" fill="none" stroke="#E11D48" stroke-width="1.5" stroke-opacity="0.2"/>
+    <circle cx="240" cy="138" r="60" fill="#FEF2F2" stroke="#E11D48" stroke-width="1" stroke-dasharray="4 4" stroke-opacity="0.4"/>
+    <g transform="translate(192, 90) scale(2.0)">
+      <path d="M18 12 C20 8, 30 8, 32 12 C36 16, 36 22, 32 26 C30 29, 29 35, 27 35 C25 35, 25 29, 24 29 C23 29, 23 35, 21 35 C19 35, 18 29, 16 26 C12 22, 12 16, 18 12 Z" fill="none" stroke="#E11D48" stroke-width="2"/>
+           <circle cx="21" cy="17" r="1.5" fill="#E11D48"/>
+           <circle cx="27" cy="17" r="1.5" fill="#E11D48"/>
+           <path d="M21 21 Q24 25 27 21" stroke="#E11D48" stroke-width="1.8" fill="none" stroke-linecap="round"/>
     </g>
   </g>
   
-  <rect x="70" y="215" width="260" height="34" rx="17" fill="#0B2545"/>
-  <text x="200" y="237" fill="#FFFFFF" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="700" text-anchor="middle" letter-spacing="0.5">PEDIATRIC DENTAL CARE</text>
+  <!-- Lower Title Pill -->
+  <g transform="translate(85, 252)">
+    <rect width="310" height="42" rx="21" fill="#0F2942" filter="drop-shadow(0 4px 8px rgba(0, 20, 40, 0.2))"/>
+    <circle cx="24" cy="21" r="6" fill="#FB7185"/>
+    <text x="160" y="26" fill="#FFFFFF" font-family="'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" font-size="13" font-weight="700" text-anchor="middle" letter-spacing="0.6">PEDIATRIC DENTAL CARE</text>
+  </g>
 </svg>

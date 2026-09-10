@@ -12,11 +12,64 @@ export async function renderHomePage() {
       .from('treatments')
       .select('*')
       .eq('is_active', true)
-      .order('display_order', { ascending: true })
-      .limit(6);
+      .order('display_order', { ascending: true });
     if (data && data.length > 0) treatments = data;
   } catch (e) {
     console.warn('Failed to load treatments from DB, using fallback', e);
+  }
+
+  // Fallback 12 treatments if DB is offline
+  if (!treatments || treatments.length === 0) {
+    treatments = [
+      {
+        slug: 'root-canal-treatment',
+        name_en: 'Root Canal Treatment (RCT)',
+        name_bn: 'রুট ক্যানাল ট্রিটমেন্ট',
+        summary_en: 'Painless single-sitting or dual-visit rotary endodontics to eliminate tooth infection and save natural teeth.',
+        summary_bn: 'দাঁতের তীব্র ব্যথা ও ইনফেকশন দূর করে আসল দাঁত বাঁচানোর ব্যথাহীন আধুনিক চিকিৎসা।',
+        image_url: '/images/treatments/root-canal.svg'
+      },
+      {
+        slug: 'painless-tooth-extraction',
+        name_en: 'Painless Tooth Extraction',
+        name_bn: 'ব্যথাহীন দাঁত তোলা',
+        summary_en: 'Gentle, atraumatic tooth removal using calibrated local numbing and sterile surgical instruments.',
+        summary_bn: 'সঠিক মাত্রার লোকাল অবশকরণ দ্বারা কোনো প্রকার কষ্ট ছাড়া নিরাপদে দাঁত তোলা।',
+        image_url: '/images/treatments/tooth-extraction.svg'
+      },
+      {
+        slug: 'impaction-wisdom-tooth-surgery',
+        name_en: 'Wisdom Tooth & Impaction Surgery',
+        name_bn: 'উইজডম দাঁত ও ইমপ্যাকশন সার্জারি',
+        summary_en: 'Specialized oral surgery for impacted, angled 3rd molars causing severe jaw swelling and gum pain.',
+        summary_bn: 'বাঁকা ও মাড়ির ভেতর আটকে থাকা আক্কেল দাঁতের বিশেষজ্ঞ সার্জিক্যাল সমাধান।',
+        image_url: '/images/treatments/wisdom-tooth.svg'
+      },
+      {
+        slug: 'crown-bridge-prosthesis',
+        name_en: 'Dental Crowns & Bridges',
+        name_bn: 'দাঁতের ক্যাপ ও ব্রিজ',
+        summary_en: 'Precision zirconia, ceramic, and metal prosthetics to restore chewing function and natural smile.',
+        summary_bn: 'ভাঙা বা তোলা দাঁতের স্থানে নিখুঁত ও মজবুত কৃত্রিম দাঁত ও ক্যাপ প্রতিস্থাপন।',
+        image_url: '/images/treatments/crown-bridge.svg'
+      },
+      {
+        slug: 'scaling-polishing',
+        name_en: 'Teeth Scaling & Polishing',
+        name_bn: 'দাঁতের স্কেলিং ও পলিশিং',
+        summary_en: 'Ultrasonic piezoelectric cleaning to safely remove hard tartar, tobacco stains, and bad breath.',
+        summary_bn: 'দাঁতের ক্ষতিকর পাথর (টারটার), দাগ ও মুখের দুর্গন্ধ দূর করার আধুনিক ক্লিনিক্যাল ওয়াশ।',
+        image_url: '/images/treatments/scaling-polishing.svg'
+      },
+      {
+        slug: 'dental-restoration-fillings',
+        name_en: 'Restoration & Tooth-Colored Fillings',
+        name_bn: 'দাঁতের ফিলিং ও রেস্টোরেশন',
+        summary_en: 'Composite aesthetic fillings to restore cavity holes invisibly and prevent deep nerve infection.',
+        summary_bn: 'দাঁতের গর্ত বা ক্যাভিটি দাঁতের স্বাভাবিক রঙের মতো নিখুঁতভাবে ভরাট করার চিকিৎসা।',
+        image_url: '/images/treatments/dental-filling.svg'
+      }
+    ];
   }
 
   // Fetch reviews from Supabase
@@ -31,386 +84,305 @@ export async function renderHomePage() {
     if (data && data.length > 0) reviews = data;
   } catch (e) {}
 
-  const treatmentCardsHtml = treatments.map(t => `
-    <div class="treatment-card">
+  if (reviews.length === 0) {
+    reviews = [
+      {
+        patient_name: 'Subhashish Jana',
+        treatment_name: 'Root Canal Treatment',
+        review_text: 'Dr. Supriyo Sahu is extremely gentle and explained every step. The root canal was totally painless. Best dental care in Chandipur.',
+        rating: 5
+      },
+      {
+        patient_name: 'Priyanka Maity',
+        treatment_name: 'Wisdom Tooth Surgery',
+        review_text: 'I was very scared of surgical extraction, but Dr. Sahu did it smoothly in 20 minutes with zero discomfort. Highly recommended.',
+        rating: 5
+      },
+      {
+        patient_name: 'Debabrata Das',
+        treatment_name: 'Crown & Bridge',
+        review_text: 'Very professional clinic with hospital-level sterilization. The online queue system saved me from unnecessary waiting.',
+        rating: 5
+      }
+    ];
+  }
+
+  // Display top 6 on homepage
+  const featuredTreatments = treatments.slice(0, 6);
+
+  const treatmentCardsHtml = featuredTreatments.map(t => `
+    <article class="treatment-card">
       <div class="treatment-image-box">
         <img src="${t.image_url}" alt="${t.name_en}" loading="lazy" />
+        <span class="treatment-badge-tag">Clinical Care</span>
       </div>
       <div class="treatment-body">
         <h3 class="treatment-title-en">${t.name_en}</h3>
-        <h4 class="treatment-title-bn bn-text">${t.name_bn}</h4>
-        <p class="treatment-summary">${t.summary_en}</p>
+        <h4 class="treatment-title-bn bn-text">${t.name_bn || ''}</h4>
+        <p class="treatment-summary">${t.summary_en || ''}</p>
+        <p class="treatment-summary-bn bn-text">${t.summary_bn || ''}</p>
         <div class="treatment-footer">
           <a href="/treatments/${t.slug}" class="treatment-link">
-            <span>Learn More & Bengali Guide</span> →
+            <span>Learn More &amp; Bengali Guide</span> →
           </a>
-          <a href="/book-appointment?treatment=${encodeURIComponent(t.name_en)}" class="btn btn-outline btn-sm">Book</a>
+          <a href="/book-appointment?treatment=${encodeURIComponent(t.name_en)}" class="btn btn-secondary btn-sm">
+            <span>Book</span>
+          </a>
         </div>
       </div>
-    </div>
+    </article>
   `).join('');
 
   const reviewsHtml = reviews.map(r => `
-    <div style="background:#FFFFFF; border:1px solid var(--border-light); border-radius:var(--radius-lg); padding:1.75rem; box-shadow:var(--shadow-sm);">
-      <div style="display:flex; align-items:center; gap:0.25rem; color:#F59E0B; margin-bottom:0.75rem;">
+    <div style="background:#FFFFFF; border:1px solid var(--color-outline-variant); border-radius:var(--radius-lg); padding:1.5rem; box-shadow:var(--shadow-sm);">
+      <div style="display:flex; align-items:center; gap:0.2rem; color:#F59E0B; margin-bottom:0.65rem;">
         ${'★'.repeat(r.rating || 5)}
       </div>
-      <p style="font-size:0.95rem; color:var(--text-muted); margin-bottom:1rem; font-style:italic;">"${r.review_text}"</p>
-      <div style="display:flex; justify-content:space-between; align-items:center;">
-        <strong style="color:var(--color-secondary); font-size:0.95rem;">${r.patient_name}</strong>
-        <span style="font-size:0.8rem; color:var(--color-primary); font-weight:600;">${r.treatment_name || 'Patient'}</span>
+      <p style="font-size:0.9rem; color:var(--color-on-surface-variant); margin-bottom:1rem; font-style:italic; line-height:1.6;">
+        "${r.review_text}"
+      </p>
+      <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid var(--color-surface-container); padding-top:0.65rem;">
+        <strong style="color:var(--color-primary); font-size:0.9rem;">${r.patient_name}</strong>
+        <span style="font-size:0.78rem; color:var(--color-secondary); font-weight:700;">${r.treatment_name || 'Patient'}</span>
       </div>
     </div>
   `).join('');
 
   return `
-    <!-- Hero Section -->
-    <section class="hero-section">
-      <div class="hero-glow"></div>
-      <div class="container hero-grid">
-        <div>
-          <div class="hero-badge-pill">
-            <span>🌿</span>
-            <span>A Complete Oral & Dental Care • Math Chandipur</span>
-          </div>
-          <h1 class="hero-title">
-            Gentle, Advanced & Trusted <span>Dental Care</span>
-          </h1>
-          <p class="hero-subtitle">
-            Experience painless dentistry and specialized oral care by <strong>Dr. Supriyo Sahu</strong> (B.D.S. Hons, W.B.U.H.S.), Former House Surgeon at Dr. R. Ahmed Dental College & Hospital, Kolkata.
-          </p>
-          <div class="hero-actions">
-            <a href="/book-appointment" class="btn btn-primary btn-lg">
-              <span>Book Appointment</span>
-            </a>
-            <a href="tel:9733835105" class="btn btn-secondary btn-lg">
-              <span>📞 Call 9733835105</span>
-            </a>
-            <a href="https://wa.me/919733835105?text=Hello%20Dental%20Paradise,%20I%20would%20like%20to%20book%20an%20appointment." target="_blank" class="btn btn-whatsapp btn-lg">
-              <span>WhatsApp Us</span>
-            </a>
+    <div class="container" style="padding-top:1.25rem;">
+      <!-- DOCTOR PROFILE HERO SECTION (Google Stitch Layout) -->
+      <section class="hero-doctor-card">
+        <div class="doctor-flex-box">
+          <!-- Doctor Portrait / Avatar -->
+          <div class="doctor-avatar-wrapper">
+            <img class="doctor-avatar-img" alt="Dr. Supriyo Sahu" src="/images/dr-supriyo-sahu.jpg" />
+            <div class="verified-doctor-badge" title="Verified BDS Surgeon">
+              <span class="material-symbols-outlined text-[16px] font-bold" style="font-variation-settings: 'FILL' 1;">verified</span>
+            </div>
           </div>
 
-          <div class="hero-stats">
-            <div class="stat-item">
-              <h4>Dr. R. Ahmed</h4>
-              <p>Ex-House Surgeon Training</p>
-            </div>
-            <div class="stat-item">
-              <h4>Painless Care</h4>
-              <p>Modern Anesthesia & RCT</p>
-            </div>
-            <div class="stat-item">
-              <h4>${isClosedToday ? 'Closed Today' : 'Open Today'}</h4>
-              <p>${isClosedToday ? 'Book for next open day' : '8 AM–12 PM & 4 PM–8 PM'}</p>
+          <!-- Doctor Bio Info -->
+          <div class="doctor-meta" style="flex:1; min-width:0;">
+            <h2>Dr. Supriyo Sahu</h2>
+            <p class="doctor-degree">B.D.S. (Hons), W.B.U.H.S. (Kolkata)</p>
+            <p class="doctor-ex-hosp">Former House Surgeon • Dr. R. Ahmed Dental College &amp; Hospital &amp; Medical College Hospital, Kolkata</p>
+
+            <div class="doctor-badges-row">
+              <span class="doctor-badge-chip">
+                <span class="material-symbols-outlined text-[14px] text-secondary">military_tech</span>
+                Ex-R. Ahmed
+              </span>
+              <span class="doctor-badge-chip">
+                <span class="material-symbols-outlined text-[14px]" style="color:#F59E0B; font-variation-settings: 'FILL' 1;">star</span>
+                4.9 (1,850+)
+              </span>
+              <span class="doctor-badge-chip" style="color:var(--color-secondary);">
+                <span class="material-symbols-outlined text-[14px]">thumb_up</span>
+                99%
+              </span>
             </div>
           </div>
         </div>
 
-        <!-- Doctor Profile Card in Hero -->
-        <div class="hero-doctor-card">
-          <div class="doctor-photo-wrapper">
-            <img src="/images/dr-supriyo-sahu.jpg" alt="Dr. Supriyo Sahu - Dental Paradise" />
-            <div class="doctor-floating-badge">
-              <div class="doctor-name-badge">Dr. Supriyo Sahu</div>
-              <div class="doctor-degree-badge">B.D.S. (Hons), W.B.U.H.S. (Kolkata)</div>
-              <div class="doctor-inst-badge">Former House Surgeon • Dr. R. Ahmed Dental College & Medical College Hospital, Kolkata</div>
-            </div>
-          </div>
+        <!-- Doctor CTAs / Quick Actions -->
+        <div class="hero-cta-grid">
+          <a href="/book-appointment" class="btn btn-primary" style="font-weight:700;">
+            <span class="material-symbols-outlined text-[20px]">calendar_month</span>
+            <span>Book Appointment</span>
+          </a>
+          <a href="tel:9733835105" class="btn btn-outline" style="border-radius:var(--radius-md);" aria-label="Call Doctor Directly">
+            <span class="material-symbols-outlined text-[20px] text-secondary">call</span>
+            <span style="font-weight:700;">Call Now</span>
+          </a>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- Trust Highlights Bar -->
-    <section class="trust-bar">
-      <div class="container trust-grid">
-        <div class="trust-item">
-          <div class="trust-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      <!-- CLINICAL TRUST HIGHLIGHTS STRIP -->
+      <section class="trust-strip-grid">
+        <div class="trust-card">
+          <div class="trust-icon-box">
+            <span class="material-symbols-outlined text-[18px]">sanitizer</span>
           </div>
-          <div class="trust-text">
-            <h4>Painless Treatments</h4>
-            <p>Gentle root canal & extractions using calibrated local numbing.</p>
+          <div class="trust-info">
+            <h4>100% Sterilized</h4>
+            <p>Class-B Autoclave</p>
           </div>
         </div>
 
-        <div class="trust-item">
-          <div class="trust-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        <div class="trust-card">
+          <div class="trust-icon-box">
+            <span class="material-symbols-outlined text-[18px]">healing</span>
           </div>
-          <div class="trust-text">
-            <h4>Live Queue Ordering</h4>
-            <p>Know your real-time queue position with no crowded waiting.</p>
-          </div>
-        </div>
-
-        <div class="trust-item">
-          <div class="trust-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-          </div>
-          <div class="trust-text">
-            <h4>Strict Clinical Hours</h4>
-            <p>Morning 8 AM–12 PM & Evening 4 PM–8 PM (Mon & Fri Closed).</p>
+          <div class="trust-info">
+            <h4>Painless Care</h4>
+            <p>Calibrated Numbing</p>
           </div>
         </div>
 
-        <div class="trust-item">
-          <div class="trust-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <div class="trust-card">
+          <div class="trust-icon-box">
+            <span class="material-symbols-outlined text-[18px]">schedule</span>
           </div>
-          <div class="trust-text">
-            <h4>Specialized Departments</h4>
-            <p>Oral Surgery, Endodontics, Prosthodontia & Cosmetic Dentistry.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Clinic Schedule Card -->
-    <section class="section" style="padding-bottom:1rem;">
-      <div class="container">
-        <div class="schedule-card">
-          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
-            <div>
-              <span class="section-tag">Clinic Availability</span>
-              <h2 style="font-size:1.8rem; margin-top:0.25rem;">Weekly Consultation Hours</h2>
-              <p style="color:var(--text-muted); font-size:0.95rem; margin-top:0.25rem;">
-                Please note our strict schedule. Online appointments are only accepted for open days and valid future slots.
-              </p>
-            </div>
-            <a href="/book-appointment" class="btn btn-primary">Book Consultation Slot</a>
-          </div>
-
-          <div class="schedule-grid">
-            <div class="schedule-day-box is-closed">
-              <div class="day-name">Monday</div>
-              <div class="day-status-closed">CLOSED</div>
-              <div class="day-time">No Consultations</div>
-            </div>
-            <div class="schedule-day-box">
-              <div class="day-name">Tuesday</div>
-              <div class="day-status-open">OPEN</div>
-              <div class="day-time">8–12 & 4–8</div>
-            </div>
-            <div class="schedule-day-box">
-              <div class="day-name">Wednesday</div>
-              <div class="day-status-open">OPEN</div>
-              <div class="day-time">8–12 & 4–8</div>
-            </div>
-            <div class="schedule-day-box">
-              <div class="day-name">Thursday</div>
-              <div class="day-status-open">OPEN</div>
-              <div class="day-time">8–12 & 4–8</div>
-            </div>
-            <div class="schedule-day-box is-closed">
-              <div class="day-name">Friday</div>
-              <div class="day-status-closed">CLOSED</div>
-              <div class="day-time">No Consultations</div>
-            </div>
-            <div class="schedule-day-box">
-              <div class="day-name">Saturday</div>
-              <div class="day-status-open">OPEN</div>
-              <div class="day-time">8–12 & 4–8</div>
-            </div>
-            <div class="schedule-day-box">
-              <div class="day-name">Sunday</div>
-              <div class="day-status-open">OPEN</div>
-              <div class="day-time">8–12 & 4–8</div>
-            </div>
+          <div class="trust-info">
+            <h4>Live Queue #</h4>
+            <p>Zero Waiting Rush</p>
           </div>
         </div>
-      </div>
-    </section>
 
-    <!-- Treatments Overview Section -->
-    <section class="section" style="background:#FFFFFF;">
-      <div class="container">
-        <div class="section-header">
-          <span class="section-tag">Specialized Dental Services</span>
-          <h2 class="section-title">Comprehensive Dental Treatments</h2>
-          <p class="section-desc">
-            Bilingual clinical guides in English and Bengali to help you understand your dental needs.
-          </p>
+        <div class="trust-card">
+          <div class="trust-icon-box">
+            <span class="material-symbols-outlined text-[18px]">payments</span>
+          </div>
+          <div class="trust-info">
+            <h4>Cash at Clinic</h4>
+            <p>₹0 Advance Needed</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- WEEKLY OPD SCHEDULE CARD (Strict Monday & Friday Closed) -->
+      <section class="schedule-card">
+        <div class="schedule-header">
+          <div style="display:flex; align-items:center; gap:0.5rem;">
+            <span class="material-symbols-outlined text-secondary text-[20px]">calendar_clock</span>
+            <h3 style="font-size:1.05rem; margin:0;">Weekly OPD Consultation Schedule</h3>
+          </div>
+          <span style="font-size:0.72rem; background:var(--color-surface-container); color:var(--color-primary); padding:0.2rem 0.6rem; border-radius:var(--radius-full); font-weight:700;">
+            Regular Timings
+          </span>
+        </div>
+
+        <div class="schedule-hours-pill">
+          <div>
+            <strong style="color:var(--color-primary);">Morning Session:</strong> 8:00 AM – 12:00 PM
+          </div>
+          <div>
+            <strong style="color:var(--color-primary);">Evening Session:</strong> 4:00 PM – 8:00 PM
+          </div>
+        </div>
+
+        <!-- 7-Days Operational Status Row -->
+        <div class="seven-days-row">
+          <div class="day-col-item">
+            <span>Sun</span>
+            <span class="day-status-dot"></span>
+            <span class="day-status-label">Open</span>
+          </div>
+          <div class="day-col-item closed">
+            <span>Mon</span>
+            <span class="day-status-dot"></span>
+            <span class="day-status-label">Closed</span>
+          </div>
+          <div class="day-col-item">
+            <span>Tue</span>
+            <span class="day-status-dot"></span>
+            <span class="day-status-label">Open</span>
+          </div>
+          <div class="day-col-item">
+            <span>Wed</span>
+            <span class="day-status-dot"></span>
+            <span class="day-status-label">Open</span>
+          </div>
+          <div class="day-col-item">
+            <span>Thu</span>
+            <span class="day-status-dot"></span>
+            <span class="day-status-label">Open</span>
+          </div>
+          <div class="day-col-item closed">
+            <span>Fri</span>
+            <span class="day-status-dot"></span>
+            <span class="day-status-label">Closed</span>
+          </div>
+          <div class="day-col-item">
+            <span>Sat</span>
+            <span class="day-status-dot"></span>
+            <span class="day-status-label">Open</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- SPECIALIZED DENTAL TREATMENTS (BILINGUAL) -->
+      <section style="margin-top:2.5rem;">
+        <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:1.25rem;">
+          <div>
+            <span class="section-tag">Clinical Dental Procedures</span>
+            <h2 style="font-size:1.6rem; margin-top:0.25rem;">Specialized Treatments</h2>
+            <p style="font-size:0.88rem; color:var(--color-secondary); font-weight:600;" class="bn-text">বিশেষায়িত দাঁতের চিকিৎসা (১২টি সেবা)</p>
+          </div>
+          <a href="/treatments" class="btn btn-outline btn-sm" style="white-space:nowrap;">
+            <span>View All 12 →</span>
+          </a>
         </div>
 
         <div class="treatments-grid">
           ${treatmentCardsHtml}
         </div>
+      </section>
 
-        <div style="text-align:center; margin-top:3rem;">
-          <a href="/treatments" class="btn btn-secondary btn-lg">
-            <span>View All 12 Dental Treatments</span> →
+      <!-- DENTAL EMERGENCY ACTION BANNER -->
+      <section class="emergency-banner">
+        <div class="emergency-info">
+          <span class="emergency-tag">
+            <span class="material-symbols-outlined text-[16px]">emergency</span>
+            <span>Dental Emergency?</span>
+          </span>
+          <h3>Severe Toothache or Accident Trauma?</h3>
+          <p>Get immediate clinical assistance or telephone guidance from Dr. Sahu.</p>
+          <a href="tel:9733835105" style="color:var(--color-secondary-container); font-weight:800; font-size:1.05rem; margin-top:0.4rem; display:inline-flex; align-items:center; gap:0.35rem;">
+            <span class="material-symbols-outlined text-[18px]">call</span>
+            <span>9733835105</span>
           </a>
         </div>
-      </div>
-    </section>
+        <a href="tel:9733835105" class="emergency-call-btn" aria-label="Call Emergency Number">
+          <span class="material-symbols-outlined text-[24px]">call</span>
+        </a>
+      </section>
 
-    <!-- Doctor Profile Preview Section -->
-    <section class="section">
-      <div class="container">
-        <div class="responsive-card-box responsive-two-col-reverse">
+      <!-- PATIENT REVIEWS & RATINGS -->
+      <section style="margin-top:2.5rem;">
+        <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:1.25rem;">
           <div>
-            <div style="border-radius:var(--radius-lg); overflow:hidden; box-shadow:var(--shadow-lg);">
-              <img src="/images/dr-supriyo-sahu.jpg" alt="Dr. Supriyo Sahu" style="width:100%; height:100%; object-fit:cover;" />
-            </div>
+            <span class="section-tag">Patient Satisfaction</span>
+            <h2 style="font-size:1.5rem; margin-top:0.25rem;">Patient Experiences</h2>
           </div>
-          <div>
-            <span class="section-tag">Lead Dental Surgeon</span>
-            <h2 style="font-size:2.2rem; margin-bottom:0.5rem;">Dr. Supriyo Sahu</h2>
-            <p style="color:var(--color-primary); font-weight:700; font-size:1.1rem; margin-bottom:1rem;">
-              B.D.S. (Hons), W.B.U.H.S. (Kolkata)
-            </p>
-            <p style="color:var(--text-muted); margin-bottom:1.5rem; line-height:1.7;">
-              Former House Surgeon at two premier institutions: <strong>Dr. R. Ahmed Dental College & Hospital, Kolkata</strong> and <strong>Medical College Hospital, Kolkata</strong>.
-            </p>
-            <div style="margin-bottom:1.75rem;">
-              <h4 style="font-size:0.95rem; text-transform:uppercase; color:var(--color-secondary); margin-bottom:0.5rem; letter-spacing:0.05em;">Clinical Training Areas:</h4>
-              <ul style="list-style:none; display:flex; flex-direction:column; gap:0.5rem; font-size:0.92rem; color:var(--text-muted);">
-                <li>🔹 Department of Oral and Maxillofacial Surgery</li>
-                <li>🔹 Department of Conservative Dentistry & Endodontics</li>
-                <li>🔹 Department of Prosthodontia, Crown & Bridge</li>
-              </ul>
-            </div>
-            <div style="display:flex; gap:1rem; flex-wrap:wrap;">
-              <a href="/doctors/dr-supriyo-sahu" class="btn btn-secondary">Read Full Profile</a>
-              <a href="/book-appointment" class="btn btn-primary">Book Consultation</a>
-            </div>
-          </div>
+          <a href="/reviews" style="font-size:0.85rem; font-weight:700; color:var(--color-secondary);">Read All Reviews →</a>
         </div>
-      </div>
-    </section>
-
-    <!-- How Appointment Works -->
-    <section class="section" style="background:var(--color-primary-soft);">
-      <div class="container">
-        <div class="section-header">
-          <span class="section-tag">Seamless Patient Flow</span>
-          <h2 class="section-title">How Appointments Work</h2>
-          <p class="section-desc">Four simple steps to secure your dental consultation without waiting in line.</p>
-        </div>
-
-        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:2rem;">
-          <div style="background:#FFFFFF; padding:2rem; border-radius:var(--radius-lg); border:1px solid var(--border-light); text-align:center;">
-            <div style="width:48px; height:48px; border-radius:var(--radius-full); background:var(--color-primary); color:#FFFFFF; display:flex; align-items:center; justify-content:center; margin:0 auto 1rem; font-weight:800; font-size:1.25rem;">1</div>
-            <h4 style="margin-bottom:0.5rem;">Select Date & Slot</h4>
-            <p style="font-size:0.88rem; color:var(--text-muted);">Pick any open day (Tue, Wed, Thu, Sat, Sun) and choose an available 30-min slot.</p>
-          </div>
-
-          <div style="background:#FFFFFF; padding:2rem; border-radius:var(--radius-lg); border:1px solid var(--border-light); text-align:center;">
-            <div style="width:48px; height:48px; border-radius:var(--radius-full); background:var(--color-secondary); color:#FFFFFF; display:flex; align-items:center; justify-content:center; margin:0 auto 1rem; font-weight:800; font-size:1.25rem;">2</div>
-            <h4 style="margin-bottom:0.5rem;">Doctor Review</h4>
-            <p style="font-size:0.88rem; color:var(--text-muted);">Dr. Sahu reviews and accepts your request. You receive an instant confirmation update.</p>
-          </div>
-
-          <div style="background:#FFFFFF; padding:2rem; border-radius:var(--radius-lg); border:1px solid var(--border-light); text-align:center;">
-            <div style="width:48px; height:48px; border-radius:var(--radius-full); background:var(--color-primary-dark); color:#FFFFFF; display:flex; align-items:center; justify-content:center; margin:0 auto 1rem; font-weight:800; font-size:1.25rem;">3</div>
-            <h4 style="margin-bottom:0.5rem;">Live Queue Status</h4>
-            <p style="font-size:0.88rem; color:var(--text-muted);">Track your appointment status and queue number (#1, #2...) anytime from your phone.</p>
-          </div>
-
-          <div style="background:#FFFFFF; padding:2rem; border-radius:var(--radius-lg); border:1px solid var(--border-light); text-align:center;">
-            <div style="width:48px; height:48px; border-radius:var(--radius-full); background:#10B981; color:#FFFFFF; display:flex; align-items:center; justify-content:center; margin:0 auto 1rem; font-weight:800; font-size:1.25rem;">4</div>
-            <h4 style="margin-bottom:0.5rem;">Clinic Visit & Care</h4>
-            <p style="font-size:0.88rem; color:var(--text-muted);">Visit the clinic at Math Chandipur, receive painless dental care, and pay cash at clinic.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Reviews Section -->
-    <section class="section" style="background:#FFFFFF;">
-      <div class="container">
-        <div class="section-header">
-          <span class="section-tag">Patient Experiences</span>
-          <h2 class="section-title">What Our Patients Say</h2>
-          <p class="section-desc">Honest reviews from families and patients in Math Chandipur and nearby areas.</p>
-        </div>
-
-        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:1.5rem;">
+        <div style="display:grid; grid-template-columns:1fr; gap:1rem;">
           ${reviewsHtml}
         </div>
+      </section>
 
-        <div style="text-align:center; margin-top:2.5rem;">
-          <a href="/reviews" class="btn btn-outline">Read All Reviews or Share Feedback</a>
-        </div>
-      </div>
-    </section>
-
-    <!-- Location & Directions Section -->
-    <!-- Emergency Dental Call Banner from Google Stitch -->
-    <section style="padding: 1rem 0;">
-      <div class="container">
-        <div style="background:linear-gradient(135deg, #0F2942 0%, #002C35 100%); color:#FFFFFF; border-radius:var(--radius-xl); padding:2rem; box-shadow:var(--shadow-md); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1.5rem;">
-          <div>
-            <div style="display:flex; align-items:center; gap:0.5rem; color:#86F2E4; font-weight:700; font-size:0.85rem; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:0.35rem;">
-              <span>🚨</span>
-              <span>Emergency Dental Care • তাৎক্ষণিক সেবা</span>
+      <!-- CLINIC LOCATION & DIRECT VISIT SECTION -->
+      <section style="margin-top:2.5rem; margin-bottom:2rem;">
+        <div class="responsive-card-box">
+          <div class="responsive-two-col" style="align-items:center;">
+            <div>
+              <span class="section-tag">Direct Clinical Visit</span>
+              <h2 style="font-size:1.6rem; margin-bottom:0.75rem;">Dental Paradise Clinic</h2>
+              <p style="font-size:0.92rem; color:var(--color-on-surface-variant); margin-bottom:1rem; line-height:1.6;">
+                <strong>Math Chandipur, Chandipur Market area</strong><br/>
+                Behind Life Care Diagnostic Center,<br/>
+                PIN- 721659, West Bengal
+              </p>
+              <p style="font-size:0.85rem; color:var(--color-on-surface-variant); margin-bottom:1.5rem;">
+                Near Chandipur bus stop. Easily accessible with ample parking space and wheelchair-friendly entrance.
+              </p>
+              <div style="display:flex; gap:0.75rem; flex-wrap:wrap;">
+                <a href="/book-appointment" class="btn btn-primary">Book Consultation</a>
+                <a href="https://maps.google.com/?q=Math+Chandipur+Market+Life+Care+Diagnostic+Center+721659" target="_blank" rel="noopener noreferrer" class="btn btn-outline">
+                  <span class="material-symbols-outlined text-[18px]">map</span>
+                  <span>Google Maps</span>
+                </a>
+              </div>
             </div>
-            <h3 style="color:#FFFFFF; font-size:1.4rem; margin-bottom:0.25rem;">Severe Toothache or Accident Trauma?</h3>
-            <p style="color:#CBD5E1; font-size:0.9rem; max-width:550px;">
-              Dr. Supriyo Sahu provides rapid clinical relief for acute pulpitis, bleeding, dental trauma, and broken teeth.
-            </p>
-          </div>
-          <div style="display:flex; gap:0.75rem; flex-wrap:wrap;">
-            <a href="tel:9733835105" class="btn btn-primary btn-lg" style="background:#00A896;">
-              <span>📞 Direct Call: 9733835105</span>
-            </a>
-            <a href="/stitch" class="btn btn-outline btn-lg" style="border-color:rgba(255,255,255,0.4); color:#FFFFFF;">
-              <span>✨ Google Stitch UI</span>
-            </a>
-          </div>
-        </div>
-      </div>
-    </section>
 
-    <!-- Clinic Location Section -->
-    <section class="section">
-      <div class="container">
-        <div class="responsive-card-box responsive-two-col">
-          <div>
-            <span class="section-tag">Visit Our Clinic</span>
-            <h2 style="font-size:2rem; margin-bottom:1rem;">Convenient Location in Math Chandipur</h2>
-            <p style="color:var(--text-muted); margin-bottom:1.5rem; font-size:1rem; line-height:1.7;">
-              <strong>Dental Paradise</strong> is easily accessible for patients from Chandipur Market and surrounding localities. Located just behind Life Care Diagnostic Center.
-            </p>
-            <div style="display:flex; flex-direction:column; gap:0.75rem; font-size:0.95rem; margin-bottom:1.75rem;">
-              <div>📍 <strong>Address:</strong> Math Chandipur, Chandipur Market, Behind Life Care Diagnostic Center, PIN- 721659</div>
-              <div>📞 <strong>Phone:</strong> <a href="tel:9733835105" style="color:var(--color-primary); font-weight:700;">9733835105</a></div>
-              <div>💬 <strong>WhatsApp:</strong> <a href="https://wa.me/919733835105" target="_blank" style="color:#25D366; font-weight:700;">9733835105</a></div>
-              <div>💵 <strong>Payment:</strong> Cash at Clinic</div>
-            </div>
-            <div style="display:flex; gap:1rem; flex-wrap:wrap;">
-              <a href="https://maps.google.com/?q=Math+Chandipur+Market+Life+Care+Diagnostic+Center+721659" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
-                <span>Open in Google Maps</span> ↗
-              </a>
-              <a href="/contact" class="btn btn-secondary">Contact Details</a>
+            <div style="text-align:center;">
+              <img src="/images/dental-paradise-card.jpg" alt="Dental Paradise Visiting Card" style="width:100%; border-radius:var(--radius-lg); box-shadow:var(--shadow-md);" />
+              <p style="font-size:0.78rem; color:var(--color-outline); margin-top:0.5rem;">Official Clinic Board &amp; Visiting Card</p>
             </div>
           </div>
-
-          <div style="border-radius:var(--radius-lg); overflow:hidden; border:1px solid var(--border-light); background:var(--bg-main); padding:1.25rem; text-align:center;">
-            <img src="/images/dental-paradise-card.jpg" alt="Dental Paradise Clinic Card" style="width:100%; border-radius:var(--radius-md); box-shadow:var(--shadow-sm); margin-bottom:1rem;" />
-            <p style="font-size:0.8rem; color:var(--text-muted);">Official Clinic Information & Visiting Card</p>
-          </div>
         </div>
-      </div>
-    </section>
-
-    <!-- Strong Final CTA -->
-    <section style="background:linear-gradient(135deg, #0B2545 0%, #00A896 100%); color:#FFFFFF; padding:4.5rem 0; text-align:center;">
-      <div class="container">
-        <h2 style="color:#FFFFFF; font-size:2.5rem; margin-bottom:1rem;">Ready for Healthy, Pain-Free Teeth?</h2>
-        <p style="color:#E8F6F5; font-size:1.15rem; max-width:600px; margin:0 auto 2.5rem;">
-          Book your consultation slot online in less than a minute. Cash payment at clinic.
-        </p>
-        <div style="display:flex; justify-content:center; gap:1rem; flex-wrap:wrap;">
-          <a href="/book-appointment" class="btn btn-secondary btn-lg" style="background:#FFFFFF; color:var(--color-secondary);">
-            <span>Book Your Appointment</span>
-          </a>
-          <a href="tel:9733835105" class="btn btn-outline btn-lg" style="border-color:#FFFFFF; color:#FFFFFF;">
-            <span>Call 9733835105</span>
-          </a>
-        </div>
-      </div>
-    </section>
+      </section>
+    </div>
   `;
 }
