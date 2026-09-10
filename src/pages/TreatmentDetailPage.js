@@ -19,7 +19,7 @@ export async function renderTreatmentDetailPage(slug) {
       'root-canal-treatment': {
         name_en: 'Root Canal Treatment (RCT)',
         name_bn: 'রুট ক্যানাল ট্রিটমেন্ট',
-        image_url: '/images/treatments/root-canal.svg',
+        image_url: '/images/treatments/root-canal.jpg',
         description_en: 'Root Canal Treatment is a specialized endodontic procedure performed to save a severely decayed, cracked, or infected tooth. Inside each tooth lies the dental pulp containing nerves and blood vessels. When bacterial decay penetrates into the pulp chamber, it causes excruciating throbbing pain and abscess formation. During modern RCT, Dr. Supriyo Sahu gently removes the diseased pulp using flexible nickel-titanium rotary files under precision electronic apex locator guidance, cleans and disinfects the microscopic root canals, and seals them with biocompatible gutta-percha. A protective dental crown is then placed over the treated tooth to restore full biting strength and prevent fracture.',
         description_bn: 'রুট ক্যানাল ট্রিটমেন্ট হলো দাঁতের ভেতরের সংক্রামিত বা নষ্ট হয়ে যাওয়া মজ্জা (Dental Pulp) অপসারণ করে আসল দাঁতটিকে বাঁচানোর একটি নির্ভরযোগ্য চিকিৎসা। দাঁতে গভীর গর্ত বা ক্যাভিটি হলে এবং ব্যাকটেরিয়ার সংক্রমণ স্নায়ু পর্যন্ত পৌঁছে গেলে তীব্র যন্ত্রণা শুরু হয়। এই চিকিৎসায় ডঃ সুপ্রিয় সাহু আধুনিক রোটারি মেশিনের সাহায্যে দাঁতের ভেতর সম্পূর্ণ ব্যথাহীনভাবে পরিষ্কার ও জীবাণুমুক্ত করেন এবং বিশেষ সিলিং দ্বারা স্থায়ীভাবে ভরাট করে দেন। পরবর্তীতে দাঁতের ওপর একটি মজবুত ক্যাপ পরিয়ে দিলে দাঁতটি আজীবন স্বাভাবিক দাঁতের মতো কাজ করে।',
         who_needs_it_en: [

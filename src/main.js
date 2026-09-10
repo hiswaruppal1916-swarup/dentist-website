@@ -130,7 +130,7 @@ async function route() {
     ${renderHeader(path)}
     <main id="main-content">${mainHtml}</main>
     ${renderFooter()}
-    ${renderFloatingActions()}
+    ${renderFloatingActions(path)}
   `;
 
   initHeaderEvents();

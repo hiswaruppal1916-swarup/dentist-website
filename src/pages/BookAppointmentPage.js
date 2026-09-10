@@ -19,18 +19,18 @@ export async function renderBookAppointmentPage(preselectedTreatment = '') {
   // Fallback treatments if database is offline/empty
   if (!treatments || treatments.length === 0) {
     treatments = [
-      { id: '1', name_en: 'Root Canal Treatment (RCT)', name_bn: 'রুট ক্যানাল ট্রিটমেন্ট', image_url: '/images/treatments/root-canal.svg' },
-      { id: '2', name_en: 'Impaction Surgery / Wisdom Tooth Removal', name_bn: 'ইমপ্যাকশন ও উইজডম দাঁত সার্জারি', image_url: '/images/treatments/wisdom-tooth.svg' },
-      { id: '3', name_en: 'Painless Tooth Extraction', name_bn: 'ব্যথাহীন দাঁত তোলা', image_url: '/images/treatments/tooth-extraction.svg' },
-      { id: '4', name_en: 'Crown, Bridge & Dental Prosthesis', name_bn: 'ক্রাউন ও ব্রিজ / কৃত্রিম দাঁত', image_url: '/images/treatments/crown-bridge.svg' },
-      { id: '5', name_en: 'Scaling & Teeth Polishing', name_bn: 'দাঁতের স্কেলিং ও পলিশিং', image_url: '/images/treatments/scaling-polishing.svg' },
-      { id: '6', name_en: 'Restoration & Tooth-Colored Fillings', name_bn: 'দাঁতের ফিলিং ও রেস্টোরেশন', image_url: '/images/treatments/dental-filling.svg' },
-      { id: '7', name_en: 'Orthodontic Treatment (Braces & Aligners)', name_bn: 'দাঁতের তার বা অর্থোডন্টিক চিকিৎসা', image_url: '/images/treatments/orthodontics.svg' },
-      { id: '8', name_en: 'Pediatric Oral & Dental Care', name_bn: 'শিশুদের দাঁতের বিশেষ যত্ন', image_url: '/images/treatments/pediatric-dentistry.svg' },
-      { id: '9', name_en: 'Fractured Teeth & Dental Trauma Care', name_bn: 'ভাঙা দাঁত ও ট্রমা চিকিৎসা', image_url: '/images/treatments/fractured-tooth.svg' },
-      { id: '10', name_en: 'Cosmetic Dentistry & Smile Designing', name_bn: 'কসমেটিক ডেন্টিস্ট্রি ও স্মাইল ডিজাইনিং', image_url: '/images/treatments/smile-design.svg' },
-      { id: '11', name_en: 'Minor Oral Surgery & Cystic Surgery', name_bn: 'মাইনর ওরাল সার্জারি ও সিস্ট সার্জারি', image_url: '/images/treatments/oral-surgery.svg' },
-      { id: '12', name_en: 'Full Mouth Reconstruction & Bone Grafting', name_bn: 'ফুল মাউথ রিকনস্ট্রাকশন ও বোন গ্রাফটিং', image_url: '/images/treatments/full-reconstruction.svg' }
+      { id: '1', name_en: 'Root Canal Treatment (RCT)', name_bn: 'রুট ক্যানাল ট্রিটমেন্ট', image_url: '/images/treatments/root-canal.jpg' },
+      { id: '2', name_en: 'Impaction Surgery / Wisdom Tooth Removal', name_bn: 'ইমপ্যাকশন ও উইজডম দাঁত সার্জারি', image_url: '/images/treatments/wisdom-tooth.jpg' },
+      { id: '3', name_en: 'Painless Tooth Extraction', name_bn: 'ব্যথাহীন দাঁত তোলা', image_url: '/images/treatments/tooth-extraction.jpg' },
+      { id: '4', name_en: 'Crown, Bridge & Dental Prosthesis', name_bn: 'ক্রাউন ও ব্রিজ / কৃত্রিম দাঁত', image_url: '/images/treatments/crown-bridge.jpg' },
+      { id: '5', name_en: 'Scaling & Teeth Polishing', name_bn: 'দাঁতের স্কেলিং ও পলিশিং', image_url: '/images/treatments/scaling-polishing.jpg' },
+      { id: '6', name_en: 'Restoration & Tooth-Colored Fillings', name_bn: 'দাঁতের ফিলিং ও রেস্টোরেশন', image_url: '/images/treatments/dental-filling.jpg' },
+      { id: '7', name_en: 'Orthodontic Treatment (Braces & Aligners)', name_bn: 'দাঁতের তার বা অর্থোডন্টিক চিকিৎসা', image_url: '/images/treatments/orthodontics.jpg' },
+      { id: '8', name_en: 'Pediatric Oral & Dental Care', name_bn: 'শিশুদের দাঁতের বিশেষ যত্ন', image_url: '/images/treatments/pediatric-dentistry.jpg' },
+      { id: '9', name_en: 'Fractured Teeth & Dental Trauma Care', name_bn: 'ভাঙা দাঁত ও ট্রমা চিকিৎসা', image_url: '/images/treatments/fractured-tooth.jpg' },
+      { id: '10', name_en: 'Cosmetic Dentistry & Smile Designing', name_bn: 'কসমেটিক ডেন্টিস্ট্রি ও স্মাইল ডিজাইনিং', image_url: '/images/treatments/smile-design.jpg' },
+      { id: '11', name_en: 'Minor Oral Surgery & Cystic Surgery', name_bn: 'মাইনর ওরাল সার্জারি ও সিস্ট সার্জারি', image_url: '/images/treatments/oral-surgery.jpg' },
+      { id: '12', name_en: 'Full Mouth Reconstruction & Bone Grafting', name_bn: 'ফুল মাউথ রিকনস্ট্রাকশন ও বোন গ্রাফটিং', image_url: '/images/treatments/full-reconstruction.jpg' }
     ];
   }
 

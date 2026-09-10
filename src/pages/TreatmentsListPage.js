@@ -23,7 +23,7 @@ export async function renderTreatmentsListPage() {
         category: 'Endodontics',
         summary_en: 'Single-sitting or dual-visit rotary endodontics with electronic apex locator precision to save severely infected teeth.',
         summary_bn: 'দাঁতের গভীর ইনফেকশন দূর করে আসল দাঁত স্থায়ীভাবে রক্ষা করার ব্যথাহীন অত্যাধুনিক চিকিৎসা।',
-        image_url: '/images/treatments/root-canal.svg'
+        image_url: '/images/treatments/root-canal.jpg'
       },
       {
         slug: 'impaction-wisdom-tooth-surgery',
@@ -32,7 +32,7 @@ export async function renderTreatmentsListPage() {
         category: 'Oral Surgery',
         summary_en: 'Atraumatic surgical extraction of impacted, horizontally angled 3rd molars with rapid post-operative healing.',
         summary_bn: 'মাড়ির ভেতরে আটকে থাকা বা বাঁকা আক্কেল দাঁতের বিশেষজ্ঞ সার্জিক্যাল অপসারণ।',
-        image_url: '/images/treatments/wisdom-tooth.svg'
+        image_url: '/images/treatments/wisdom-tooth.jpg'
       },
       {
         slug: 'painless-tooth-extraction',
@@ -41,7 +41,7 @@ export async function renderTreatmentsListPage() {
         category: 'General Surgery',
         summary_en: 'Gentle atraumatic tooth removal using calibrated local numbing agents and sterile surgical precision.',
         summary_bn: 'আধুনিক অবশকরণ পদ্ধতির মাধ্যমে কোনো প্রকার ব্যথা বা কষ্ট ছাড়া নিরাপদে দাঁত তোলা।',
-        image_url: '/images/treatments/tooth-extraction.svg'
+        image_url: '/images/treatments/tooth-extraction.jpg'
       },
       {
         slug: 'crown-bridge-prosthesis',
@@ -50,7 +50,7 @@ export async function renderTreatmentsListPage() {
         category: 'Prosthodontia',
         summary_en: 'Permanent zirconia and ceramic tooth caps and bridges for flawless chewing capability and natural smile aesthetics.',
         summary_bn: 'ভাঙা বা নষ্ট দাঁত মজবুত করতে এবং ফাঁকা স্থানে স্থায়ী সুন্দর দাঁত বসাতে ক্যাপ ও ব্রিজ।',
-        image_url: '/images/treatments/crown-bridge.svg'
+        image_url: '/images/treatments/crown-bridge.jpg'
       },
       {
         slug: 'scaling-polishing',
@@ -59,7 +59,7 @@ export async function renderTreatmentsListPage() {
         category: 'Preventive Hygiene',
         summary_en: 'Ultrasonic piezoelectric plaque and calculus removal with stain polishing to treat bleeding gums and bad breath.',
         summary_bn: 'দাঁতের পাথর (ক্যালকুলাস), তামাকের দাগ দূরীকরণ এবং মাড়ি থেকে রক্ত পড়া বন্ধ করার ওয়াশ।',
-        image_url: '/images/treatments/scaling-polishing.svg'
+        image_url: '/images/treatments/scaling-polishing.jpg'
       },
       {
         slug: 'dental-restoration-fillings',
@@ -68,7 +68,7 @@ export async function renderTreatmentsListPage() {
         category: 'Conservative Care',
         summary_en: 'Nano-hybrid composite tooth-colored fillings to seal cavity holes invisibly and halt bacterial decay.',
         summary_bn: 'দাঁতের গর্ত বা পোকা লাগা অংশ পরিষ্কার করে স্বাভাবিক দাঁতের মতো ফিলিং করা।',
-        image_url: '/images/treatments/dental-filling.svg'
+        image_url: '/images/treatments/dental-filling.jpg'
       },
       {
         slug: 'orthodontic-teeth-alignment',
@@ -77,7 +77,7 @@ export async function renderTreatmentsListPage() {
         category: 'Orthodontics',
         summary_en: 'Correction of crooked, crowded, spaced, or forward-protruding teeth with modern braces and aligners.',
         summary_bn: 'উঁচু-নিচু, ফাঁকা বা আঁকাবাঁকা দাঁত সমান ও সুন্দরভাবে সাজানোর তারের চিকিৎসা।',
-        image_url: '/images/treatments/orthodontics.svg'
+        image_url: '/images/treatments/orthodontics.jpg'
       },
       {
         slug: 'pediatric-dental-care',
@@ -86,7 +86,7 @@ export async function renderTreatmentsListPage() {
         category: 'Pediatric Dentistry',
         summary_en: 'Child-friendly gentle dental checkups, milk tooth restoration, pulpectomy, and fluoride decay prevention.',
         summary_bn: 'শিশুদের দুধদাঁতের সুরক্ষা, ব্যথাহীন ক্যাভিটি ফিলিং ও সচেতনতামূলক দাঁতের যত্ন।',
-        image_url: '/images/treatments/pediatric-dentistry.svg'
+        image_url: '/images/treatments/pediatric-dentistry.jpg'
       },
       {
         slug: 'fractured-teeth-trauma',
@@ -95,7 +95,7 @@ export async function renderTreatmentsListPage() {
         category: 'Emergency Care',
         summary_en: 'Immediate emergency management of chipped, fractured, or accidentally dislodged teeth with composite bonding.',
         summary_bn: 'দুর্ঘটনায় ভেঙে যাওয়া বা নড়ে যাওয়া দাঁত জোড়া লাগানো ও জরুরি ট্রমা প্রতিস্থাপন।',
-        image_url: '/images/treatments/fractured-tooth.svg'
+        image_url: '/images/treatments/fractured-tooth.jpg'
       },
       {
         slug: 'cosmetic-dentistry-smile-designing',
@@ -104,7 +104,7 @@ export async function renderTreatmentsListPage() {
         category: 'Cosmetic Care',
         summary_en: 'Aesthetic veneers, tooth whitening, composite diastema closure, and digital smile enhancement.',
         summary_bn: 'দাঁতের ফাঁকা বন্ধ করা, দাগ দূর করা ও হাসিকে আকর্ষণীয় করার কসমেটিক চিকিৎসা।',
-        image_url: '/images/treatments/smile-design.svg'
+        image_url: '/images/treatments/smile-design.jpg'
       },
       {
         slug: 'minor-oral-cystic-surgery',
@@ -113,7 +113,7 @@ export async function renderTreatmentsListPage() {
         category: 'Oral Surgery',
         summary_en: 'Surgical excision of oral cysts, mucoceles, frenectomy, and biopsy with strict aseptic protocol.',
         summary_bn: 'মুখের ভেতরের সিস্ট, পলিপ বা অস্বাভাবিক মাংসপিণ্ডের নিরাপদ মাইনর অপারেশন।',
-        image_url: '/images/treatments/oral-surgery.svg'
+        image_url: '/images/treatments/oral-surgery.jpg'
       },
       {
         slug: 'full-mouth-reconstruction',
@@ -122,7 +122,7 @@ export async function renderTreatmentsListPage() {
         category: 'Advanced Surgery',
         summary_en: 'Comprehensive occlusal rehabilitation and alveolar bone preservation for severely damaged dentition.',
         summary_bn: 'পুরো মুখের অধিকাংশ ক্ষয়ে যাওয়া দাঁতের পূর্ণাঙ্গ কার্যক্ষমতা ও সৌন্দর্য ফিরিয়ে আনা।',
-        image_url: '/images/treatments/full-reconstruction.svg'
+        image_url: '/images/treatments/full-reconstruction.jpg'
       }
     ];
   }

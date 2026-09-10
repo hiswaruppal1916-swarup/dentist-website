@@ -1,4 +1,7 @@
-export function renderFloatingActions() {
+export function renderFloatingActions(currentPath = window.location.pathname) {
+  if (currentPath === '/doctor-dashboard' || currentPath === '/admin' || currentPath === '/doctor-login') {
+    return '';
+  }
   return `
     <div class="floating-actions" id="floating-actions" aria-label="Quick Contact">
       <a href="https://wa.me/919733835105?text=Hello%20Dr.%20Supriyo%20Sahu,%20I%20would%20like%20to%20consult%20at%20Dental%20Paradise." target="_blank" rel="noopener noreferrer" class="floating-btn whatsapp" title="Chat on WhatsApp">

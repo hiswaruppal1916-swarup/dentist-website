@@ -27,7 +27,7 @@ export async function renderHomePage() {
         name_bn: 'রুট ক্যানাল ট্রিটমেন্ট',
         summary_en: 'Painless single-sitting or dual-visit rotary endodontics to eliminate tooth infection and save natural teeth.',
         summary_bn: 'দাঁতের তীব্র ব্যথা ও ইনফেকশন দূর করে আসল দাঁত বাঁচানোর ব্যথাহীন আধুনিক চিকিৎসা।',
-        image_url: '/images/treatments/root-canal.svg'
+        image_url: '/images/treatments/root-canal.jpg'
       },
       {
         slug: 'painless-tooth-extraction',
@@ -35,7 +35,7 @@ export async function renderHomePage() {
         name_bn: 'ব্যথাহীন দাঁত তোলা',
         summary_en: 'Gentle, atraumatic tooth removal using calibrated local numbing and sterile surgical instruments.',
         summary_bn: 'সঠিক মাত্রার লোকাল অবশকরণ দ্বারা কোনো প্রকার কষ্ট ছাড়া নিরাপদে দাঁত তোলা।',
-        image_url: '/images/treatments/tooth-extraction.svg'
+        image_url: '/images/treatments/tooth-extraction.jpg'
       },
       {
         slug: 'impaction-wisdom-tooth-surgery',
@@ -43,7 +43,7 @@ export async function renderHomePage() {
         name_bn: 'উইজডম দাঁত ও ইমপ্যাকশন সার্জারি',
         summary_en: 'Specialized oral surgery for impacted, angled 3rd molars causing severe jaw swelling and gum pain.',
         summary_bn: 'বাঁকা ও মাড়ির ভেতর আটকে থাকা আক্কেল দাঁতের বিশেষজ্ঞ সার্জিক্যাল সমাধান।',
-        image_url: '/images/treatments/wisdom-tooth.svg'
+        image_url: '/images/treatments/wisdom-tooth.jpg'
       },
       {
         slug: 'crown-bridge-prosthesis',
@@ -51,7 +51,7 @@ export async function renderHomePage() {
         name_bn: 'দাঁতের ক্যাপ ও ব্রিজ',
         summary_en: 'Precision zirconia, ceramic, and metal prosthetics to restore chewing function and natural smile.',
         summary_bn: 'ভাঙা বা তোলা দাঁতের স্থানে নিখুঁত ও মজবুত কৃত্রিম দাঁত ও ক্যাপ প্রতিস্থাপন।',
-        image_url: '/images/treatments/crown-bridge.svg'
+        image_url: '/images/treatments/crown-bridge.jpg'
       },
       {
         slug: 'scaling-polishing',
@@ -59,7 +59,7 @@ export async function renderHomePage() {
         name_bn: 'দাঁতের স্কেলিং ও পলিশিং',
         summary_en: 'Ultrasonic piezoelectric cleaning to safely remove hard tartar, tobacco stains, and bad breath.',
         summary_bn: 'দাঁতের ক্ষতিকর পাথর (টারটার), দাগ ও মুখের দুর্গন্ধ দূর করার আধুনিক ক্লিনিক্যাল ওয়াশ।',
-        image_url: '/images/treatments/scaling-polishing.svg'
+        image_url: '/images/treatments/scaling-polishing.jpg'
       },
       {
         slug: 'dental-restoration-fillings',
@@ -67,7 +67,7 @@ export async function renderHomePage() {
         name_bn: 'দাঁতের ফিলিং ও রেস্টোরেশন',
         summary_en: 'Composite aesthetic fillings to restore cavity holes invisibly and prevent deep nerve infection.',
         summary_bn: 'দাঁতের গর্ত বা ক্যাভিটি দাঁতের স্বাভাবিক রঙের মতো নিখুঁতভাবে ভরাট করার চিকিৎসা।',
-        image_url: '/images/treatments/dental-filling.svg'
+        image_url: '/images/treatments/dental-filling.jpg'
       }
     ];
   }
