@@ -140,6 +140,56 @@ export class NotificationService {
   }
 
   /**
+   * Notify PATIENT that their booking is received and registered in queue.
+   * Strictly targeted to patient role and patient phone.
+   */
+  static async notifyPatientBookingConfirmation(apt) {
+    if (!apt || !apt.patient_phone) return;
+    try {
+      const targetUrl = `/appointment-status?id=${apt.id}&phone=${encodeURIComponent(apt.patient_phone)}`;
+      const title = 'Appointment Booked ✅';
+      const body = `Queue #${apt.queue_number || '•'}: Booked for ${apt.treatment_name} on ${apt.appointment_date} at ${apt.appointment_time}.`;
+
+      const { data, error } = await supabase
+        .from('notifications')
+        .insert({
+          recipient_role: 'patient',
+          recipient_identifier: apt.patient_phone,
+          appointment_id: apt.id,
+          title: title,
+          body: body,
+          target_url: targetUrl,
+          is_read: false
+        })
+        .select()
+        .single();
+
+      if (error) {
+        console.error('Error writing patient booking confirmation to database:', error);
+      }
+
+      return data;
+    } catch (err) {
+      console.error('notifyPatientBookingConfirmation error:', err);
+    }
+  }
+
+  /**
+   * Deactivate/remove an expired or invalid device token
+   */
+  static async removeDeviceToken(token) {
+    if (!token) return;
+    try {
+      await supabase
+        .from('notification_devices')
+        .delete()
+        .eq('fcm_token', token);
+    } catch (e) {
+      console.warn('Could not remove device token:', e);
+    }
+  }
+
+  /**
    * Notify PATIENT that their appointment status was changed by the Doctor.
    * Strictly targeted to patient role and patient phone.
    */

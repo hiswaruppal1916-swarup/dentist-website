@@ -241,23 +241,56 @@ export function initHeaderEvents() {
 
     async function loadDropdownNotifications() {
       if (!notifList) return;
-      notifList.innerHTML = '<div class="notif-empty-state"><span class="material-symbols-outlined animate-spin text-[20px]">sync</span><p style="margin-top:0.3rem;">Loading...</p></div>';
+      notifList.innerHTML = '<div class="notif-empty-state"><span class="material-symbols-outlined animate-spin text-[24px]">sync</span><p style="margin-top:0.4rem; font-weight:600;">Loading notifications...</p></div>';
       const items = await NotificationService.getNotifications(currentRole, currentIdentifier);
       if (!items || items.length === 0) {
-        notifList.innerHTML = '<div class="notif-empty-state">No notifications right now.</div>';
+        notifList.innerHTML = `
+          <div class="notif-empty-state">
+            <span class="material-symbols-outlined text-[36px]" style="color:#94A3B8;">notifications_off</span>
+            <p style="margin-top:0.4rem; font-weight:700; color:var(--color-primary);">All caught up!</p>
+            <p style="font-size:0.75rem; color:var(--text-muted); margin-top:0.2rem;">No notifications right now.</p>
+          </div>
+        `;
         return;
       }
 
-      notifList.innerHTML = items.map(item => `
-        <div class="notif-item ${item.is_read ? 'read' : 'unread'}" data-id="${item.id}" data-url="${item.target_url || '/'}">
-          <div class="notif-item-dot"></div>
-          <div class="notif-item-content">
-            <div class="notif-item-title">${item.title}</div>
-            <div class="notif-item-body">${item.body}</div>
-            <div class="notif-item-time">${formatRelativeTime(item.created_at)}</div>
+      notifList.innerHTML = items.map(item => {
+        let icon = '📅';
+        let iconClass = 'booked';
+        const tLower = (item.title || '').toLowerCase();
+        if (tLower.includes('new appointment') || item.recipient_role === 'doctor') {
+          icon = '🩺';
+          iconClass = 'doctor';
+        } else if (tLower.includes('confirmed') || tLower.includes('accepted')) {
+          icon = '✅';
+          iconClass = 'confirmed';
+        } else if (tLower.includes('rejected') || tLower.includes('not accepted') || tLower.includes('cancelled')) {
+          icon = '⚠️';
+          iconClass = 'rejected';
+        }
+
+        return `
+          <div class="notif-item ${item.is_read ? 'read' : 'unread'}" data-id="${item.id}" data-url="${item.target_url || '/'}">
+            <div class="notif-icon-box ${iconClass}">${icon}</div>
+            <div class="notif-item-content">
+              <div class="notif-header-row">
+                <div class="notif-item-title">${item.title}</div>
+                <div class="notif-item-time">${formatRelativeTime(item.created_at)}</div>
+              </div>
+              <div class="notif-item-body">${item.body}</div>
+              ${item.appointment_id ? `
+                <div class="notif-meta-tags">
+                  <span class="notif-tag-chip">
+                    <span class="material-symbols-outlined text-[12px]">tag</span>
+                    <span>${item.appointment_id}</span>
+                  </span>
+                </div>
+              ` : ''}
+            </div>
+            ${!item.is_read ? '<div class="notif-unread-dot" title="Unread notification"></div>' : ''}
           </div>
-        </div>
-      `).join('');
+        `;
+      }).join('');
 
       notifList.querySelectorAll('.notif-item').forEach(el => {
         el.addEventListener('click', async () => {

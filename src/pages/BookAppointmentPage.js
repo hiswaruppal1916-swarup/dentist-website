@@ -653,17 +653,26 @@ export function initBookAppointmentEvents() {
         `/appointment-status?id=${appointmentId}&phone=${encodeURIComponent(phone)}`
       );
 
-      // 5. Notify Dr. Supriyo Sahu across all active doctor devices & database
+      const aptRecord = inserted || {
+        id: appointmentId,
+        patient_name: name,
+        patient_phone: phone,
+        treatment_name: treatment,
+        appointment_date: date,
+        appointment_time: time,
+        queue_number: queueNumber
+      };
+
+      // 5. Create Patient Confirmation notification in DB & patient bell
       try {
-        await NotificationService.notifyDoctorNewAppointment(inserted || {
-          id: appointmentId,
-          patient_name: name,
-          patient_phone: phone,
-          treatment_name: treatment,
-          appointment_date: date,
-          appointment_time: time,
-          queue_number: queueNumber
-        });
+        await NotificationService.notifyPatientBookingConfirmation(aptRecord);
+      } catch (patNotifErr) {
+        console.warn('Could not record patient confirmation notification:', patNotifErr);
+      }
+
+      // 6. Notify Dr. Supriyo Sahu across all active doctor devices & database
+      try {
+        await NotificationService.notifyDoctorNewAppointment(aptRecord);
       } catch (docNotifErr) {
         console.warn('Could not dispatch doctor notification:', docNotifErr);
       }

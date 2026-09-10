@@ -4,7 +4,7 @@ import { renderFooter } from './components/Footer.js';
 import { renderFloatingActions } from './components/FloatingActions.js';
 import { initPwaBanner } from './components/PwaBanner.js';
 
-import { renderHomePage } from './pages/HomePage.js';
+import { renderHomePage, initHomePageEvents } from './pages/HomePage.js';
 import { renderAboutPage } from './pages/AboutPage.js';
 import { renderDoctorsDirectoryPage } from './pages/DoctorsDirectoryPage.js';
 import { renderDoctorProfilePage } from './pages/DoctorProfilePage.js';
@@ -56,6 +56,7 @@ async function route() {
   if (path === '/' || path === '') {
     updateMetadata('Complete Oral & Dental Care in Math Chandipur', 'Painless dental treatment & oral surgery by Dr. Supriyo Sahu at Dental Paradise, Math Chandipur. Book your appointment slot online.');
     mainHtml = await renderHomePage();
+    onRendered = initHomePageEvents;
   } else if (path === '/about') {
     updateMetadata('About Clinic & Dr. Supriyo Sahu', 'Learn about Dental Paradise, Asia’s oldest dental college training background, and clinical excellence in Math Chandipur.');
     mainHtml = renderAboutPage();

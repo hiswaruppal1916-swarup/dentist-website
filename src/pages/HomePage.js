@@ -1,5 +1,6 @@
 import { supabase } from '../services/supabase.js';
-import { isClinicClosedOnDate } from '../utils/schedule.js';
+import { isClinicClosedOnDate, formatDisplayDate, formatDisplayTime } from '../utils/schedule.js';
+import { NotificationService, playNotificationChime } from '../services/notifications.js';
 
 export async function renderHomePage() {
   const todayStr = new Date().toISOString().split('T')[0];
@@ -197,6 +198,9 @@ export async function renderHomePage() {
         </div>
       </section>
 
+      <!-- LIVE PATIENT APPOINTMENT TRACKER (If patient has active booking) -->
+      <div id="patient-active-appointment-container"></div>
+
       <!-- CLINICAL TRUST HIGHLIGHTS STRIP -->
       <section class="trust-strip-grid">
         <div class="trust-card">
@@ -386,3 +390,98 @@ export async function renderHomePage() {
     </div>
   `;
 }
+
+export async function initHomePageEvents() {
+  const trackerContainer = document.getElementById('patient-active-appointment-container');
+  if (!trackerContainer) return;
+
+  const lastAptId = localStorage.getItem('last_apt_id');
+  if (!lastAptId) return;
+
+  async function loadActiveAppointment() {
+    try {
+      const { data, error } = await supabase
+        .from('appointments')
+        .select('*')
+        .eq('id', lastAptId)
+        .maybeSingle();
+
+      if (error || !data) return;
+
+      // Do not show completed or cancelled appointments on the live active widget
+      if (data.status === 'completed' || data.status === 'cancelled') {
+        trackerContainer.innerHTML = '';
+        return;
+      }
+
+      let statusBadgeClass = data.status;
+      let statusLabel = data.status;
+      if (data.status === 'confirmed') statusLabel = 'Accepted & Confirmed';
+      else if (data.status === 'pending') statusLabel = 'Pending Review';
+      else if (data.status === 'arrived') statusLabel = 'Patient Arrived';
+      else if (data.status === 'in_consultation') statusLabel = 'In Consultation';
+      else if (data.status === 'rejected') statusLabel = 'Not Accepted';
+
+      trackerContainer.innerHTML = `
+        <div class="active-apt-tracker-card">
+          <div class="active-apt-tracker-header">
+            <span class="active-apt-tag">
+              <span class="material-symbols-outlined text-[14px]">schedule</span>
+              <span>Your Live Consultation • Queue #${data.queue_number || '•'}</span>
+            </span>
+            <span class="status-badge ${statusBadgeClass}">● ${statusLabel}</span>
+          </div>
+
+          <div class="active-apt-body">
+            <div class="active-apt-info">
+              <h3>${data.treatment_name}</h3>
+              <div class="active-apt-meta">
+                <span>🗓️ ${formatDisplayDate(data.appointment_date)}</span>
+                <span>⏰ ${formatDisplayTime(data.appointment_time)}</span>
+                <span>👤 ${data.patient_name}</span>
+              </div>
+            </div>
+
+            <a href="/appointment-status?id=${data.id}&phone=${encodeURIComponent(data.patient_phone || '')}" class="btn btn-secondary btn-sm" style="white-space:nowrap;">
+              <span>Track Queue &amp; Directions →</span>
+            </a>
+          </div>
+        </div>
+      `;
+
+      // Realtime subscription for live patient status changes on homepage
+      if (window.__dp_home_channel) {
+        supabase.removeChannel(window.__dp_home_channel);
+        window.__dp_home_channel = null;
+      }
+
+      window.__dp_home_channel = supabase
+        .channel(`home-apt-${data.id}`)
+        .on(
+          'postgres_changes',
+          {
+            event: 'UPDATE',
+            schema: 'public',
+            table: 'appointments',
+            filter: `id=eq.${data.id}`
+          },
+          (payload) => {
+            console.log('Realtime status change received on homepage:', payload);
+            playNotificationChime('patient');
+            NotificationService.showToast(
+              `🔔 Your appointment status updated to: ${payload.new.status.toUpperCase()}!`,
+              'success'
+            );
+            loadActiveAppointment();
+          }
+        )
+        .subscribe();
+
+    } catch (e) {
+      console.warn('Could not load patient active appointment for homepage tracker:', e);
+    }
+  }
+
+  loadActiveAppointment();
+}
+

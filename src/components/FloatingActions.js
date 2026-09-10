@@ -1,5 +1,10 @@
 export function renderFloatingActions(currentPath = window.location.pathname) {
-  if (currentPath === '/doctor-dashboard' || currentPath === '/admin' || currentPath === '/doctor-login') {
+  if (
+    currentPath.startsWith('/doctor-dashboard') ||
+    currentPath.startsWith('/admin') ||
+    currentPath.startsWith('/doctor-login') ||
+    currentPath.startsWith('/dashboard')
+  ) {
     return '';
   }
   return `
