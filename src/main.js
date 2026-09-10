@@ -45,7 +45,7 @@ async function route() {
   app.innerHTML = `
     <div style="min-height:70vh; display:flex; align-items:center; justify-content:center; color:var(--color-primary); font-size:1.1rem;">
       <div style="text-align:center;">
-        <img src="/favicon.svg" alt="Loading Dental Paradise" style="width:48px; height:48px; margin:0 auto 1rem; animation:pulse 1.5s infinite;" />
+        <img src="/icons/icon-192.png" alt="Loading Dental Paradise" style="width:48px; height:48px; border-radius:12px; margin:0 auto 1rem; animation:pulse 1.5s infinite; object-fit:cover;" />
         <p>Loading Dental Paradise...</p>
       </div>
     </div>

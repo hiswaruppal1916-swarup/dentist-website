@@ -50,7 +50,7 @@ export async function renderBookAppointmentPage(preselectedTreatment = '') {
     const iconPath = t.image_url || t.icon_svg || '/images/treatments/general-consultation.svg';
     return `
       <div class="treatment-select-card ${isSelected ? 'selected' : ''}" data-treatment="${t.name_en}" data-treatment-bn="${t.name_bn || ''}" role="button" tabindex="0">
-        <img src="${iconPath}" alt="${t.name_en}" class="treatment-select-icon" onerror="this.src='/favicon.svg'" />
+        <img src="${iconPath}" alt="${t.name_en}" class="treatment-select-icon" onerror="this.src='/icons/icon-192.png'" />
         <div class="treatment-select-info">
           <div class="treatment-select-title">${t.name_en}</div>
           <div class="treatment-select-bn bn-text">${t.name_bn || ''}</div>

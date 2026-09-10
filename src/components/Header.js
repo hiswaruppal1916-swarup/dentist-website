@@ -42,8 +42,8 @@ export function renderHeader(activeRoute = '/') {
       <div class="container site-nav-container">
         <!-- Brand / Clinic Name -->
         <a href="/" class="brand-wrapper" aria-label="Dental Paradise Home">
-          <div class="brand-icon-box">
-            <span class="material-symbols-outlined text-[22px]" style="font-variation-settings: 'FILL' 1;">dentistry</span>
+          <div class="brand-icon-box" style="width:36px; height:36px; border-radius:10px; overflow:hidden; flex-shrink:0;">
+            <img src="/icons/icon-192.png" alt="Dental Paradise" style="width:100%; height:100%; object-fit:cover;" />
           </div>
           <div class="brand-text-box">
             <span class="brand-name">Dental Paradise</span>

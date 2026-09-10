@@ -27,7 +27,7 @@ function showBanner() {
   banner.className = 'pwa-banner';
   banner.innerHTML = `
     <div style="display:flex; align-items:center; gap:0.75rem;">
-      <img src="/favicon.svg" alt="App Icon" style="width:40px; height:40px; border-radius:8px;"/>
+      <img src="/icons/icon-192.png" alt="App Icon" style="width:40px; height:40px; border-radius:8px; object-fit:cover;"/>
       <div>
         <strong style="display:block; font-size:0.95rem; color:#0B2545;">Install Dental Paradise App</strong>
         <span style="font-size:0.78rem; color:#64748B;">Fast appointment booking & instant push alerts</span>
@@ -65,7 +65,7 @@ function showIosBanner() {
   banner.className = 'pwa-banner';
   banner.innerHTML = `
     <div style="display:flex; align-items:center; gap:0.75rem;">
-      <img src="/favicon.svg" alt="App Icon" style="width:36px; height:36px; border-radius:8px;"/>
+      <img src="/icons/icon-192.png" alt="App Icon" style="width:36px; height:36px; border-radius:8px; object-fit:cover;"/>
       <div>
         <strong style="display:block; font-size:0.9rem; color:#0B2545;">Add Dental Paradise to Home Screen</strong>
         <span style="font-size:0.75rem; color:#64748B;">Tap <strong>Share</strong> ( <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg> ) then <strong>"Add to Home Screen"</strong></span>

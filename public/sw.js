@@ -2,7 +2,11 @@
 const CACHE_NAME = 'dental-paradise-v1';
 const ASSETS_TO_CACHE = [
   '/',
+  '/favicon.ico',
   '/favicon.svg',
+  '/icons/icon-192.png',
+  '/icons/icon-512.png',
+  '/apple-touch-icon.png',
   '/manifest.webmanifest',
   '/images/dr-supriyo-sahu.jpg',
   '/images/dental-paradise-card.jpg'
@@ -72,8 +76,8 @@ self.addEventListener('push', (event) => {
 
   const options = {
     body: data.body,
-    icon: '/favicon.svg',
-    badge: '/favicon.svg',
+    icon: '/icons/icon-192.png',
+    badge: '/icons/icon-192.png',
     vibrate: [100, 50, 100],
     data: {
       url: data.url || '/'

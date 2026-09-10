@@ -5,7 +5,7 @@ export function renderFooter() {
         <div class="footer-grid">
           <div class="footer-brand">
             <div style="display:flex; align-items:center; gap:0.75rem; margin-bottom:1rem;">
-              <img src="/favicon.svg" alt="Dental Paradise" style="width:36px; height:36px; border-radius:8px;" />
+              <img src="/icons/icon-192.png" alt="Dental Paradise" style="width:36px; height:36px; border-radius:8px; object-fit:cover;" />
               <div>
                 <h3 style="margin:0; font-size:1.3rem;">Dental Paradise</h3>
                 <span style="font-size:0.75rem; color:#00A896; text-transform:uppercase; letter-spacing:0.05em;">A Complete Oral & Dental Care</span>

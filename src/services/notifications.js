@@ -388,22 +388,22 @@ export class NotificationService {
         const registration = await navigator.serviceWorker.ready;
         await registration.showNotification(title, {
           body: body,
-          icon: '/favicon.svg',
-          badge: '/favicon.svg',
+          icon: '/icons/icon-192.png',
+          badge: '/icons/icon-192.png',
           vibrate: [100, 50, 100],
           data: { url: url }
         });
       } else {
         new Notification(title, {
           body: body,
-          icon: '/favicon.svg'
+          icon: '/icons/icon-192.png'
         });
       }
     } catch (e) {
       try {
         new Notification(title, {
           body: body,
-          icon: '/favicon.svg'
+          icon: '/icons/icon-192.png'
         });
       } catch (err2) {
         console.warn('Notification constructor failed:', err2);
@@ -429,7 +429,7 @@ export class NotificationService {
     toast.className = `toast toast-${type}`;
     toast.innerHTML = `
       <div class="toast-content">
-        <img src="/favicon.svg" alt="Dental Paradise" class="toast-icon"/>
+        <img src="/icons/icon-192.png" alt="Dental Paradise" class="toast-icon"/>
         <span>${message}</span>
       </div>
       <button class="toast-close" onclick="this.parentElement.remove()" aria-label="Close notification">&times;</button>
