@@ -1,4 +1,41 @@
 import { supabase } from './supabase.js';
+import { initializeApp, getApps, getApp } from 'firebase/app';
+import { getMessaging, getToken, onMessage, isSupported } from 'firebase/messaging';
+
+// Public Firebase Web Client Configuration (Safe for client-side use)
+const firebaseConfig = {
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID
+};
+
+let firebaseApp = null;
+let fcmMessaging = null;
+let foregroundListenerInitialized = false;
+
+async function getFirebaseMessaging() {
+  if (fcmMessaging) return fcmMessaging;
+  try {
+    const supported = await isSupported();
+    if (!supported) {
+      console.warn('[FCM] Firebase Messaging is not supported in this browser environment.');
+      return null;
+    }
+    if (!getApps().length) {
+      firebaseApp = initializeApp(firebaseConfig);
+    } else {
+      firebaseApp = getApp();
+    }
+    fcmMessaging = getMessaging(firebaseApp);
+    return fcmMessaging;
+  } catch (err) {
+    console.warn('[FCM] Error initializing Firebase Messaging:', err);
+    return null;
+  }
+}
 
 export function playNotificationChime(type = 'doctor') {
   try {
@@ -42,7 +79,8 @@ export function playNotificationChime(type = 'doctor') {
 export class NotificationService {
   /**
    * Request push/notification permission and register device in Supabase.
-   * Uses persistent unique local token per browser profile to support multi-device doctor accounts.
+   * Obtains real Google Firebase Cloud Messaging (FCM) token via Firebase Web SDK.
+   * Supports multiple devices per account (laptop, phone, tablet) without overwriting.
    */
   static async requestPermissionAndRegister(role = 'patient', userIdentifier = '') {
     if (!('Notification' in window)) {
@@ -57,29 +95,53 @@ export class NotificationService {
         return false;
       }
 
-      // Generate or reuse persistent device token
-      let token = localStorage.getItem('dp_device_token');
-      if (!token) {
-        token = 'dp_' + (role === 'doctor' ? 'doc_' : 'pat_') + Math.random().toString(36).substring(2, 12) + '_' + Date.now();
-        localStorage.setItem('dp_device_token', token);
+      // Ensure service worker is registered for firebase-messaging-sw.js
+      let swRegistration = null;
+      if ('serviceWorker' in navigator) {
+        try {
+          swRegistration = await navigator.serviceWorker.register('/firebase-messaging-sw.js', { scope: '/' });
+          await navigator.serviceWorker.ready;
+          console.log('[FCM] ServiceWorker ready for FCM registration:', swRegistration.scope);
+        } catch (swErr) {
+          console.warn('[FCM] ServiceWorker registration warning:', swErr);
+        }
       }
 
-      // If Service Worker PushManager subscription is available, we can capture endpoint
-      try {
-        if ('serviceWorker' in navigator) {
-          const registration = await navigator.serviceWorker.ready;
-          const sub = await registration.pushManager?.getSubscription();
-          if (sub) {
-            token = JSON.stringify(sub);
+      // Attempt to obtain real Firebase Cloud Messaging registration token
+      const messaging = await getFirebaseMessaging();
+      const vapidKey = import.meta.env.VITE_FIREBASE_VAPID_KEY;
+      let realFcmToken = null;
+
+      if (messaging && vapidKey) {
+        try {
+          realFcmToken = await getToken(messaging, {
+            vapidKey: vapidKey,
+            serviceWorkerRegistration: swRegistration || undefined
+          });
+          if (realFcmToken) {
+            console.log(`[FCM] Real FCM token successfully acquired for ${role}:`, realFcmToken.substring(0, 20) + '...');
           }
+        } catch (tokenErr) {
+          console.warn('[FCM] getToken failed, falling back to persistent token:', tokenErr);
         }
-      } catch (swErr) {
-        console.warn('Could not inspect pushManager subscription, using device token:', swErr);
       }
+
+      // If real FCM token was acquired, use it; otherwise fallback to local unique token
+      let token = realFcmToken;
+      if (!token) {
+        token = localStorage.getItem('dp_fcm_token') || localStorage.getItem('dp_device_token');
+        if (!token) {
+          token = 'dp_' + (role === 'doctor' ? 'doc_' : 'pat_') + Math.random().toString(36).substring(2, 12) + '_' + Date.now();
+        }
+      }
+
+      localStorage.setItem('dp_fcm_token', token);
+      localStorage.setItem('dp_device_token', token);
 
       const cleanIdentifier = (userIdentifier || '').trim().toLowerCase();
 
       // Upsert into Supabase notification_devices (unique on fcm_token)
+      // Preserves every other valid registered device for doctor or patient
       const { error } = await supabase
         .from('notification_devices')
         .upsert({
@@ -94,6 +156,19 @@ export class NotificationService {
         console.error('Failed to register notification device in database:', error);
       } else {
         console.log(`Registered ${role} device [${token.substring(0, 16)}...] for ${cleanIdentifier}`);
+      }
+
+      // Attach foreground message listener (once)
+      if (messaging && !foregroundListenerInitialized) {
+        foregroundListenerInitialized = true;
+        onMessage(messaging, (payload) => {
+          console.log('[FCM] Foreground push message received:', payload);
+          const title = payload.notification?.title || payload.data?.title || 'Dental Paradise';
+          const body = payload.notification?.body || payload.data?.body || '';
+
+          playNotificationChime(role === 'doctor' ? 'doctor' : 'patient');
+          NotificationService.showToast(`${title}: ${body}`, 'info');
+        });
       }
 
       return true;
@@ -131,6 +206,20 @@ export class NotificationService {
 
       if (error) {
         console.error('Error writing doctor notification to database:', error);
+      } else if (data) {
+        // Dispatch real FCM background push to all doctor devices
+        supabase.functions.invoke('send-fcm-push', {
+          body: {
+            notification_id: data.id,
+            appointment_id: apt.id,
+            recipient_role: 'doctor',
+            recipient_identifier: docEmail,
+            title: title,
+            body: body,
+            target_url: targetUrl,
+            type: 'new_appointment'
+          }
+        }).catch(err => console.warn('[FCM Dispatch] Doctor push error:', err));
       }
 
       return data;
@@ -166,6 +255,20 @@ export class NotificationService {
 
       if (error) {
         console.error('Error writing patient booking confirmation to database:', error);
+      } else if (data) {
+        // Dispatch real FCM background push to patient device
+        supabase.functions.invoke('send-fcm-push', {
+          body: {
+            notification_id: data.id,
+            appointment_id: apt.id,
+            recipient_role: 'patient',
+            recipient_identifier: apt.patient_phone,
+            title: title,
+            body: body,
+            target_url: targetUrl,
+            type: 'booking_confirmation'
+          }
+        }).catch(err => console.warn('[FCM Dispatch] Patient push error:', err));
       }
 
       return data;
@@ -236,6 +339,20 @@ export class NotificationService {
 
       if (error) {
         console.error('Error writing patient notification to database:', error);
+      } else if (data) {
+        // Dispatch real FCM background push for status change
+        supabase.functions.invoke('send-fcm-push', {
+          body: {
+            notification_id: data.id,
+            appointment_id: apt.id,
+            recipient_role: 'patient',
+            recipient_identifier: apt.patient_phone,
+            title: title,
+            body: body,
+            target_url: targetUrl,
+            type: `status_${newStatus}`
+          }
+        }).catch(err => console.warn('[FCM Dispatch] Status change push error:', err));
       }
 
       return data;

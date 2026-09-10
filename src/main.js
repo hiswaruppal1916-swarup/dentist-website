@@ -184,8 +184,8 @@ if ('serviceWorker' in navigator) {
   });
 
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js').then((reg) => {
-      console.log('Dental Paradise PWA ServiceWorker registered with scope:', reg.scope);
+    navigator.serviceWorker.register('/firebase-messaging-sw.js').then((reg) => {
+      console.log('Dental Paradise PWA & FCM ServiceWorker registered with scope:', reg.scope);
     }).catch((err) => {
       console.warn('ServiceWorker registration error:', err);
     });
