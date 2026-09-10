@@ -1,4 +1,20 @@
 import { isClinicClosedOnDate } from '../utils/schedule.js';
+import { supabase } from '../services/supabase.js';
+import { NotificationService } from '../services/notifications.js';
+
+function formatRelativeTime(dateStr) {
+  if (!dateStr) return '';
+  const now = new Date();
+  const date = new Date(dateStr);
+  const diffSec = Math.floor((now - date) / 1000);
+  if (diffSec < 60) return 'Just now';
+  const diffMin = Math.floor(diffSec / 60);
+  if (diffMin < 60) return `${diffMin}m ago`;
+  const diffHour = Math.floor(diffMin / 60);
+  if (diffHour < 24) return `${diffHour}h ago`;
+  const diffDays = Math.floor(diffHour / 24);
+  return `${diffDays}d ago`;
+}
 
 export function renderHeader(activeRoute = '/') {
   const todayStr = new Date().toISOString().split('T')[0];
@@ -47,6 +63,26 @@ export function renderHeader(activeRoute = '/') {
 
         <!-- Right Header Actions (Visible on Mobile & Desktop) -->
         <div class="header-right-actions">
+          <!-- Notification Bell with Live Unread Counter -->
+          <div class="header-notif-wrapper" id="header-notif-wrapper">
+            <button class="header-notif-btn" id="header-notif-btn" aria-label="Notifications" title="Clinic Notifications">
+              <span class="material-symbols-outlined text-[20px]">notifications</span>
+              <span class="header-notif-badge" id="header-notif-badge" style="display:none;">0</span>
+            </button>
+            <div class="header-notif-dropdown" id="header-notif-dropdown" style="display:none;">
+              <div class="notif-dropdown-header">
+                <span class="notif-dropdown-title">Clinic Alerts</span>
+                <button class="notif-mark-all-btn" id="notif-mark-all-btn">Mark read</button>
+              </div>
+              <div class="notif-dropdown-list" id="notif-dropdown-list">
+                <div class="notif-empty-state">Loading notifications...</div>
+              </div>
+              <div class="notif-dropdown-footer">
+                <span id="notif-role-indicator" style="font-size:0.7rem; color:var(--text-muted);">Real-Time Updates</span>
+              </div>
+            </div>
+          </div>
+
           <!-- Direct Doctor Portal Access Button (Top Area Requirement) -->
           <a href="/doctor-login" class="doctor-portal-pill" title="Authorized Doctor Portal" aria-label="Doctor Portal">
             <span class="material-symbols-outlined text-[16px]">lock</span>
@@ -163,5 +199,133 @@ export function initHeaderEvents() {
   const desktopBookBtn = document.getElementById('desktop-book-btn');
   if (desktopBookBtn && window.innerWidth >= 1024) {
     desktopBookBtn.style.display = 'inline-flex';
+  }
+
+  // Header Notification Bell & Live Dropdown Logic
+  const notifBtn = document.getElementById('header-notif-btn');
+  const notifBadge = document.getElementById('header-notif-badge');
+  const notifDropdown = document.getElementById('header-notif-dropdown');
+  const notifList = document.getElementById('notif-dropdown-list');
+  const markAllBtn = document.getElementById('notif-mark-all-btn');
+  const roleIndicator = document.getElementById('notif-role-indicator');
+
+  if (notifBtn && notifDropdown) {
+    let currentRole = 'patient';
+    let currentIdentifier = localStorage.getItem('last_apt_phone') || '';
+
+    // Detect role (doctor session vs patient phone)
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      const isDoctor = session?.user?.email?.trim().toLowerCase() === 'supriyosahu96@gmail.com';
+      if (isDoctor) {
+        currentRole = 'doctor';
+        currentIdentifier = 'supriyosahu96@gmail.com';
+      }
+      if (roleIndicator) {
+        roleIndicator.textContent = isDoctor ? '👨‍⚕️ Dr. Supriyo Sahu Alerts' : '👤 Patient Live Updates';
+      }
+      refreshUnreadCount();
+      setupRealtimeHeaderNotifications();
+    });
+
+    async function refreshUnreadCount() {
+      const count = await NotificationService.getUnreadCount(currentRole, currentIdentifier);
+      if (notifBadge) {
+        if (count > 0) {
+          notifBadge.style.display = 'flex';
+          notifBadge.textContent = count > 9 ? '9+' : count;
+        } else {
+          notifBadge.style.display = 'none';
+        }
+      }
+    }
+
+    async function loadDropdownNotifications() {
+      if (!notifList) return;
+      notifList.innerHTML = '<div class="notif-empty-state"><span class="material-symbols-outlined animate-spin text-[20px]">sync</span><p style="margin-top:0.3rem;">Loading...</p></div>';
+      const items = await NotificationService.getNotifications(currentRole, currentIdentifier);
+      if (!items || items.length === 0) {
+        notifList.innerHTML = '<div class="notif-empty-state">No notifications right now.</div>';
+        return;
+      }
+
+      notifList.innerHTML = items.map(item => `
+        <div class="notif-item ${item.is_read ? 'read' : 'unread'}" data-id="${item.id}" data-url="${item.target_url || '/'}">
+          <div class="notif-item-dot"></div>
+          <div class="notif-item-content">
+            <div class="notif-item-title">${item.title}</div>
+            <div class="notif-item-body">${item.body}</div>
+            <div class="notif-item-time">${formatRelativeTime(item.created_at)}</div>
+          </div>
+        </div>
+      `).join('');
+
+      notifList.querySelectorAll('.notif-item').forEach(el => {
+        el.addEventListener('click', async () => {
+          const id = el.dataset.id;
+          const targetUrl = el.dataset.url;
+          await NotificationService.markAsRead(id);
+          notifDropdown.style.display = 'none';
+          refreshUnreadCount();
+          if (targetUrl && targetUrl !== '/') {
+            window.history.pushState({}, '', targetUrl);
+            window.dispatchEvent(new PopStateEvent('popstate'));
+          }
+        });
+      });
+    }
+
+    notifBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = notifDropdown.style.display === 'block';
+      if (isOpen) {
+        notifDropdown.style.display = 'none';
+      } else {
+        notifDropdown.style.display = 'block';
+        loadDropdownNotifications();
+      }
+    });
+
+    if (markAllBtn) {
+      markAllBtn.addEventListener('click', async (e) => {
+        e.stopPropagation();
+        await NotificationService.markAllAsRead(currentRole, currentIdentifier);
+        refreshUnreadCount();
+        loadDropdownNotifications();
+      });
+    }
+
+    // Close on click outside
+    document.addEventListener('click', (e) => {
+      if (!notifDropdown.contains(e.target) && !notifBtn.contains(e.target)) {
+        notifDropdown.style.display = 'none';
+      }
+    });
+
+    window.addEventListener('dp-notification-updated', () => {
+      refreshUnreadCount();
+      if (notifDropdown.style.display === 'block') {
+        loadDropdownNotifications();
+      }
+    });
+
+    function setupRealtimeHeaderNotifications() {
+      if (window.__dp_header_channel) {
+        supabase.removeChannel(window.__dp_header_channel);
+      }
+      window.__dp_header_channel = supabase
+        .channel(`header-notifs-${currentRole}`)
+        .on('postgres_changes', {
+          event: '*',
+          schema: 'public',
+          table: 'notifications',
+          filter: `recipient_role=eq.${currentRole}`
+        }, () => {
+          refreshUnreadCount();
+          if (notifDropdown.style.display === 'block') {
+            loadDropdownNotifications();
+          }
+        })
+        .subscribe();
+    }
   }
 }

@@ -1,6 +1,6 @@
 import { supabase } from '../services/supabase.js';
 import { formatDisplayDate, formatDisplayTime } from '../utils/schedule.js';
-import { NotificationService } from '../services/notifications.js';
+import { NotificationService, playNotificationChime } from '../services/notifications.js';
 
 export const AUTHORIZED_DOCTOR_EMAIL = 'supriyosahu96@gmail.com';
 
@@ -244,8 +244,18 @@ export function initAdminEvents() {
   const refreshBtn = document.getElementById('btn-refresh-queue');
   const pushBtn = document.getElementById('btn-request-push');
 
+  // Auto-register doctor device if notification permission is already granted
+  if (typeof Notification !== 'undefined' && Notification.permission === 'granted') {
+    NotificationService.requestPermissionAndRegister('doctor', AUTHORIZED_DOCTOR_EMAIL);
+  }
+
   if (signoutBtn) {
     signoutBtn.addEventListener('click', async () => {
+      // Clean up realtime subscriptions on signout
+      if (window.__dp_admin_channels) {
+        window.__dp_admin_channels.forEach(ch => supabase.removeChannel(ch));
+        window.__dp_admin_channels = [];
+      }
       signoutBtn.disabled = true;
       signoutBtn.innerHTML = '<span class="material-symbols-outlined text-[16px] animate-spin">sync</span><span>Signing Out...</span>';
       await supabase.auth.signOut();
@@ -256,9 +266,10 @@ export function initAdminEvents() {
 
   if (pushBtn) {
     pushBtn.addEventListener('click', async () => {
-      const res = await NotificationService.requestPermissionAndRegister('doctor', 'doctor-primary');
+      const res = await NotificationService.requestPermissionAndRegister('doctor', AUTHORIZED_DOCTOR_EMAIL);
       if (res) {
-        alert('Doctor Push Notifications successfully enabled on this device!');
+        NotificationService.showToast('Doctor Push Alerts enabled on this device!', 'success');
+        playNotificationChime('doctor');
       } else {
         alert('Could not enable push notifications. Please check browser permission settings.');
       }
@@ -267,6 +278,7 @@ export function initAdminEvents() {
 
   if (datePicker) {
     let currentFilterMode = 'today';
+    const currentAppointmentsMap = new Map();
 
     async function loadAppointments() {
       const tbody = document.getElementById('appointments-tbody');
@@ -321,6 +333,10 @@ export function initAdminEvents() {
         return;
       }
 
+      // Cache appointments in map
+      currentAppointmentsMap.clear();
+      (data || []).forEach(apt => currentAppointmentsMap.set(apt.id, apt));
+
       // Update metrics for today
       updateTodayMetrics();
 
@@ -332,13 +348,20 @@ export function initAdminEvents() {
         return;
       }
 
-      if (countBadge) countBadge.textContent = `${data.length} Patient${data.length > 1 ? 's' : ''}`;
+      if (countBadge) {
+        countBadge.textContent = `${data.length} Patient${data.length === 1 ? '' : 's'}`;
+      }
+
+      // Check if URL specifies a target appointment to highlight
+      const urlParams = new URLSearchParams(window.location.search);
+      const targetAptId = urlParams.get('appointment');
 
       // 1. Desktop Table Rows (contained, responsive)
       if (tbody) {
         tbody.innerHTML = data.map((apt, index) => {
+          const isTarget = targetAptId === apt.id;
           return `
-            <tr>
+            <tr id="apt-row-${apt.id}" class="admin-apt-row ${isTarget ? 'highlight-target' : ''}">
               <td>
                 <span class="queue-num-chip">#${apt.queue_number || (index + 1)}</span>
               </td>
@@ -375,8 +398,9 @@ export function initAdminEvents() {
       // 2. Mobile Responsive Cards (100% contained, zero button overflow)
       if (mobileCards) {
         mobileCards.innerHTML = data.map((apt, index) => {
+          const isTarget = targetAptId === apt.id;
           return `
-            <div class="admin-apt-card">
+            <div id="apt-card-${apt.id}" class="admin-apt-card ${isTarget ? 'highlight-target' : ''}">
               <!-- Top Card Bar: Queue #, Date & Status -->
               <div class="admin-apt-card-header">
                 <div style="display:flex; align-items:center; gap:0.5rem;">
@@ -427,6 +451,17 @@ export function initAdminEvents() {
             </div>
           `;
         }).join('');
+      }
+
+      // Auto-scroll to target appointment if opened via notification link
+      if (targetAptId) {
+        setTimeout(() => {
+          const targetEl = document.getElementById(`apt-card-${targetAptId}`) || document.getElementById(`apt-row-${targetAptId}`);
+          if (targetEl) {
+            targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            targetEl.classList.add('pulse-highlight');
+          }
+        }, 150);
       }
 
       // Attach action listeners
@@ -516,11 +551,15 @@ export function initAdminEvents() {
 
             if (error) throw error;
 
-            NotificationService.showLocalNotification(
-              'Appointment Status Updated',
-              `Appointment #${aptId} is now ${newStatus}.`,
-              `/appointment-status?id=${aptId}`
+            // Notify PATIENT (does NOT show local notification on doctor's own device)
+            const currentApt = currentAppointmentsMap.get(aptId);
+            await NotificationService.notifyPatientStatusChange(
+              currentApt || { id: aptId },
+              newStatus,
+              rejectionReason
             );
+
+            NotificationService.showToast(`Status updated to ${newStatus}. Patient notified!`, 'success');
 
             reloadCallback();
           } catch (e) {
@@ -594,5 +633,71 @@ export function initAdminEvents() {
     if (refreshBtn) refreshBtn.addEventListener('click', loadAppointments);
 
     loadAppointments(); // Initial load
+
+    // Supabase Realtime Channels for Live Appointments & Doctor Notifications
+    if (window.__dp_admin_channels) {
+      window.__dp_admin_channels.forEach(ch => supabase.removeChannel(ch));
+      window.__dp_admin_channels = [];
+    }
+    window.__dp_admin_channels = [];
+
+    // 1. Channel for appointments (live queue updates upon booking or status changes)
+    const appointmentsRealtimeChannel = supabase
+      .channel('doctor-appointments-realtime')
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'appointments' },
+        (payload) => {
+          console.log('Realtime appointment change event received:', payload);
+          loadAppointments();
+          updateTodayMetrics();
+          if (payload.eventType === 'INSERT') {
+            playNotificationChime('doctor');
+            NotificationService.showToast(
+              `🔔 New Appointment Booked: ${payload.new.patient_name} (${payload.new.treatment_name})`,
+              'info'
+            );
+          }
+        }
+      )
+      .subscribe();
+
+    // 2. Channel for doctor notifications
+    const notificationsRealtimeChannel = supabase
+      .channel('doctor-notifications-realtime')
+      .on(
+        'postgres_changes',
+        {
+          event: 'INSERT',
+          schema: 'public',
+          table: 'notifications',
+          filter: 'recipient_role=eq.doctor'
+        },
+        (payload) => {
+          console.log('Realtime doctor notification received:', payload);
+          playNotificationChime('doctor');
+          NotificationService.showLocalNotification(
+            payload.new.title,
+            payload.new.body,
+            payload.new.target_url
+          );
+          window.dispatchEvent(new CustomEvent('dp-notification-updated'));
+        }
+      )
+      .subscribe();
+
+    window.__dp_admin_channels.push(appointmentsRealtimeChannel, notificationsRealtimeChannel);
+
+    // Clean up channels on navigation
+    const handlePopStateCleanup = () => {
+      if (!window.location.pathname.startsWith('/doctor-dashboard')) {
+        if (window.__dp_admin_channels) {
+          window.__dp_admin_channels.forEach(ch => supabase.removeChannel(ch));
+          window.__dp_admin_channels = [];
+        }
+        window.removeEventListener('popstate', handlePopStateCleanup);
+      }
+    };
+    window.addEventListener('popstate', handlePopStateCleanup);
   }
 }

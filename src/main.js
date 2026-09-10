@@ -34,7 +34,10 @@ function updateMetadata(title, description) {
 
 // Router
 async function route() {
-  const path = window.location.pathname;
+  let path = window.location.pathname;
+  if (path.length > 1 && path.endsWith('/')) {
+    path = path.slice(0, -1);
+  }
   const app = document.getElementById('app');
   if (!app) return;
 
@@ -78,6 +81,13 @@ async function route() {
     updateMetadata('Check Appointment Status', 'Track your appointment confirmation, doctor review status, and daily queue number with Dental Paradise.');
     mainHtml = renderAppointmentStatusPage();
     onRendered = initAppointmentStatusEvents;
+  } else if (path === '/appointment' || path === '/appointments') {
+    window.history.replaceState({}, '', '/appointment-status' + window.location.search);
+    return route();
+  } else if (path.startsWith('/appointment/') || path.startsWith('/appointments/')) {
+    const aptId = path.split('/')[2];
+    window.history.replaceState({}, '', `/appointment-status?id=${encodeURIComponent(aptId)}`);
+    return route();
   } else if (path === '/reviews') {
     updateMetadata('Patient Reviews & Ratings', 'Genuine feedback and reviews from patients treated at Dental Paradise clinic in Math Chandipur.');
     mainHtml = await renderReviewsPage();
@@ -105,10 +115,10 @@ async function route() {
     updateMetadata('Doctor Consultation Dashboard', 'Authorized clinical administration and live queue for Dr. Supriyo Sahu.');
     mainHtml = await renderAdminDashboardPage();
     onRendered = initAdminEvents;
-  } else if (path === '/admin') {
+  } else if (path === '/admin' || path === '/dashboard') {
     const { data: { session } } = await supabase.auth.getSession();
     if (session && session.user?.email?.trim().toLowerCase() === 'supriyosahu96@gmail.com') {
-      window.history.replaceState({}, '', '/doctor-dashboard');
+      window.history.replaceState({}, '', '/doctor-dashboard' + window.location.search);
     } else {
       window.history.replaceState({}, '', '/doctor-login');
     }

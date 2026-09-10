@@ -653,6 +653,21 @@ export function initBookAppointmentEvents() {
         `/appointment-status?id=${appointmentId}&phone=${encodeURIComponent(phone)}`
       );
 
+      // 5. Notify Dr. Supriyo Sahu across all active doctor devices & database
+      try {
+        await NotificationService.notifyDoctorNewAppointment(inserted || {
+          id: appointmentId,
+          patient_name: name,
+          patient_phone: phone,
+          treatment_name: treatment,
+          appointment_date: date,
+          appointment_time: time,
+          queue_number: queueNumber
+        });
+      } catch (docNotifErr) {
+        console.warn('Could not dispatch doctor notification:', docNotifErr);
+      }
+
       // Save to localStorage for automatic lookup
       localStorage.setItem('last_apt_id', appointmentId);
       localStorage.setItem('last_apt_phone', phone);

@@ -1,5 +1,6 @@
 import { supabase } from '../services/supabase.js';
 import { formatDisplayDate, formatDisplayTime } from '../utils/schedule.js';
+import { NotificationService, playNotificationChime } from '../services/notifications.js';
 
 export function renderAppointmentStatusPage() {
   const params = new URLSearchParams(window.location.search);
@@ -52,12 +53,16 @@ export function initAppointmentStatusEvents() {
     resultBox.innerHTML = '<div style="text-align:center; padding:1.5rem; color:var(--color-primary);">Fetching appointment details...</div>';
 
     try {
-      const { data, error } = await supabase
-        .from('appointments')
-        .select('*')
-        .eq('id', aptId)
-        .eq('patient_phone', phone)
-        .maybeSingle();
+      let query = supabase.from('appointments').select('*').eq('id', aptId);
+      if (phone) {
+        query = query.eq('patient_phone', phone);
+      }
+      const { data, error } = await query.maybeSingle();
+
+      if (data && data.patient_phone && !phone) {
+        const phoneInput = document.getElementById('lookup-phone');
+        if (phoneInput) phoneInput.value = data.patient_phone;
+      }
 
       if (error || !data) {
         resultBox.innerHTML = `
@@ -157,6 +162,36 @@ export function initAppointmentStatusEvents() {
           </div>
         </div>
       `;
+
+      // Subscribe to Realtime status changes for this appointment
+      if (window.__dp_patient_channel) {
+        supabase.removeChannel(window.__dp_patient_channel);
+        window.__dp_patient_channel = null;
+      }
+
+      window.__dp_patient_channel = supabase
+        .channel(`patient-status-realtime-${data.id}`)
+        .on(
+          'postgres_changes',
+          {
+            event: 'UPDATE',
+            schema: 'public',
+            table: 'appointments',
+            filter: `id=eq.${data.id}`
+          },
+          (payload) => {
+            console.log('Realtime appointment status update received for patient:', payload);
+            playNotificationChime('patient');
+            NotificationService.showToast(
+              `🔔 Status Updated: Your appointment is now ${payload.new.status.toUpperCase()}!`,
+              'success'
+            );
+            // Re-render latest data
+            performLookup(data.id, data.patient_phone);
+          }
+        )
+        .subscribe();
+
     } catch (e) {
       console.error(e);
       resultBox.innerHTML = '<div style="color:#EF4444; text-align:center;">Failed to fetch status. Please try again.</div>';
@@ -170,10 +205,10 @@ export function initAppointmentStatusEvents() {
     if (id && phone) performLookup(id, phone);
   });
 
-  // Auto-trigger if URL has id and phone
+  // Auto-trigger if URL has id
   const initialId = document.getElementById('lookup-id').value.trim();
   const initialPhone = document.getElementById('lookup-phone').value.trim();
-  if (initialId && initialPhone) {
+  if (initialId) {
     performLookup(initialId, initialPhone);
   }
 }

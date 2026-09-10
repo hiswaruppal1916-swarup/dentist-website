@@ -91,7 +91,13 @@ self.addEventListener('push', (event) => {
 // Notification Click Handler
 self.addEventListener('notificationclick', (event) => {
   event.notification.close();
-  const targetUrl = event.notification.data?.url || '/';
+  let rawUrl = event.notification.data?.url || '/';
+  let targetUrl = rawUrl;
+  try {
+    targetUrl = new URL(rawUrl, self.location.origin).href;
+  } catch (e) {
+    targetUrl = self.location.origin + '/';
+  }
 
   event.waitUntil(
     clients.matchAll({ type: 'window', includeUncontrolled: true }).then((clientList) => {
