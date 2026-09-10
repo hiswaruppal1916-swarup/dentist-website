@@ -30,7 +30,7 @@ export function renderDoctorLoginPage() {
                 type="email" 
                 id="doctor-email" 
                 class="form-control" 
-                placeholder="e.g. supriyosahu96@gmail.com" 
+                placeholder="e.g. doctor@example.com" 
                 autocomplete="username" 
                 required 
                 style="padding-left:2.5rem;"
