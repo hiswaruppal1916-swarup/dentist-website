@@ -88,8 +88,8 @@ Online booking and clinic consultations are strictly scheduled:
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/paulswarup1916-hash/dentist.git
-cd dentist
+git clone https://github.com/hiswaruppal1916-swarup/dentist-website.git
+cd dentist-website
 ```
 
 ### 2. Install dependencies
