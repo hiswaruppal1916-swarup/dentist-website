@@ -49,11 +49,14 @@ export async function renderBookAppointmentPage(preselectedTreatment = '') {
     const isSelected = preselectedTreatment && preselectedTreatment.toLowerCase() === t.name_en.toLowerCase();
     const iconPath = t.image_url || t.icon_svg || '/images/treatments/general-consultation.svg';
     return `
-      <div class="treatment-select-card ${isSelected ? 'selected' : ''}" data-treatment="${t.name_en}">
+      <div class="treatment-select-card ${isSelected ? 'selected' : ''}" data-treatment="${t.name_en}" data-treatment-bn="${t.name_bn || ''}" role="button" tabindex="0">
         <img src="${iconPath}" alt="${t.name_en}" class="treatment-select-icon" onerror="this.src='/favicon.svg'" />
-        <div>
+        <div class="treatment-select-info">
           <div class="treatment-select-title">${t.name_en}</div>
-          <div class="treatment-select-bn">${t.name_bn || ''}</div>
+          <div class="treatment-select-bn bn-text">${t.name_bn || ''}</div>
+        </div>
+        <div class="treatment-select-indicator">
+          <span class="material-symbols-outlined check-icon">check</span>
         </div>
       </div>
     `;
@@ -92,8 +95,23 @@ export async function renderBookAppointmentPage(preselectedTreatment = '') {
           <!-- STEP 1: Choose Treatment -->
           <div class="wizard-step-panel active" id="step-panel-1">
             <div class="step-heading-group">
-              <h2 style="font-size:1.25rem; color:var(--color-secondary);">Select Treatment or Care Required</h2>
+              <span class="step-badge-pill">Step 1 of 5</span>
+              <h2 class="step-main-heading">Select Treatment or Care Required</h2>
               <p class="step-subheading">Choose your dental concern below or pick General Consultation</p>
+            </div>
+
+            <!-- Instant Active Selection Banner (Visible immediately as soon as ANY treatment is selected) -->
+            <div class="step1-active-banner" id="step1-selection-banner" style="${preselectedTreatment ? 'display:flex;' : 'display:none;'}">
+              <div class="active-banner-text">
+                <span class="active-banner-label">
+                  <span class="material-symbols-outlined text-[15px]">check_circle</span>
+                  <span>Treatment Selected:</span>
+                </span>
+                <span class="active-banner-title" id="selection-banner-treatment-name">${preselectedTreatment || 'Root Canal Treatment (RCT)'}</span>
+              </div>
+              <button type="button" class="btn btn-primary btn-sm active-banner-btn" id="step1-banner-next-btn">
+                <span>Continue to Date →</span>
+              </button>
             </div>
 
             <div class="treatment-selection-grid" id="treatment-cards-grid">
@@ -102,7 +120,7 @@ export async function renderBookAppointmentPage(preselectedTreatment = '') {
 
             <div class="wizard-nav-btns">
               <div></div>
-              <button type="button" class="btn btn-primary" id="step1-next-btn">
+              <button type="button" class="btn btn-primary btn-lg" id="step1-next-btn" ${preselectedTreatment ? '' : 'disabled'}>
                 <span>Continue to Date Selection →</span>
               </button>
             </div>
@@ -334,6 +352,20 @@ export async function renderBookAppointmentPage(preselectedTreatment = '') {
           </div>
         </div>
 
+        <!-- Sticky Mobile Bottom Action Dock for Step 1 -->
+        <div class="step1-sticky-dock" id="step1-sticky-dock" style="${preselectedTreatment ? 'display:flex;' : 'display:none;'}">
+          <div class="sticky-dock-inner">
+            <div class="sticky-dock-treatment-summary">
+              <span class="sticky-dock-label">Selected Treatment</span>
+              <div class="sticky-dock-name" id="sticky-dock-name">${preselectedTreatment || 'Root Canal Treatment (RCT)'}</div>
+            </div>
+            <button type="button" class="btn btn-primary sticky-dock-continue-btn" id="step1-sticky-next-btn">
+              <span>Continue to Date Selection</span>
+              <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+            </button>
+          </div>
+        </div>
+
       </div>
     </div>
   `;
@@ -388,6 +420,14 @@ export function initBookAppointmentEvents() {
     if (stepLabelText) stepLabelText.textContent = stepLabels[step - 1];
     if (progressFill) progressFill.style.width = `${(step / totalSteps) * 100}%`;
 
+    // Only show Step 1 sticky action dock when on step 1 and treatment is selected
+    const stickyDock = document.getElementById('step1-sticky-dock');
+    const isDockActive = (step === 1 && !!selectedTreatmentInput.value);
+    if (stickyDock) {
+      stickyDock.style.display = isDockActive ? 'flex' : 'none';
+    }
+    document.body.classList.toggle('has-sticky-dock', isDockActive);
+
     // Clear alerts when switching steps
     if (alertBox) alertBox.style.display = 'none';
 
@@ -398,29 +438,64 @@ export function initBookAppointmentEvents() {
     }
   }
 
-  // --- Step 1: Treatment Cards Selection ---
+  // --- Step 1: Treatment Cards Selection & Instant Visibility ---
   const cards = document.querySelectorAll('.treatment-select-card');
+  const bannerEl = document.getElementById('step1-selection-banner');
+  const bannerName = document.getElementById('selection-banner-treatment-name');
+  const stickyDock = document.getElementById('step1-sticky-dock');
+  const stickyName = document.getElementById('sticky-dock-name');
+
+  function updateSelectedTreatmentUI(treatmentName) {
+    if (!treatmentName) return;
+    selectedTreatmentInput.value = treatmentName;
+
+    if (bannerName) bannerName.textContent = treatmentName;
+    if (stickyName) stickyName.textContent = treatmentName;
+
+    if (bannerEl) bannerEl.style.display = 'flex';
+    if (stickyDock && currentStep === 1) {
+      stickyDock.style.display = 'flex';
+      document.body.classList.add('has-sticky-dock');
+    }
+
+    const nextBtn = document.getElementById('step1-next-btn');
+    if (nextBtn) nextBtn.disabled = false;
+  }
+
   cards.forEach(card => {
     card.addEventListener('click', () => {
       cards.forEach(c => c.classList.remove('selected'));
       card.classList.add('selected');
-      selectedTreatmentInput.value = card.dataset.treatment;
+      updateSelectedTreatmentUI(card.dataset.treatment);
+    });
+
+    card.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        card.click();
+      }
     });
   });
 
-  // If initial treatment preselected or first card
-  if (!selectedTreatmentInput.value && cards.length > 0) {
-    cards[0].classList.add('selected');
-    selectedTreatmentInput.value = cards[0].dataset.treatment;
+  // If initial treatment preselected from URL or state
+  if (selectedTreatmentInput.value) {
+    updateSelectedTreatmentUI(selectedTreatmentInput.value);
+  } else {
+    const nextBtn = document.getElementById('step1-next-btn');
+    if (nextBtn) nextBtn.disabled = true;
   }
 
-  document.getElementById('step1-next-btn')?.addEventListener('click', () => {
+  const handleStep1Proceed = () => {
     if (!selectedTreatmentInput.value) {
       alert('Please choose a treatment or general consultation to proceed.');
       return;
     }
     showStep(2);
-  });
+  };
+
+  document.getElementById('step1-next-btn')?.addEventListener('click', handleStep1Proceed);
+  document.getElementById('step1-banner-next-btn')?.addEventListener('click', handleStep1Proceed);
+  document.getElementById('step1-sticky-next-btn')?.addEventListener('click', handleStep1Proceed);
 
   // --- Step 2: Date Selection & Quick Date Chips ---
   function validateDateChoice(dateStr) {

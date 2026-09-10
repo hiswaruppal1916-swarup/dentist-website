@@ -133,10 +133,10 @@ export async function renderTreatmentsListPage() {
       <article class="treatment-card">
         <div class="treatment-image-box">
           <img src="${t.image_url}" alt="${t.name_en}" loading="lazy" />
-          <span class="treatment-badge-tag">${category}</span>
         </div>
         <div class="treatment-body">
-          <h2 class="treatment-title-en" style="font-size:1.05rem;">${t.name_en}</h2>
+          <span class="treatment-category-chip">${category}</span>
+          <h2 class="treatment-title-en">${t.name_en}</h2>
           <h3 class="treatment-title-bn bn-text">${t.name_bn || ''}</h3>
           <p class="treatment-summary">${t.summary_en || ''}</p>
           <p class="treatment-summary-bn bn-text">${t.summary_bn || ''}</p>

@@ -115,9 +115,9 @@ export async function renderHomePage() {
     <article class="treatment-card">
       <div class="treatment-image-box">
         <img src="${t.image_url}" alt="${t.name_en}" loading="lazy" />
-        <span class="treatment-badge-tag">Clinical Care</span>
       </div>
       <div class="treatment-body">
+        <span class="treatment-category-chip">Clinical Care</span>
         <h3 class="treatment-title-en">${t.name_en}</h3>
         <h4 class="treatment-title-bn bn-text">${t.name_bn || ''}</h4>
         <p class="treatment-summary">${t.summary_en || ''}</p>

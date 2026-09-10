@@ -1336,19 +1336,20 @@ button, input, select, textarea {
   transform: scale(1.04);
 }
 
-.treatment-badge-tag {
-  position: absolute;
-  top: 0.75rem;
-  left: 0.75rem;
-  background: rgba(0, 20, 40, 0.85);
-  color: #FFFFFF;
-  backdrop-filter: blur(8px);
+.treatment-category-chip {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
   font-size: 0.68rem;
   font-weight: 700;
-  padding: 0.2rem 0.6rem;
-  border-radius: var(--radius-full);
-  letter-spacing: 0.04em;
   text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-secondary);
+  background: rgba(0, 106, 97, 0.08);
+  border: 1px solid rgba(0, 106, 97, 0.2);
+  padding: 0.2rem 0.55rem;
+  border-radius: var(--radius-full);
+  margin-bottom: 0.5rem;
 }
 
 .treatment-body {
@@ -1486,13 +1487,53 @@ button, input, select, textarea {
   margin-bottom: 1.5rem;
 }
 
-.wizard-step-info {
+.wizard-step-info,
+.wizard-step-tracker {
   display: flex;
   justify-content: space-between;
   align-items: center;
   font-size: 0.78rem;
   font-weight: 700;
   color: var(--color-secondary);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.wizard-step-active-label {
+  color: var(--color-primary);
+  font-weight: 800;
+}
+
+.step-heading-group {
+  margin-bottom: 1.25rem;
+}
+
+.step-badge-pill {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--color-secondary);
+  background: var(--color-surface-container-low);
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--radius-full);
+  margin-bottom: 0.35rem;
+  border: 1px solid var(--color-outline-variant);
+  letter-spacing: 0.03em;
+}
+
+.step-main-heading {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--color-primary);
+  margin-bottom: 0.25rem;
+  line-height: 1.3;
+}
+
+.step-subheading {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.4;
 }
 
 .wizard-track-bg {
@@ -1516,43 +1557,361 @@ button, input, select, textarea {
   display: block;
 }
 
+/* Step 1: Active Treatment Selection Banner (Immediately visible upon selection) */
+.step1-active-banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  background: linear-gradient(135deg, rgba(0, 106, 97, 0.08), rgba(2, 128, 144, 0.08));
+  border: 1.5px solid rgba(0, 106, 97, 0.25);
+  border-radius: var(--radius-lg);
+  padding: 0.75rem 1rem;
+  margin-bottom: 1.25rem;
+  box-shadow: 0 4px 12px rgba(0, 106, 97, 0.06);
+  animation: fadeInDown 0.25s ease;
+}
+
+.active-banner-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+  flex: 1;
+}
+
+.active-banner-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-secondary);
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.active-banner-title {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--color-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.active-banner-btn {
+  flex-shrink: 0;
+  white-space: nowrap;
+  padding: 0.45rem 0.95rem !important;
+  font-size: 0.85rem !important;
+  font-weight: 700 !important;
+}
+
+/* Treatment Selection Cards Grid */
 .treatment-selection-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 0.65rem;
-  max-height: 380px;
+  gap: 0.75rem;
+  max-height: 420px;
   overflow-y: auto;
   padding-right: 0.35rem;
+  padding-bottom: 0.5rem;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-outline-variant) transparent;
+}
+
+@media (min-width: 640px) {
+  .treatment-selection-grid {
+    grid-template-columns: repeat(2, 1fr);
+    max-height: 480px;
+  }
 }
 
 .treatment-select-card {
   display: flex;
   align-items: center;
   gap: 0.85rem;
-  padding: 0.75rem 1rem;
-  border-radius: var(--radius-md);
+  padding: 0.85rem 1rem;
+  border-radius: var(--radius-lg);
   border: 1.5px solid var(--color-outline-variant);
-  background: var(--color-surface-container-low);
+  background: #FFFFFF;
   cursor: pointer;
   transition: all var(--transition-fast);
+  position: relative;
+  user-select: none;
+  box-shadow: 0 1px 3px rgba(0, 20, 40, 0.04);
 }
 
 .treatment-select-card:hover {
   border-color: var(--color-secondary);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 20, 40, 0.08);
+}
+
+.treatment-select-card:active {
+  transform: scale(0.98);
 }
 
 .treatment-select-card.selected {
-  border-color: var(--color-secondary);
-  background: #E6F7F5;
-  box-shadow: 0 0 0 2px rgba(0, 106, 97, 0.2);
+  border-color: var(--color-secondary) !important;
+  background: rgba(0, 106, 97, 0.06) !important;
+  box-shadow: 0 0 0 2px rgba(0, 106, 97, 0.22), 0 6px 18px rgba(0, 106, 97, 0.12) !important;
 }
 
 .treatment-select-icon {
-  width: 44px;
-  height: 44px;
-  border-radius: var(--radius-sm);
+  width: 46px;
+  height: 46px;
+  border-radius: var(--radius-md);
   object-fit: cover;
   flex-shrink: 0;
+  border: 1px solid var(--color-outline-variant);
+  background: var(--color-surface-container-low);
+}
+
+.treatment-select-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.treatment-select-title {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  line-height: 1.35;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+.treatment-select-bn {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-top: 0.2rem;
+  line-height: 1.3;
+}
+
+.treatment-select-indicator {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 2px solid var(--color-outline-variant);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: transparent;
+  transition: all var(--transition-fast);
+  background: #FFFFFF;
+}
+
+.treatment-select-card.selected .treatment-select-indicator {
+  border-color: var(--color-secondary);
+  background: var(--color-secondary);
+  color: #FFFFFF;
+  box-shadow: 0 2px 6px rgba(0, 106, 97, 0.35);
+}
+
+.treatment-select-indicator .check-icon {
+  font-size: 16px;
+  font-weight: 800;
+}
+
+/* Sticky Mobile Bottom Action Dock for Step 1 */
+.step1-sticky-dock {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: calc(80px + env(safe-area-inset-bottom, 0px));
+  z-index: 998;
+  background: #FFFFFF;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-top: 2px solid var(--color-secondary);
+  box-shadow: 0 -8px 24px rgba(0, 20, 40, 0.14);
+  padding: 0.85rem 1rem;
+  animation: slideUpFade 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (min-width: 1024px) {
+  .step1-sticky-dock {
+    bottom: 0;
+  }
+}
+
+.sticky-dock-inner {
+  max-width: 600px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.sticky-dock-treatment-summary {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+}
+
+.sticky-dock-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-secondary);
+  line-height: 1.2;
+}
+
+.sticky-dock-name {
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: var(--color-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.3;
+  margin-top: 0.15rem;
+}
+
+.sticky-dock-continue-btn {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.7rem 1.15rem !important;
+  font-size: 0.88rem !important;
+  font-weight: 700 !important;
+  box-shadow: 0 4px 14px rgba(0, 106, 97, 0.3) !important;
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+}
+
+.sticky-dock-continue-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(0, 106, 97, 0.38) !important;
+}
+
+.sticky-dock-continue-btn:active {
+  transform: scale(0.97);
+}
+
+/* Ensure Floating Actions (WhatsApp & Call) Never Overlap Continue Button or Treatment Cards on Booking Page */
+.page-book-appointment .floating-actions {
+  bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px)) !important;
+  right: 0.65rem !important;
+  transition: bottom 0.25s ease;
+  z-index: 997;
+}
+
+/* When Step 1 sticky dock is active, lift floating actions safely above it */
+.page-book-appointment:has(#step1-sticky-dock[style*="display: flex"]) .floating-actions,
+body.has-sticky-dock .floating-actions {
+  bottom: calc(9.8rem + env(safe-area-inset-bottom, 0px)) !important;
+}
+
+@media (max-width: 640px) {
+  .page-book-appointment .floating-actions {
+    gap: 0.4rem;
+  }
+  .page-book-appointment .floating-actions .floating-btn {
+    width: 38px;
+    height: 38px;
+    box-shadow: 0 2px 10px rgba(0, 20, 40, 0.2);
+  }
+  .page-book-appointment .floating-actions .floating-btn .material-symbols-outlined,
+  .page-book-appointment .floating-actions .floating-btn svg {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+  }
+}
+
+.page-book-appointment .booking-container {
+  padding-bottom: calc(10rem + env(safe-area-inset-bottom, 0px));
+}
+
+#step1-next-btn:disabled,
+#step1-banner-next-btn:disabled,
+#step1-sticky-next-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Quick Date Jump Chips */
+.quick-date-chips {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+}
+
+.quick-date-chip {
+  background: #FFFFFF;
+  border: 1.5px solid var(--color-outline-variant);
+  border-radius: var(--radius-full);
+  padding: 0.35rem 0.85rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.quick-date-chip:hover {
+  border-color: var(--color-secondary);
+  color: var(--color-secondary);
+}
+
+.quick-date-chip.active {
+  background: var(--color-secondary);
+  border-color: var(--color-secondary);
+  color: #FFFFFF;
+  box-shadow: 0 2px 8px rgba(0, 106, 97, 0.25);
+}
+
+/* Booking Review Summary Card */
+.booking-review-card {
+  background: var(--color-surface-container-low, #F8FAFC);
+  border: 1.5px solid var(--color-outline-variant, #E2E8F0);
+  border-radius: var(--radius-lg);
+  padding: 1.15rem 1.25rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  box-shadow: 0 1px 4px rgba(0, 20, 40, 0.04);
+}
+
+.review-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding-bottom: 0.65rem;
+  border-bottom: 1px dashed var(--color-outline-variant, #E2E8F0);
+  font-size: 0.88rem;
+  gap: 0.75rem;
+}
+
+.review-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.review-label {
+  color: var(--text-muted);
+  font-weight: 600;
+  font-size: 0.82rem;
+  flex-shrink: 0;
+}
+
+.review-value {
+  color: var(--color-primary);
+  font-weight: 700;
+  text-align: right;
+  word-break: break-word;
+  line-height: 1.35;
 }
 
 /* Date Selection Calendar */
@@ -2016,23 +2375,6 @@ button, input, select, textarea {
 
 .treatment-card:hover .treatment-image-box img {
   transform: scale(1.06);
-}
-
-.treatment-badge-tag {
-  position: absolute;
-  bottom: 0.65rem;
-  left: 0.65rem;
-  background: rgba(0, 20, 40, 0.82);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  color: #86f2e4;
-  font-size: 0.72rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  padding: 0.25rem 0.65rem;
-  border-radius: 9999px;
-  border: 1px solid rgba(134, 242, 228, 0.3);
 }
 
 .treatment-body {

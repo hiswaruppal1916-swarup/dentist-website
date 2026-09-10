@@ -38,6 +38,7 @@ async function route() {
   if (path.length > 1 && path.endsWith('/')) {
     path = path.slice(0, -1);
   }
+  document.body.classList.toggle('page-book-appointment', path === '/book-appointment');
   const app = document.getElementById('app');
   if (!app) return;
 
