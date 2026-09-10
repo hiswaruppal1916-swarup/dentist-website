@@ -275,7 +275,12 @@ export function initHeaderEvents() {
             <div class="notif-item-content">
               <div class="notif-header-row">
                 <div class="notif-item-title">${item.title}</div>
-                <div class="notif-item-time">${formatRelativeTime(item.created_at)}</div>
+                <div class="notif-header-actions" style="display:flex; align-items:center; gap:0.4rem;">
+                  <span class="notif-item-time">${formatRelativeTime(item.created_at)}</span>
+                  <button class="notif-item-delete-btn" data-id="${item.id}" title="Delete alert" aria-label="Delete alert">
+                    <span class="material-symbols-outlined text-[15px]">close</span>
+                  </button>
+                </div>
               </div>
               <div class="notif-item-body">${item.body}</div>
               ${item.appointment_id ? `
@@ -292,16 +297,61 @@ export function initHeaderEvents() {
         `;
       }).join('');
 
+      // Individual alert delete buttons
+      notifList.querySelectorAll('.notif-item-delete-btn').forEach(btn => {
+        btn.addEventListener('click', async (e) => {
+          e.stopPropagation();
+          const id = btn.dataset.id;
+          const parentItem = btn.closest('.notif-item');
+          if (parentItem) {
+            parentItem.style.transition = 'all 0.2s ease';
+            parentItem.style.opacity = '0';
+            parentItem.style.transform = 'translateX(20px)';
+            setTimeout(() => {
+              parentItem.remove();
+              if (!notifList.querySelector('.notif-item')) {
+                notifList.innerHTML = `
+                  <div class="notif-empty-state">
+                    <span class="material-symbols-outlined text-[36px]" style="color:#94A3B8;">notifications_off</span>
+                    <p style="margin-top:0.4rem; font-weight:700; color:var(--color-primary);">All caught up!</p>
+                    <p style="font-size:0.75rem; color:var(--text-muted); margin-top:0.2rem;">No notifications right now.</p>
+                  </div>
+                `;
+              }
+            }, 200);
+          }
+          await NotificationService.deleteNotification(id);
+          refreshUnreadCount();
+        });
+      });
+
+      // Notification item click -> Safe SPA Navigation (Zero 404s)
       notifList.querySelectorAll('.notif-item').forEach(el => {
-        el.addEventListener('click', async () => {
+        el.addEventListener('click', async (e) => {
+          if (e.target.closest('.notif-item-delete-btn')) return;
+
           const id = el.dataset.id;
           const targetUrl = el.dataset.url;
           await NotificationService.markAsRead(id);
           notifDropdown.style.display = 'none';
           refreshUnreadCount();
-          if (targetUrl && targetUrl !== '/') {
-            window.history.pushState({}, '', targetUrl);
-            window.dispatchEvent(new PopStateEvent('popstate'));
+
+          if (targetUrl) {
+            let relativeTarget = targetUrl;
+            try {
+              const u = new URL(targetUrl, window.location.origin);
+              relativeTarget = u.pathname + u.search + u.hash;
+            } catch (err) {
+              relativeTarget = targetUrl.startsWith('/') ? targetUrl : '/' + targetUrl;
+            }
+
+            // Perform in-app navigation via SPA router
+            window.history.pushState({}, '', relativeTarget);
+            if (typeof window.__dp_route === 'function') {
+              window.__dp_route();
+            } else {
+              window.dispatchEvent(new PopStateEvent('popstate'));
+            }
           }
         });
       });
@@ -321,9 +371,26 @@ export function initHeaderEvents() {
     if (markAllBtn) {
       markAllBtn.addEventListener('click', async (e) => {
         e.stopPropagation();
+        markAllBtn.disabled = true;
+        markAllBtn.textContent = 'Clearing...';
+
+        // Delete all notifications for role and identifier and clear state
+        await NotificationService.clearAllNotifications(currentRole, currentIdentifier);
         await NotificationService.markAllAsRead(currentRole, currentIdentifier);
-        refreshUnreadCount();
-        loadDropdownNotifications();
+
+        markAllBtn.disabled = false;
+        markAllBtn.textContent = 'Mark read';
+
+        if (notifBadge) notifBadge.style.display = 'none';
+
+        notifList.innerHTML = `
+          <div class="notif-empty-state">
+            <span class="material-symbols-outlined text-[36px]" style="color:#94A3B8;">notifications_off</span>
+            <p style="margin-top:0.4rem; font-weight:700; color:var(--color-primary);">All caught up!</p>
+            <p style="font-size:0.75rem; color:var(--text-muted); margin-top:0.2rem;">No notifications right now.</p>
+          </div>
+        `;
+        NotificationService.showToast('All alerts cleared', 'info');
       });
     }
 

@@ -340,6 +340,22 @@ export function initAdminEvents() {
       // Update metrics for today
       updateTodayMetrics();
 
+      // Check if URL specifies a target appointment to highlight
+      const urlParams = new URLSearchParams(window.location.search);
+      const targetAptId = urlParams.get('appointment');
+
+      // If notification targeted an appointment not in current view, fetch and prepend it
+      if (targetAptId && (!data || !data.some(a => a.id === targetAptId))) {
+        try {
+          const { data: specificApt } = await supabase.from('appointments').select('*').eq('id', targetAptId).maybeSingle();
+          if (specificApt) {
+            data = [specificApt, ...(data || [])];
+          }
+        } catch (e) {
+          console.warn('Could not load specific target appointment:', e);
+        }
+      }
+
       if (!data || data.length === 0) {
         if (countBadge) countBadge.textContent = '0 Patients';
         const emptyHtml = '<div style="text-align:center; padding:2.5rem 1rem; color:var(--text-muted); background:#FFFFFF; border-radius:var(--radius-lg); border:1px dashed var(--color-outline-variant);"><span class="material-symbols-outlined text-[32px]" style="color:#94A3B8;">event_available</span><p style="margin-top:0.5rem; font-size:0.95rem; font-weight:600;">No appointments found for this filter.</p></div>';
@@ -351,10 +367,6 @@ export function initAdminEvents() {
       if (countBadge) {
         countBadge.textContent = `${data.length} Patient${data.length === 1 ? '' : 's'}`;
       }
-
-      // Check if URL specifies a target appointment to highlight
-      const urlParams = new URLSearchParams(window.location.search);
-      const targetAptId = urlParams.get('appointment');
 
       // 1. Desktop Table Rows (contained, responsive)
       if (tbody) {

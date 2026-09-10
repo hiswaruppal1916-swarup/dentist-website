@@ -619,6 +619,25 @@ button, input, select, textarea {
   flex-shrink: 0;
 }
 
+.notif-item-delete-btn {
+  background: none;
+  border: none;
+  color: #94A3B8;
+  cursor: pointer;
+  padding: 2px 4px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+  line-height: 1;
+}
+
+.notif-item-delete-btn:hover {
+  color: #DC2626;
+  background: rgba(239, 68, 68, 0.12);
+}
+
 .notif-item-body {
   font-size: 0.78rem;
   color: var(--color-on-surface-variant);

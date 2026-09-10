@@ -333,6 +333,48 @@ export class NotificationService {
   }
 
   /**
+   * Delete a single notification by id
+   */
+  static async deleteNotification(id) {
+    if (!id) return;
+    try {
+      const { error } = await supabase
+        .from('notifications')
+        .delete()
+        .eq('id', id);
+
+      if (error) {
+        console.error('deleteNotification error from Supabase:', error);
+      }
+    } catch (e) {
+      console.error('deleteNotification error:', e);
+    }
+  }
+
+  /**
+   * Delete and clear all notifications for a role and identifier
+   */
+  static async clearAllNotifications(role, identifier) {
+    try {
+      let query = supabase.from('notifications').delete();
+
+      if (role) {
+        query = query.eq('recipient_role', role);
+      }
+      if (identifier) {
+        query = query.eq('recipient_identifier', identifier.trim().toLowerCase());
+      }
+
+      const { error } = await query;
+      if (error) {
+        console.error('clearAllNotifications error from Supabase:', error);
+      }
+    } catch (e) {
+      console.error('clearAllNotifications error:', e);
+    }
+  }
+
+  /**
    * Show local system push notification with clinic favicon & reliable URL
    */
   static async showLocalNotification(title, body, url = '/') {

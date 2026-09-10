@@ -163,10 +163,25 @@ window.addEventListener('click', (e) => {
   }
 });
 
+// Expose router globally for direct SPA in-app transitions
+window.__dp_route = route;
 window.addEventListener('popstate', route);
 
-// Register Service Worker
+// Handle navigation messages dispatched by ServiceWorker notification click
 if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.addEventListener('message', (event) => {
+    if (event.data && event.data.type === 'DP_NAVIGATE' && event.data.url) {
+      try {
+        const u = new URL(event.data.url, window.location.origin);
+        window.history.pushState({}, '', u.pathname + u.search + u.hash);
+        route();
+      } catch (e) {
+        window.history.pushState({}, '', event.data.url);
+        route();
+      }
+    }
+  });
+
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('/sw.js').then((reg) => {
       console.log('Dental Paradise PWA ServiceWorker registered with scope:', reg.scope);

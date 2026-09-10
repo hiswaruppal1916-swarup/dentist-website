@@ -88,7 +88,7 @@ self.addEventListener('push', (event) => {
   );
 });
 
-// Notification Click Handler
+// Notification Click Handler - In-App SPA Navigation & Safe Fallback
 self.addEventListener('notificationclick', (event) => {
   event.notification.close();
   let rawUrl = event.notification.data?.url || '/';
@@ -101,12 +101,14 @@ self.addEventListener('notificationclick', (event) => {
 
   event.waitUntil(
     clients.matchAll({ type: 'window', includeUncontrolled: true }).then((clientList) => {
+      // If a Dental Paradise tab is already open, focus it and tell it to navigate via SPA router
       for (const client of clientList) {
-        if (client.url.includes(self.location.origin) && 'focus' in client) {
-          client.navigate(targetUrl);
+        if (client.url && client.url.startsWith(self.location.origin) && 'focus' in client) {
+          client.postMessage({ type: 'DP_NAVIGATE', url: targetUrl });
           return client.focus();
         }
       }
+      // If no window is open, open the URL
       if (clients.openWindow) {
         return clients.openWindow(targetUrl);
       }
