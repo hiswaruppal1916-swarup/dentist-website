@@ -132,7 +132,7 @@ export async function renderHomePage() {
   const featuredTreatments = treatments.slice(0, 6);
 
   const treatmentCardsHtml = featuredTreatments.map(t => {
-    const imgSrc = t.image_url ? `${t.image_url.split('?')[0]}?v=3` : '';
+    const imgSrc = t.image_url ? `${t.image_url.split('?')[0]}?v=4` : '';
     return `
     <article class="treatment-card">
       <div class="treatment-image-box">
