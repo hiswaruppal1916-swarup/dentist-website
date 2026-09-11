@@ -42,6 +42,7 @@ export function renderFooter() {
             <h4>Clinical Care</h4>
             <ul class="footer-links">
               <li><a href="/treatments/root-canal-treatment">Root Canal Treatment</a></li>
+              <li><a href="/treatments/orthodontic-teeth-alignment">Orthodontic Treatment (Braces)</a></li>
               <li><a href="/treatments/impaction-wisdom-tooth-surgery">Wisdom Tooth Surgery</a></li>
               <li><a href="/treatments/painless-tooth-extraction">Painless Tooth Extraction</a></li>
               <li><a href="/treatments/crown-bridge-prosthesis">Crown & Bridge</a></li>

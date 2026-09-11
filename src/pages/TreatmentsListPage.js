@@ -127,6 +127,18 @@ export async function renderTreatmentsListPage() {
     ];
   }
 
+  // Ensure Orthodontic Treatment (Braces) is positioned right after Root Canal Treatment
+  const orthoIdx = treatments.findIndex(t => t.slug === 'orthodontic-teeth-alignment' || (t.name_en && t.name_en.toLowerCase().includes('orthodontic')));
+  if (orthoIdx > -1) {
+    const [orthoItem] = treatments.splice(orthoIdx, 1);
+    const rctIdx = treatments.findIndex(t => t.slug === 'root-canal-treatment' || (t.name_en && t.name_en.toLowerCase().includes('root canal')));
+    if (rctIdx > -1) {
+      treatments.splice(rctIdx + 1, 0, orthoItem);
+    } else {
+      treatments.unshift(orthoItem);
+    }
+  }
+
   const cardsHtml = treatments.map(t => {
     const category = t.category || 'Specialized Care';
     const imgSrc = (t.image_url && (t.image_url.includes('crown-bridge') || t.image_url.includes('orthodontics')))

@@ -34,6 +34,18 @@ export async function renderBookAppointmentPage(preselectedTreatment = '') {
     ];
   }
 
+  // Ensure Orthodontic Treatment (Braces) is positioned right after Root Canal Treatment
+  const orthoIdx = treatments.findIndex(t => (t.name_en && t.name_en.toLowerCase().includes('orthodontic')));
+  if (orthoIdx > -1) {
+    const [orthoItem] = treatments.splice(orthoIdx, 1);
+    const rctIdx = treatments.findIndex(t => (t.name_en && t.name_en.toLowerCase().includes('root canal')));
+    if (rctIdx > -1) {
+      treatments.splice(rctIdx + 1, 0, orthoItem);
+    } else {
+      treatments.unshift(orthoItem);
+    }
+  }
+
   // Calculate default valid date (skip today if closed or past 7:30 PM)
   const now = new Date();
   let defaultDate = new Date();

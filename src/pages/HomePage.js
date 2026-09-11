@@ -31,6 +31,14 @@ export async function renderHomePage() {
         image_url: '/images/treatments/root-canal.jpg'
       },
       {
+        slug: 'orthodontic-teeth-alignment',
+        name_en: 'Orthodontic Treatment (Braces & Aligners)',
+        name_bn: 'দাঁতের তার বা অর্থোডন্টিক চিকিৎসা',
+        summary_en: 'Correction of crooked, crowded, spaced, or protruding teeth with modern braces and aligners for a harmonious smile.',
+        summary_bn: 'উঁচু, নিচু, ফাঁকা বা আঁকাবাঁকা দাঁত সোজা ও সুন্দর করার দীর্ঘস্থায়ী চিকিৎসা।',
+        image_url: '/images/treatments/orthodontics.jpg'
+      },
+      {
         slug: 'painless-tooth-extraction',
         name_en: 'Painless Tooth Extraction',
         name_bn: 'ব্যথাহীন দাঁত তোলা',
@@ -71,6 +79,18 @@ export async function renderHomePage() {
         image_url: '/images/treatments/dental-filling.jpg'
       }
     ];
+  }
+
+  // Ensure Orthodontic Treatment (Braces) is positioned right after Root Canal Treatment in Clinical Care section
+  const orthoIdx = treatments.findIndex(t => t.slug === 'orthodontic-teeth-alignment' || (t.name_en && t.name_en.toLowerCase().includes('orthodontic')));
+  if (orthoIdx > -1) {
+    const [orthoItem] = treatments.splice(orthoIdx, 1);
+    const rctIdx = treatments.findIndex(t => t.slug === 'root-canal-treatment' || (t.name_en && t.name_en.toLowerCase().includes('root canal')));
+    if (rctIdx > -1) {
+      treatments.splice(rctIdx + 1, 0, orthoItem);
+    } else {
+      treatments.unshift(orthoItem);
+    }
   }
 
   // Fetch reviews from Supabase
