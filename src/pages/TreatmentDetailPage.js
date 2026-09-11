@@ -122,8 +122,8 @@ export async function renderTreatmentDetailPage(slug) {
             ${treatment.name_bn || ''}
           </h2>
 
-          <div style="border-radius:var(--radius-xl); overflow:hidden; border:1px solid var(--color-outline-variant); margin-bottom:2rem; box-shadow:var(--shadow-sm); background:var(--color-surface-container-low); display:flex; justify-content:center; align-items:center;">
-            <img src="${detailImgSrc}" alt="${treatment.name_en}" style="width:100%; max-height:520px; aspect-ratio:1/1; object-fit:contain;" />
+          <div style="border-radius:var(--radius-xl); overflow:hidden; border:1px solid var(--color-outline-variant); margin-bottom:2rem; box-shadow:var(--shadow-sm); background:var(--color-surface-container-low);">
+            <img src="${detailImgSrc}" alt="${treatment.name_en}" style="width:100%; height:auto; display:block;" />
           </div>
 
           <!-- English Overview -->
