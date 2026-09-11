@@ -141,9 +141,7 @@ export async function renderTreatmentsListPage() {
 
   const cardsHtml = treatments.map(t => {
     const category = t.category || 'Specialized Care';
-    const imgSrc = (t.image_url && (t.image_url.includes('crown-bridge') || t.image_url.includes('orthodontics')))
-      ? `${t.image_url.split('?')[0]}?v=2`
-      : t.image_url;
+    const imgSrc = t.image_url ? `${t.image_url.split('?')[0]}?v=3` : '';
     return `
       <article class="treatment-card">
         <div class="treatment-image-box">
