@@ -1,5 +1,5 @@
 import { supabase } from '../services/supabase.js';
-import { formatDisplayDate, formatDisplayTime } from '../utils/schedule.js';
+import { formatDisplayDate, formatDisplayTime, isClinicClosedOnDate } from '../utils/schedule.js';
 import { NotificationService, playNotificationChime } from '../services/notifications.js';
 
 export const AUTHORIZED_DOCTOR_EMAIL = 'supriyosahu96@gmail.com';
@@ -59,7 +59,13 @@ export async function renderAdminDashboardPage() {
 }
 
 function renderDashboardView(settings) {
-  const todayStr = new Date().toISOString().split('T')[0];
+  function getLocalDateString(d = new Date()) {
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+  const todayStr = getLocalDateString();
 
   return `
     <div class="admin-container">
@@ -280,6 +286,13 @@ export function initAdminEvents() {
     let currentFilterMode = 'today';
     const currentAppointmentsMap = new Map();
 
+    function getLocalDateString(d = new Date()) {
+      const year = d.getFullYear();
+      const month = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    }
+
     async function loadAppointments() {
       const tbody = document.getElementById('appointments-tbody');
       const mobileCards = document.getElementById('appointments-mobile-cards');
@@ -290,7 +303,7 @@ export function initAdminEvents() {
       if (tbody) tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; padding:1.5rem;">Updating list...</td></tr>';
       if (mobileCards) mobileCards.innerHTML = loadingMsg;
 
-      const todayStr = new Date().toISOString().split('T')[0];
+      const todayStr = getLocalDateString();
       let query = supabase.from('appointments').select('*');
 
       if (currentFilterMode === 'today') {
@@ -302,11 +315,20 @@ export function initAdminEvents() {
       } else if (currentFilterMode === 'confirmed') {
         if (titleEl) titleEl.textContent = "Confirmed Appointments";
         query = query.eq('status', 'confirmed');
+      } else if (currentFilterMode === 'arrived') {
+        if (titleEl) titleEl.textContent = "Patients Arrived in Clinic";
+        query = query.eq('status', 'arrived');
+      } else if (currentFilterMode === 'in_consultation') {
+        if (titleEl) titleEl.textContent = "Patients in Consultation";
+        query = query.eq('status', 'in_consultation');
+      } else if (currentFilterMode === 'completed') {
+        if (titleEl) titleEl.textContent = "Completed Consultations";
+        query = query.eq('status', 'completed');
       } else if (currentFilterMode === 'tomorrow') {
         if (titleEl) titleEl.textContent = "Tomorrow's Schedule";
         const tomorrow = new Date();
         tomorrow.setDate(tomorrow.getDate() + 1);
-        query = query.eq('appointment_date', tomorrow.toISOString().split('T')[0]);
+        query = query.eq('appointment_date', getLocalDateString(tomorrow));
       } else if (currentFilterMode === 'upcoming') {
         if (titleEl) titleEl.textContent = "All Upcoming Appointments";
         query = query.gte('appointment_date', todayStr);
@@ -358,8 +380,12 @@ export function initAdminEvents() {
 
       if (!data || data.length === 0) {
         if (countBadge) countBadge.textContent = '0 Patients';
-        const emptyHtml = '<div style="text-align:center; padding:2.5rem 1rem; color:var(--text-muted); background:#FFFFFF; border-radius:var(--radius-lg); border:1px dashed var(--color-outline-variant);"><span class="material-symbols-outlined text-[32px]" style="color:#94A3B8;">event_available</span><p style="margin-top:0.5rem; font-size:0.95rem; font-weight:600;">No appointments found for this filter.</p></div>';
-        if (tbody) tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; padding:2rem; color:var(--text-muted);">No appointments found for this filter.</td></tr>';
+        const isClosedDay = isClinicClosedOnDate(todayStr);
+        const closedNotice = isClosedDay && currentFilterMode === 'today'
+          ? `<div style="margin-top:0.75rem; padding:0.6rem 1rem; background:rgba(239,68,68,0.08); color:var(--color-error); border-radius:var(--radius-md); font-size:0.85rem; display:inline-flex; align-items:center; gap:0.4rem;"><span class="material-symbols-outlined text-[18px]">event_busy</span><span><strong>Clinic is closed today.</strong> Consultations resume on the next working day.</span></div>`
+          : '';
+        const emptyHtml = `<div style="text-align:center; padding:2.5rem 1rem; color:var(--text-muted); background:#FFFFFF; border-radius:var(--radius-lg); border:1px dashed var(--color-outline-variant);"><span class="material-symbols-outlined text-[32px]" style="color:#94A3B8;">event_available</span><p style="margin-top:0.5rem; font-size:0.95rem; font-weight:600;">No appointments found for this filter.</p>${closedNotice}</div>`;
+        if (tbody) tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding:2rem; color:var(--text-muted);">No appointments found for this filter.${closedNotice ? '<br/>' + closedNotice : ''}</td></tr>`;
         if (mobileCards) mobileCards.innerHTML = emptyHtml;
         return;
       }
@@ -584,19 +610,58 @@ export function initAdminEvents() {
     }
 
     async function updateTodayMetrics() {
-      const todayStr = new Date().toISOString().split('T')[0];
-      const { data } = await supabase
-        .from('appointments')
-        .select('status')
-        .eq('appointment_date', todayStr);
+      const todayStr = getLocalDateString();
 
-      if (data) {
-        document.getElementById('metric-total').textContent = data.length;
-        document.getElementById('metric-pending').textContent = data.filter(d => d.status === 'pending').length;
-        document.getElementById('metric-confirmed').textContent = data.filter(d => d.status === 'confirmed').length;
-        document.getElementById('metric-arrived').textContent = data.filter(d => d.status === 'arrived').length;
-        document.getElementById('metric-in-consult').textContent = data.filter(d => d.status === 'in_consultation').length;
-        document.getElementById('metric-completed').textContent = data.filter(d => d.status === 'completed').length;
+      try {
+        const { data: allAppointments, error } = await supabase
+          .from('appointments')
+          .select('status, appointment_date');
+
+        if (error || !allAppointments) return;
+
+        // Today's appointments
+        const todayApts = allAppointments.filter(a => a.appointment_date === todayStr);
+
+        // Overall pending reviews in the clinic (or today's if today has pending)
+        const totalPending = allAppointments.filter(a => a.status === 'pending').length;
+        const todayPending = todayApts.filter(a => a.status === 'pending').length;
+        const pendingCount = todayPending > 0 ? todayPending : totalPending;
+
+        // Confirmed appointments (today's confirmed, or total confirmed if today is 0)
+        const totalConfirmed = allAppointments.filter(a => a.status === 'confirmed').length;
+        const todayConfirmed = todayApts.filter(a => a.status === 'confirmed').length;
+        const confirmedCount = todayConfirmed > 0 ? todayConfirmed : totalConfirmed;
+
+        // Arrived in clinic (today's arrived, or total arrived if today is 0)
+        const totalArrived = allAppointments.filter(a => a.status === 'arrived').length;
+        const todayArrived = todayApts.filter(a => a.status === 'arrived').length;
+        const arrivedCount = todayArrived > 0 ? todayArrived : totalArrived;
+
+        // In consultation (today's in_consultation, or active in_consultation)
+        const totalInConsult = allAppointments.filter(a => a.status === 'in_consultation').length;
+        const todayInConsult = todayApts.filter(a => a.status === 'in_consultation').length;
+        const inConsultCount = todayInConsult > 0 ? todayInConsult : totalInConsult;
+
+        // Completed (today's completed, or recent completed)
+        const totalCompleted = allAppointments.filter(a => a.status === 'completed').length;
+        const todayCompleted = todayApts.filter(a => a.status === 'completed').length;
+        const completedCount = todayCompleted > 0 ? todayCompleted : totalCompleted;
+
+        const elTotal = document.getElementById('metric-total');
+        const elPending = document.getElementById('metric-pending');
+        const elConfirmed = document.getElementById('metric-confirmed');
+        const elArrived = document.getElementById('metric-arrived');
+        const elInConsult = document.getElementById('metric-in-consult');
+        const elCompleted = document.getElementById('metric-completed');
+
+        if (elTotal) elTotal.textContent = todayApts.length;
+        if (elPending) elPending.textContent = pendingCount;
+        if (elConfirmed) elConfirmed.textContent = confirmedCount;
+        if (elArrived) elArrived.textContent = arrivedCount;
+        if (elInConsult) elInConsult.textContent = inConsultCount;
+        if (elCompleted) elCompleted.textContent = completedCount;
+      } catch (err) {
+        console.error('Error updating metrics:', err);
       }
     }
 
@@ -610,6 +675,15 @@ export function initAdminEvents() {
         btn.classList.remove('btn-outline');
         btn.classList.add('btn-primary', 'active');
 
+        // Synchronize active metric card
+        document.querySelectorAll('.clickable-metric').forEach(c => {
+          if (c.dataset.filter === btn.dataset.mode) {
+            c.classList.add('active-metric');
+          } else {
+            c.classList.remove('active-metric');
+          }
+        });
+
         currentFilterMode = btn.dataset.mode;
         loadAppointments();
       });
@@ -619,6 +693,12 @@ export function initAdminEvents() {
     document.querySelectorAll('.clickable-metric').forEach(card => {
       card.addEventListener('click', () => {
         const filter = card.dataset.filter;
+
+        // Highlight this metric card
+        document.querySelectorAll('.clickable-metric').forEach(c => c.classList.remove('active-metric'));
+        card.classList.add('active-metric');
+
+        // Synchronize with filter pills
         document.querySelectorAll('.date-filter-btn').forEach(b => {
           if (b.dataset.mode === filter) {
             b.classList.remove('btn-outline');
@@ -628,16 +708,22 @@ export function initAdminEvents() {
             b.classList.add('btn-outline');
           }
         });
+
         currentFilterMode = filter;
         loadAppointments();
       });
     });
+
+    // Default activate today metric card on load
+    const defaultMetricCard = document.querySelector(`.clickable-metric[data-filter="${currentFilterMode}"]`);
+    if (defaultMetricCard) defaultMetricCard.classList.add('active-metric');
 
     datePicker.addEventListener('change', () => {
       document.querySelectorAll('.date-filter-btn').forEach(b => {
         b.classList.remove('btn-primary', 'active');
         b.classList.add('btn-outline');
       });
+      document.querySelectorAll('.clickable-metric').forEach(c => c.classList.remove('active-metric'));
       currentFilterMode = 'custom';
       loadAppointments();
     });

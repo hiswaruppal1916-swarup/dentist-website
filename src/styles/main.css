@@ -2036,6 +2036,28 @@ body.has-sticky-dock .floating-actions {
   flex-direction: column;
 }
 
+.clickable-metric {
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.clickable-metric:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.clickable-metric:active {
+  transform: scale(0.98);
+}
+
+.clickable-metric.active-metric {
+  border-color: var(--color-primary) !important;
+  box-shadow: 0 0 0 2px var(--color-primary), var(--shadow-md) !important;
+  background-color: var(--color-surface-container-low, #F0FDF4) !important;
+}
+
 .metric-card-title {
   font-size: 0.72rem;
   font-weight: 700;
