@@ -1,5 +1,5 @@
 // Service Worker for Dental Paradise PWA & Web Push Notifications
-const CACHE_NAME = 'dental-paradise-v4';
+const CACHE_NAME = 'dental-paradise-v5';
 const ASSETS_TO_CACHE = [
   '/',
   '/favicon.ico',

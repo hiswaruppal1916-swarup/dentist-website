@@ -169,7 +169,7 @@ export function renderGalleryPage() {
       title: 'Zirconia & Ceramic Prosthesis',
       subtitle: 'Restorative Care',
       desc: 'High-strength biocompatible zirconia and porcelain crowns and fixed bridges restoring chewing stability and natural smile aesthetics.',
-      image: '/images/treatments/crown-bridge.jpg?v=4',
+      image: '/images/treatments/crown-bridge.jpg?v=5',
       alt: 'Dental crowns and ceramic fixed bridge prosthetics',
       objectFit: 'cover'
     },

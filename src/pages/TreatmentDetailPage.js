@@ -101,7 +101,7 @@ export async function renderTreatmentDetailPage(slug) {
   `).join('');
 
   const detailImgSrc = treatment.image_url
-    ? `${treatment.image_url.split('?')[0]}?v=4`
+    ? `${treatment.image_url.split('?')[0]}?v=5`
     : '';
 
   return `
