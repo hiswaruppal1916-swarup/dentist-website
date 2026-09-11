@@ -47,7 +47,10 @@ export async function renderBookAppointmentPage(preselectedTreatment = '') {
 
   const treatmentCardsHtml = treatments.map(t => {
     const isSelected = preselectedTreatment && preselectedTreatment.toLowerCase() === t.name_en.toLowerCase();
-    const iconPath = t.image_url || t.icon_svg || '/images/treatments/general-consultation.svg';
+    let iconPath = t.image_url || t.icon_svg || '/images/treatments/general-consultation.svg';
+    if (iconPath.includes('crown-bridge') || iconPath.includes('orthodontics')) {
+      iconPath = `${iconPath.split('?')[0]}?v=2`;
+    }
     return `
       <div class="treatment-select-card ${isSelected ? 'selected' : ''}" data-treatment="${t.name_en}" data-treatment-bn="${t.name_bn || ''}" role="button" tabindex="0">
         <img src="${iconPath}" alt="${t.name_en}" class="treatment-select-icon" onerror="this.src='/icons/icon-192.png'" />

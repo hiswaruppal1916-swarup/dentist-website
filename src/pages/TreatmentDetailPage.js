@@ -100,6 +100,10 @@ export async function renderTreatmentDetailPage(slug) {
     </div>
   `).join('');
 
+  const detailImgSrc = (treatment.image_url && (treatment.image_url.includes('crown-bridge') || treatment.image_url.includes('orthodontics')))
+    ? `${treatment.image_url.split('?')[0]}?v=2`
+    : treatment.image_url;
+
   return `
     <div class="container section" style="padding-top:1.5rem;">
       <div style="margin-bottom:1.5rem;">
@@ -119,7 +123,7 @@ export async function renderTreatmentDetailPage(slug) {
           </h2>
 
           <div style="border-radius:var(--radius-xl); overflow:hidden; border:1px solid var(--color-outline-variant); margin-bottom:2rem; box-shadow:var(--shadow-sm); background:var(--color-surface-container-low);">
-            <img src="${treatment.image_url}" alt="${treatment.name_en}" style="width:100%; aspect-ratio:16/9; object-fit:cover;" />
+            <img src="${detailImgSrc}" alt="${treatment.name_en}" style="width:100%; aspect-ratio:16/9; object-fit:cover;" />
           </div>
 
           <!-- English Overview -->
