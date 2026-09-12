@@ -64,7 +64,7 @@ export function renderContactPage() {
           </div>
 
           <div style="display:flex; gap:1rem; flex-wrap:wrap;">
-            <a href="https://maps.google.com/?q=Math+Chandipur+Market+Life+Care+Diagnostic+Center+721659" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+            <a href="https://maps.app.goo.gl/VAck4xKaiP7ASAQSA?g_st=ac" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
               <span>Open in Google Maps</span> ↗
             </a>
             <a href="/book-appointment" class="btn btn-secondary">

@@ -153,7 +153,7 @@ export function initAppointmentStatusEvents() {
           </div>
 
           <div style="margin-top:1.5rem; display:flex; gap:0.75rem; justify-content:center; flex-wrap:wrap;">
-            <a href="https://maps.google.com/?q=Math+Chandipur+Market+Life+Care+Diagnostic+Center+721659" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm">
+            <a href="https://maps.app.goo.gl/VAck4xKaiP7ASAQSA?g_st=ac" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm">
               📍 Get Directions to Clinic
             </a>
             <a href="tel:9733835105" class="btn btn-secondary btn-sm">

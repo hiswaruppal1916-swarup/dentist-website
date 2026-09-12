@@ -396,7 +396,7 @@ export async function renderHomePage() {
               </p>
               <div style="display:flex; gap:0.75rem; flex-wrap:wrap;">
                 <a href="/book-appointment" class="btn btn-primary">Book Consultation</a>
-                <a href="https://maps.google.com/?q=Math+Chandipur+Market+Life+Care+Diagnostic+Center+721659" target="_blank" rel="noopener noreferrer" class="btn btn-outline">
+                <a href="https://maps.app.goo.gl/VAck4xKaiP7ASAQSA?g_st=ac" target="_blank" rel="noopener noreferrer" class="btn btn-outline">
                   <span class="material-symbols-outlined text-[18px]">map</span>
                   <span>Google Maps</span>
                 </a>
