@@ -179,7 +179,7 @@ export async function renderHomePage() {
         <div class="doctor-flex-box">
           <!-- Doctor Portrait / Avatar -->
           <div class="doctor-avatar-wrapper">
-            <img class="doctor-avatar-img" alt="Dr. Supriyo Sahu" src="/images/dr-supriyo-sahu.jpg?v=2" />
+            <img class="doctor-avatar-img" alt="Dr. Supriyo Sahu" src="/images/dr-supriyo-sahu.jpg?v=3" />
             <div class="verified-doctor-badge" title="Verified BDS Surgeon">
               <span class="material-symbols-outlined text-[16px] font-bold" style="font-variation-settings: 'FILL' 1;">verified</span>
             </div>

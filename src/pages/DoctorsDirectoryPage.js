@@ -11,7 +11,7 @@ export function renderDoctorsDirectoryPage() {
 
       <div class="responsive-card-box responsive-doctor-card" style="max-width:850px; margin:0 auto;">
         <div style="border-radius:var(--radius-lg); overflow:hidden; box-shadow:var(--shadow-lg);">
-          <img src="/images/dr-supriyo-sahu.jpg?v=2" alt="Dr. Supriyo Sahu" style="width:100%; aspect-ratio:4/5; object-fit:cover; object-position:center 15%;" />
+          <img src="/images/dr-supriyo-sahu.jpg?v=3" alt="Dr. Supriyo Sahu" style="width:100%; aspect-ratio:4/5; object-fit:cover; object-position:center 15%;" />
         </div>
 
         <div>

@@ -198,7 +198,7 @@ export async function renderTreatmentDetailPage(slug) {
         <div>
           <div style="position:sticky; top:5.5rem; background:#FFFFFF; border:1px solid var(--color-outline-variant); border-radius:var(--radius-xl); padding:1.5rem; box-shadow:var(--shadow-md);">
             <div style="display:flex; align-items:center; gap:0.75rem; margin-bottom:1rem; padding-bottom:1rem; border-bottom:1px solid var(--color-surface-container);">
-              <img src="/images/dr-supriyo-sahu.jpg?v=2" alt="Dr. Supriyo Sahu" style="width:52px; height:52px; border-radius:50%; object-fit:cover; object-position:center 15%;" />
+              <img src="/images/dr-supriyo-sahu.jpg?v=3" alt="Dr. Supriyo Sahu" style="width:52px; height:52px; border-radius:50%; object-fit:cover; object-position:center 15%;" />
               <div>
                 <strong style="font-size:0.95rem; color:var(--color-primary); display:block;">Dr. Supriyo Sahu</strong>
                 <span style="font-size:0.78rem; color:var(--color-secondary); font-weight:600;">B.D.S. (Hons), W.B.U.H.S.</span>

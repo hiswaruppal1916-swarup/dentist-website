@@ -121,7 +121,7 @@ export function renderGalleryPage() {
       title: 'Dr. Supriyo Sahu',
       subtitle: 'B.D.S. (Hons), W.B.U.H.S. (Kolkata)',
       desc: 'Chief Dental Surgeon, Former House Surgeon at Dr. R. Ahmed Dental College & Hospital, Kolkata. Dedicated to gentle, painless oral health.',
-      image: '/images/dr-supriyo-sahu.jpg?v=2',
+      image: '/images/dr-supriyo-sahu.jpg?v=3',
       alt: 'Dr. Supriyo Sahu - Lead Dental Surgeon',
       objectFit: 'cover',
       objectPosition: 'center 15%'
