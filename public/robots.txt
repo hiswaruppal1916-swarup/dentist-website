@@ -1,5 +1,7 @@
 User-agent: *
 Allow: /
+Disallow: /doctor-login
+Disallow: /doctor-dashboard
 Disallow: /admin
 
-Sitemap: https://dentalparadise.in/sitemap.xml
+Sitemap: https://dental-paradise-coral.vercel.app/sitemap.xml
