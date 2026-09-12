@@ -12,7 +12,7 @@ export function renderDoctorProfilePage() {
         <!-- Left: Doctor Portrait and Direct Contact -->
         <div>
           <div style="position:relative; border-radius:var(--radius-xl); overflow:hidden; box-shadow:var(--shadow-lg); border:2px solid var(--color-outline-variant); margin-bottom:1.25rem;">
-            <img src="/images/dr-supriyo-sahu.jpg" alt="Dr. Supriyo Sahu - Dental Surgeon" style="width:100%; aspect-ratio:4/5; object-fit:cover;" />
+            <img src="/images/dr-supriyo-sahu.jpg?v=2" alt="Dr. Supriyo Sahu - Dental Surgeon" style="width:100%; aspect-ratio:4/5; object-fit:cover; object-position:center 15%;" />
             <div style="position:absolute; bottom:12px; right:12px; background:var(--color-secondary); color:#FFFFFF; padding:4px 10px; border-radius:var(--radius-full); font-size:0.75rem; font-weight:700; display:flex; align-items:center; gap:4px; box-shadow:0 2px 8px rgba(0,0,0,0.25);">
               <span class="material-symbols-outlined text-[15px]" style="font-variation-settings: 'FILL' 1;">verified</span>
               <span>Verified Dental Surgeon</span>

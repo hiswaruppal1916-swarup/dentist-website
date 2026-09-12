@@ -1,5 +1,5 @@
 // Service Worker for Dental Paradise PWA & Web Push Notifications
-const CACHE_NAME = 'dental-paradise-v5';
+const CACHE_NAME = 'dental-paradise-v6';
 const ASSETS_TO_CACHE = [
   '/',
   '/favicon.ico',
@@ -8,7 +8,7 @@ const ASSETS_TO_CACHE = [
   '/icons/icon-512.png',
   '/apple-touch-icon.png',
   '/manifest.webmanifest',
-  '/images/dr-supriyo-sahu.jpg',
+  '/images/dr-supriyo-sahu.jpg?v=2',
   '/images/dental-paradise-card.jpg'
 ];
 

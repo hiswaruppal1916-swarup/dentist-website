@@ -1085,6 +1085,7 @@ button, input, select, textarea {
   height: 80px;
   border-radius: var(--radius-lg);
   object-fit: cover;
+  object-position: center 15%;
   border: 2px solid var(--color-surface-container-high);
 }
 

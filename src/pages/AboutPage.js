@@ -13,7 +13,7 @@ export function renderAboutPage() {
       <div class="responsive-card-box responsive-two-col-reverse" style="margin-bottom:3rem;">
         <div>
           <div style="border-radius:var(--radius-lg); overflow:hidden; box-shadow:var(--shadow-lg);">
-            <img src="/images/dr-supriyo-sahu.jpg" alt="Dr. Supriyo Sahu" style="width:100%; aspect-ratio:4/5; object-fit:cover;" />
+            <img src="/images/dr-supriyo-sahu.jpg?v=2" alt="Dr. Supriyo Sahu" style="width:100%; aspect-ratio:4/5; object-fit:cover; object-position:center 15%;" />
           </div>
           <div style="text-align:center; margin-top:1rem;">
             <strong style="font-size:1.1rem; color:var(--color-secondary);">Dr. Supriyo Sahu</strong>
